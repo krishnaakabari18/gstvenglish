@@ -1,0 +1,584 @@
+
+
+.top-videos-section {
+  margin: 20px 0;
+  padding: 20px 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Carousel Styles */
+.carousel-inner-top {
+  position: relative;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.MultiCarousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.MultiCarousel-inner {
+  display: flex;
+  transition: transform 0.3s ease;
+}
+
+.MultiCarousel-inner.topvideos {
+  align-items: stretch;
+}
+
+/* Video Item Styles - GSTV Design */
+.item {
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.pad15 {
+  padding: 8px;
+}
+
+/* Video Card Wrapper - Matches GSTV Design */
+.video-card-wrapper {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  height: 100%;
+  transition: all 0.3s ease;
+  border: 3px solid #b1974f;
+  position: relative;
+}
+
+.video-card-wrapper:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Video Thumbnail Container - GSTV Style */
+.video-thumbnail-container {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.video-thumbnail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.video-card-wrapper:hover .video-thumbnail-img {
+  transform: scale(1.05);
+}
+
+/* Location Tag - Top Left */
+.location-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(177, 151, 79, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  z-index: 3;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+.location-tag i {
+  font-size: 10px;
+}
+
+/* GSTV Logo - Top Right */
+.gstv-logo-overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(133, 14, 0, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 3;
+  letter-spacing: 1px;
+}
+
+.gstv-text {
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+}
+
+/* Play Button - Center */
+.play-button-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+.play-button-circle {
+  width: 50px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.play-button-circle i {
+  color: white;
+  font-size: 18px;
+  margin-left: 2px;
+}
+
+.video-card-wrapper:hover .play-button-circle {
+  background: rgba(133, 14, 0, 0.9);
+  transform: scale(1.1);
+}
+
+/* Video Title Section - GSTV Style */
+.video-title-section {
+  padding: 12px 15px 15px 15px;
+  background: white;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+.video-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.3;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+  text-align: left;
+}
+
+.video-card-wrapper:hover .video-title {
+  color: #850E00;
+}
+
+/* Navigation Button Styles - GSTV Design */
+.leftLst,
+.rightLst {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background: rgba(133, 14, 0, 0.9);
+  border: 2px solid #b1974f;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.leftLst:hover,
+.rightLst:hover {
+  background: rgba(133, 14, 0, 1);
+  border-color: #d4af37;
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.leftLst:disabled,
+.rightLst:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: rgba(100, 100, 100, 0.6);
+  border-color: #ccc;
+  transform: translateY(-50%);
+}
+
+.leftLst:disabled:hover,
+.rightLst:disabled:hover {
+  background: rgba(100, 100, 100, 0.6);
+  border-color: #ccc;
+  color: white;
+  transform: translateY(-50%);
+}
+
+.leftLst {
+  left: -25px;
+}
+
+.rightLst {
+  right: -25px;
+}
+
+.leftLst i,
+.rightLst i {
+  font-size: 16px;
+}
+
+/* Loading Spinner */
+.loader {
+  display: none;
+}
+
+/* Link styles */
+.item a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.item a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.swiper-button-prev-custom {
+  left: 10px;
+}
+
+.swiper-button-next-custom {
+  right: 10px;
+}
+
+.swiper-button-prev-custom:hover,
+.swiper-button-next-custom:hover {
+  background: white;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.swiper-button-prev-custom i,
+.swiper-button-next-custom i {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Loading and Error States */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #d32f2f;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.error-message p {
+  color: #d32f2f;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.retry-btn {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.retry-btn:hover {
+  background: #b71c1c;
+}
+
+/* Responsive Design - GSTV Style */
+@media (max-width: 1024px) {
+  .video-thumbnail-container {
+    height: 160px;
+  }
+
+  .video-title {
+    font-size: 12px;
+  }
+
+  .location-tag {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  .gstv-logo-overlay {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pad15 {
+    padding: 6px;
+  }
+
+  .video-thumbnail-container {
+    height: 140px;
+  }
+
+  .video-title-section {
+    padding: 10px 12px 12px 12px;
+    min-height: 60px;
+  }
+
+  .video-title {
+    font-size: 11px;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .play-button-circle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .play-button-circle i {
+    font-size: 14px;
+  }
+
+  .location-tag {
+    font-size: 9px;
+    padding: 2px 5px;
+    top: 8px;
+    left: 8px;
+  }
+
+  .gstv-logo-overlay {
+    font-size: 8px;
+    padding: 2px 5px;
+    top: 8px;
+    right: 8px;
+  }
+}
+
+@media (max-width: 640px) {
+  .video-card-wrapper {
+    border-radius: 15px;
+    border-width: 2px;
+  }
+
+  .video-thumbnail-container {
+    height: 120px;
+  }
+
+  .video-title-section {
+    padding: 8px 10px 10px 10px;
+    min-height: 50px;
+  }
+
+  .video-title {
+    font-size: 10px;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .play-button-circle {
+    width: 35px;
+    height: 35px;
+  }
+
+  .play-button-circle i {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pad15 {
+    padding: 4px;
+  }
+
+  .video-thumbnail-container {
+    height: 100px;
+  }
+
+  .video-title-section {
+    padding: 6px 8px 8px 8px;
+    min-height: 45px;
+  }
+
+  .video-title {
+    font-size: 9px;
+  }
+
+  .location-tag {
+    font-size: 8px;
+    padding: 1px 4px;
+    top: 6px;
+    left: 6px;
+  }
+
+  .gstv-logo-overlay {
+    font-size: 7px;
+    padding: 1px 4px;
+    top: 6px;
+    right: 6px;
+  }
+
+  .play-button-circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .play-button-circle i {
+    font-size: 10px;
+  }
+}
+
+/* =====================
+   FULL SKELETON LOADER
+===================== */
+
+
+/* Shimmer base */
+.shimmer {
+  background: linear-gradient(
+    110deg,
+    #e0e0e0 25%,
+    #f5f5f5 37%,
+    #e0e0e0 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Wrapper on each slide */
+.item {
+  position: relative;
+  min-height: 250px;
+  overflow: hidden;
+}
+
+/* Skeleton overlay */
+.skeleton-wrapper {
+  position: absolute;
+  inset: 0;
+  padding: 8px;
+  z-index: 5;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Big thumbnail block */
+.skeleton-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 6px;
+}
+
+/* Play icon circle */
+.skeleton-play {
+  width: 45px;
+  height: 45px;
+  margin: -25px auto 0 auto;
+}
+
+.shimmer-circle {
+  border-radius: 50%;
+  background: linear-gradient(
+    110deg,
+    #ddd 25%,
+    #f2f2f2 37%,
+    #ddd 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+/* Title strip */
+.skeleton-title {
+  height: 14px;
+  margin-top: 16px;
+  border-radius: 4px;
+  width: 90%;
+}
+
+/* Real content: hidden by default */
+.real-content {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  position: relative;
+  z-index: 10;
+}
+
+/* When image finished loading */
+.item.loaded .skeleton-wrapper {
+  display: none;
+}
+
+.item.loaded .real-content {
+  opacity: 1;
+}
+@media (max-width: 1400px) {
+  .item {
+    min-height: 150px;
+  }
+}
+@media (max-width: 768px) {
+  .item {
+    min-height: 150px;
+  }
+  .skeleton-image {
+    height: 150px;
+  }
+}

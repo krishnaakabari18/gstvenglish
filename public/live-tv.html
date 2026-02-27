@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSTV Live TV</title>
+
+    <script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+     <script charset="UTF-8" src="https://player.livecast.io/dist/js/livecast_player.min.js" async></script>
+  <style>
+    
+    body{
+     overflow: hidden;
+      padding:0;
+    margin:0;
+    }
+    .lc-embed-responsive-16by9 {
+    padding-bottom: 48% !important;
+	}
+    .divvideocls {
+      position: absolute;
+      transform: rotate(90deg);
+
+      transform-origin: bottom left;
+      width: 100vw;
+      height: 100vh;
+      margin-top: -100vw;
+      object-fit: cover;
+
+      z-index: 4;
+      visibility: visible;
+    }
+    @media screen and (max-width: 480px){
+    .lc-embed-responsive-16by9 {
+        padding-bottom: 45% !important;
+    }       
+    }
+
+    @media screen and (max-width: 380px) {
+    .lc-embed-responsive-16by9 {
+        padding-bottom: 56% !important;
+    }   
+    }
+
+    @media screen and (max-width: 360px) {
+    .lc-embed-responsive-16by9 {
+        padding-bottom: 49% !important;
+    }   
+    }
+  </style>
+</head>
+<body>
+    <div class="divvideocls1">
+        <div class="lc-embed-responsive lc-embed-responsive-16by9">
+            <div class="livecast_player">
+                <div class="livecast_player_eb cid_21_stream_24_gstv" style="height: 100vh; width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+</html>

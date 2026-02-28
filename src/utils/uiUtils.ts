@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { LOADING_MESSAGES as GUJARATI_LOADING_MESSAGES, BUTTON_TEXT, SUCCESS_MESSAGES } from '@/constants/gujaratiStrings';
 
 // Loading States
 export interface LoadingState {
@@ -60,17 +61,12 @@ export interface NewsGridProps {
 
 /**
  * Common Loading Messages in Gujarati
+ * @deprecated Use GUJARATI_LOADING_MESSAGES from '@/constants/gujaratiStrings' instead
+ * This is kept for backward compatibility
  */
 export const LOADING_MESSAGES = {
-  LOADING: 'લોડ થઈ રહ્યું છે...',
-  LOADING_MORE: 'વધુ લોડ થઈ રહ્યું છે...',
-  LOADING_NEWS: 'સમાચાર લોડ થઈ રહ્યા છે...',
-  LOADING_MORE_NEWS: 'વધુ સમાચાર લોડ થઈ રહ્યા છે...',
-  LOADING_VIDEOS: 'વીડિયો લોડ થઈ રહ્યા છે...',
-  LOADING_CATEGORIES: 'કેટેગરી લોડ થઈ રહ્યા છે...',
-  NO_MORE_DATA: '',
-  END_OF_NEWS: 'તમે સમાચારના અંત સુધી પહોંચી ગયા છો.',
-  RETRY: 'ફરી પ્રયાસ કરો',
+  ...GUJARATI_LOADING_MESSAGES,
+  RETRY: BUTTON_TEXT.RETRY,
   SOMETHING_WENT_WRONG: 'કંઈક ખોટું થયું છે'
 } as const;
 
@@ -174,7 +170,7 @@ export const generateCategoryHeader = (
 ): string => {
   const viewAllLink = showViewAll ? `
     <Link href="/category/${categorySlug}" class="${COMMON_CLASSES.CATEGORY_LINK}">
-      વધુ વાંચો
+      ${BUTTON_TEXT.READ_MORE}
       <i class="fas fa-chevron-right"></i>
     </Link>
   ` : '';
@@ -283,7 +279,7 @@ export const shareNews = (news: any): void => {
   } else {
     // Fallback: copy to clipboard
     navigator.clipboard.writeText(shareData.url).then(() => {
-      alert('લિંક કોપી થઈ ગઈ છે!'); // Link copied!
+      alert(SUCCESS_MESSAGES.LINK_COPIED);
     }).catch(() => {
       // Fallback: open in new window
       window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.title)}&url=${encodeURIComponent(shareData.url)}`, '_blank');

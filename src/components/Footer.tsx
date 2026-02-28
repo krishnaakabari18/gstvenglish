@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { NAVIGATION } from '@/constants/gujaratiStrings';
 
 export default function Footer() {
   const path = usePathname();
@@ -32,7 +33,7 @@ export default function Footer() {
                 unoptimized
               />
             </div>
-            <p className="footer-link custom-gujrati-font">હોમ</p>
+            <p className="footer-link custom-gujrati-font">{NAVIGATION.HOME}</p>
           </Link>
         </div>
         <div className="col-2" style={{ width: '20%' }}>
@@ -73,7 +74,7 @@ export default function Footer() {
                 unoptimized
               />
             </div>
-            <p className="footer-link custom-gujrati-font">ઈ-પેપર</p>
+            <p className="footer-link custom-gujrati-font">{NAVIGATION.E_PAPER}</p>
           </Link>
         </div>
         <div className="col-2" style={{ width: '20%' }}>

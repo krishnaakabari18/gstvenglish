@@ -1,6 +1,3 @@
-// NewsDetailWithInfiniteScroll.tsx
-'use client';
-
 import React, {
   useCallback,
   useEffect,
@@ -20,6 +17,7 @@ import ShareButtons from './ShareButtons';
 import RelatedNews from "@/components/RelatedNews";
 import LockScreen from '@/components/LockScreen';
 import { useContentLock } from '@/hooks/useContentLock';
+import { RELATED_NEWS, APP_DOWNLOAD } from '@/constants';
 
 // Global registry to avoid re-processing the same embed container multiple times
 const processedEmbedsRegistry = new Set<string>();
@@ -545,7 +543,7 @@ const renderDescription = useCallback(
   return (
     <div className="blogs-main-section relatednewsdata" style={{ margin: "25px 0" }}>
       <div className="blogs-head-bar first">
-        <span className="blog-category">આ પણ વાંચો :</span>
+        <span className="blog-category">{RELATED_NEWS.ALSO_READ}</span>
       </div>
 
       <div className="row blog-content related-blog-content relatednews relatednews2">
@@ -665,7 +663,7 @@ const renderDescription = useCallback(
           modifiedHTML += `
             <div class="download-app" style="text-align:center;display:block;margin:20px 0;">
               <h6 style="font-size:25px !important;font-family:'Hind Vadodara',sans-serif;color:#000;text-align:center;margin-bottom:10px;">
-                GSTVની એપ્લિકેશન ડાઉનલોડ કરો
+                ${APP_DOWNLOAD.DOWNLOAD_APP}
               </h6>
               <div class="download-btn clearfix" style="display:inline-flex;gap:15px;align-items:center;justify-content:center;">
                 <a href="https://play.google.com/store/apps/details?id=com.tops.gstvapps" target="_blank" rel="noopener noreferrer">
@@ -696,7 +694,7 @@ if (relatedToShow.length > 0) {
   const relatedHTML = `
     <div class="blogs-main-section relatednewsdata" style="margin:25px 0;">
       <div class="blogs-head-bar first">
-        <span class="blog-category">આ પણ વાંચો :</span>
+        <span class="blog-category">${RELATED_NEWS.ALSO_READ}</span>
       </div>
       <div class="row blog-content related-blog-content relatednews relatednews2">
         ${relatedToShow

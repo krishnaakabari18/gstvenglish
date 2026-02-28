@@ -6,6 +6,7 @@ import { useSettings } from '@/hooks/useSettings';
 import dynamic from 'next/dynamic';
 import { useStockmarketSiteSetting } from '@/hooks/useStockmarketSiteSetting';
 import { MEDIA_BASE_URL, API_ENDPOINTS } from '@/constants/api';
+import { NAVIGATION, WEB_STORIES, PLACEHOLDERS } from '@/constants/gujaratiStrings';
 import ProfileMenuItems from './ProfileMenuItems';
 import Link from 'next/link';
 
@@ -204,24 +205,24 @@ export default function Header() {
             <div className="navbar-collapse">
               <div className="navbar-nav">
                 <Link className="nav-item nav-link" href="/">
-                  <Image src="/assets/icons/header-home.svg" alt="હોમ" width={25} height={25} />
-                  <p className="main-header-title custom-gujrati-font">હોમ</p>
+                  <Image src="/assets/icons/header-home.svg" alt={NAVIGATION.HOME} width={25} height={25} />
+                  <p className="main-header-title custom-gujrati-font">{NAVIGATION.HOME}</p>
                 </Link>
                 <Link className="nav-item nav-link" href="/web-stories">
-                  <Image src="/assets/icons/header-webstorys.svg" alt="વેબ સ્ટોરીઝ" width={25} height={25} />
-                  <p className="main-header-title custom-gujrati-font">વેબ સ્ટોરીઝ</p>
+                  <Image src="/assets/icons/header-webstorys.svg" alt={WEB_STORIES.TITLE} width={25} height={25} />
+                  <p className="main-header-title custom-gujrati-font">{WEB_STORIES.TITLE}</p>
                 </Link>
                 <Link className="nav-item nav-link" href="/category/videos">
-                  <Image src="/assets/icons/header-video.svg" alt="વીડિયો" width={25} height={25} />
-                  <p className="main-header-title custom-gujrati-font">વીડિયો</p>
+                  <Image src="/assets/icons/header-video.svg" alt={NAVIGATION.VIDEOS} width={25} height={25} />
+                  <p className="main-header-title custom-gujrati-font">{NAVIGATION.VIDEOS}</p>
                 </Link>
                 <Link className="nav-item nav-link" href="/category/entertainment">
-                  <Image src="/assets/icons/header-entertainment.svg" alt="એન્ટરટેઇનમેન્ટ" width={25} height={25} />
-                  <p className="main-header-title custom-gujrati-font">એન્ટરટેઇનમેન્ટ</p>
+                  <Image src="/assets/icons/header-entertainment.svg" alt={NAVIGATION.ENTERTAINMENT} width={25} height={25} />
+                  <p className="main-header-title custom-gujrati-font">{NAVIGATION.ENTERTAINMENT}</p>
                 </Link>
                 <Link className="nav-item nav-link" href="/livetv">
-                  <Image src="/assets/icons/livetv.svg" alt="લાઇવ ટીવી" width={25} height={25} />
-                  <p className="main-header-title custom-gujrati-font">લાઇવ ટીવી</p>
+                  <Image src="/assets/icons/livetv.svg" alt={NAVIGATION.LIVE_TV} width={25} height={25} />
+                  <p className="main-header-title custom-gujrati-font">{NAVIGATION.LIVE_TV}</p>
                 </Link>
               </div>
             </div>
@@ -232,19 +233,19 @@ export default function Header() {
             <div className="profile-icons custom-profile-icons">
               {PodcastEnabled && (
                  <Link href="/gstv-podcast" className="e-news-paper searchNews">
-                <Image src="/assets/images/ico_pod.svg" alt="પોડકાસ્ટ" width={21} height={21} />
-                <span className="hrader-title-text">પોડકાસ્ટ</span>
+                <Image src="/assets/images/ico_pod.svg" alt={NAVIGATION.PODCAST} width={21} height={21} />
+                <span className="hrader-title-text">{NAVIGATION.PODCAST}</span>
               </Link>
               )} 
 
               <Link href="/search" className="e-news-paper searchNews ">
                 <Image src="/assets/images/search_icon.svg" alt="Search" width={21} height={21} />
-                <span className="hrader-title-text">સર્ચ</span>
+                <span className="hrader-title-text">{NAVIGATION.SEARCH}</span>
               </Link>
 
               <Link href="/epaper" className="e-news-paper epapercls mobiledisplay">
                 <Image src="/assets/icons/e-news-paper.svg" alt="E-news-paper" width={21} height={21} />
-                <span className="hrader-title-text">ઈ-પેપર</span>
+                <span className="hrader-title-text">{NAVIGATION.E_PAPER}</span>
               </Link>
 
               {isLoggedIn ? (
@@ -289,7 +290,7 @@ export default function Header() {
                             <path d="M19 12H5M12 19l-7-7 7-7" />
                           </svg>
                         </button>
-                        <div className="title">મારી પ્રોફાઇલ</div>
+                        <div className="title">{NAVIGATION.MY_PROFILE}</div>
                       </div>
                       <div className="userNav">
                         <ProfileMenuItems onMenuClick={closeProfile} />
@@ -300,7 +301,7 @@ export default function Header() {
               ) : (
                 <Link href="/login" className="btnLogin">
                   <Image src="/assets/images/user-icon.svg" className='user-icon' alt="user-icon" width={35} height={35} />
-                  <span>લોગિન</span>
+                  <span>{NAVIGATION.LOGIN}</span>
                 </Link>
               )}
             </div>
@@ -366,7 +367,7 @@ export default function Header() {
                   <input
                     type="text"
                     id="citySearch"
-                    placeholder="સર્ચ યોર સિટી"
+                    placeholder={PLACEHOLDERS.SEARCH_CITY}
                     style={{
                       width: '100%',
                       padding: '12px 45px 12px 20px',
@@ -536,7 +537,7 @@ export default function Header() {
                     <input
                       type="text"
                       id="categorySearch"
-                      placeholder="સર્ચ યોર કેટેગરી"
+                      placeholder={PLACEHOLDERS.SEARCH_CATEGORY}
                       style={{
                         width: '100%',
                         padding: '12px 45px 12px 20px',

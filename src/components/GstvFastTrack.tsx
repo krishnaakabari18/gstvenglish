@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -6,6 +6,7 @@ import { API_ENDPOINTS } from '@/constants/api';
 import { getImageUrl } from '@/utils/commonUtils';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { LOADING_MESSAGES } from '@/utils/uiUtils';
+import { CATEGORIES } from '@/constants';
 
 interface NewsItem {
   id: number;

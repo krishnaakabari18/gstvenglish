@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { API_ENDPOINTS } from '@/constants/api';
+import { SPECIAL_LABELS } from '@/constants';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 interface Item {
@@ -56,7 +57,7 @@ const EpaperRightSidebar = () => {
         {data.newspaper?.first_image && (
           <div className="epaper-left">
             <div className="storySectionNav blogs-head-bar first magazine_head fastrack_head">
-              <h3 className="blog-category">વાંચો આજનું ઈ-પેપર</h3>
+              <h3 className="blog-category">{SPECIAL_LABELS.READ_TODAY_EPAPER}</h3>
             </div>
             <Link href={data.newspaper.url} target="_blank">
               <img
@@ -72,7 +73,7 @@ const EpaperRightSidebar = () => {
         {data.magazine?.first_image && (
           <div className="epaper-right">
             <div className="storySectionNav blogs-head-bar first magazine_head fastrack_head">
-              <h3 className="blog-category">વાંચો આજનું મેગેઝિન</h3>
+              <h3 className="blog-category">{SPECIAL_LABELS.READ_TODAY_MAGAZINE}</h3>
             </div>
             <Link href={data.magazine.url} target="_blank">
               <img

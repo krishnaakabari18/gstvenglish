@@ -6,6 +6,7 @@ import { fetchTopWebStories, WebStory } from '@/services/newsApi';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import '@/styles/WebStories.css';
+import { ACTION_BUTTONS } from '@/constants';
 
 export default function WebStories() {
   console.log('WebStories component rendering...');
@@ -273,7 +274,7 @@ useEffect(() => {
         </div>
         <div className="storySectionNav-right">
           <Link href="/web-stories" className="custom-link-btn">
-            વધુ વાંચો <i className="fas fa-chevron-right"></i>
+            {ACTION_BUTTONS.READ_MORE} <i className="fas fa-chevron-right"></i>
           </Link>
         </div>
       </div>

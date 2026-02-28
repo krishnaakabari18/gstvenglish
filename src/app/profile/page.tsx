@@ -5,6 +5,14 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import ProFooter from '@/components/ProFooter';
 import { API_ENDPOINTS, MEDIA_BASE_URL } from '@/constants/api';
+import {
+  FORM_LABELS,
+  FORM_PLACEHOLDERS,
+  VALIDATION_MESSAGES,
+  UPDATE_MESSAGES,
+  PROFILE_MESSAGES,
+  DATE_TIME_LABELS
+} from '@/constants';
 
 interface UserProfile {
   id: number;
@@ -241,7 +249,7 @@ export default function ProfilePage() {
     e?.preventDefault();
   e?.stopPropagation();
     const confirmed = confirm(
-      'શું તમે ખરેખર તમારું એકાઉન્ટ કાઢી નાખવા માંગો છો? આ ક્રિયા પૂર્વવત્ કરી શકાતી નથી અને તમે તમારો બધો ડેટા ગુમાવશો.'
+      PROFILE_MESSAGES.DELETE_CONFIRM
     );
     if (!confirmed) return;
 
@@ -287,7 +295,7 @@ export default function ProfilePage() {
       const result = await response.json();
 
       if (result.success || response.ok) {
-        setMessage('Account deleted successfully! Redirecting to homepage...');
+        setMessage(PROFILE_MESSAGES.ACCOUNT_DELETED);
 
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('userSession');
@@ -371,7 +379,7 @@ export default function ProfilePage() {
       const result = await response.json();
 
       if (result.success === true || (response.ok && response.status === 200)) {
-  setMessage("પ્રોફાઇલ સફળતાપૂર્વક અપડેટ થઈ ગયી છે!");
+  setMessage(UPDATE_MESSAGES.PROFILE_UPDATED);
   hideMessage("message");
 
   // ⭐ Update image preview instantly
@@ -440,9 +448,9 @@ export default function ProfilePage() {
         <div className="profilePage">
           <div className="text-center" style={{ padding: '50px' }}>
             <div className="spinner-border" role="status">
-              <span className="visually-hidden">લોડ કરી રહ્યું છે...</span>
+              <span className="visually-hidden">{VALIDATION_MESSAGES.LOADING}</span>
             </div>
-            <p style={{ marginTop: '20px' }}>પ્રોફાઇલ લોડ કરી રહ્યું છે...</p>
+            <p style={{ marginTop: '20px' }}>{VALIDATION_MESSAGES.LOADING_PROFILE}</p>
           </div>
         </div>
       </div>
@@ -488,7 +496,7 @@ export default function ProfilePage() {
           </div>
 
           <div className="title">
-            <h2>આપનું સ્વાગત છે</h2>
+            <h2>{PROFILE_MESSAGES.WELCOME}</h2>
           </div>
 
           {message && (
@@ -513,7 +521,7 @@ export default function ProfilePage() {
 
           <div className="row">
             <div className="col-lg-6 mb-2">
-              <div className="lable">પ્રથમ નામ</div>
+              <div className="lable">{FORM_LABELS.FIRST_NAME}</div>
               <div className="inputOuter">
                 <input
                   type="text"
@@ -522,13 +530,13 @@ export default function ProfilePage() {
                   name="firstname"
                   value={formData.firstname}
                   onChange={handleInputChange}
-                  placeholder="તમારું પ્રથમ નામ દાખલ કરો"
+                  placeholder={FORM_PLACEHOLDERS.ENTER_FIRST_NAME}
                   required
                 />
               </div>
             </div>
             <div className="col-lg-6 mb-2">
-              <div className="lable">લાસ્ટ નામ</div>
+              <div className="lable">{FORM_LABELS.LAST_NAME}</div>
               <div className="inputOuter">
                 <input
                   type="text"
@@ -537,7 +545,7 @@ export default function ProfilePage() {
                   name="lastname"
                   value={formData.lastname}
                   onChange={handleInputChange}
-                  placeholder="તમારું લાસ્ટ નામ દાખલ કરો"
+                  placeholder={FORM_PLACEHOLDERS.ENTER_LAST_NAME}
                   required
                 />
               </div>
@@ -546,7 +554,7 @@ export default function ProfilePage() {
 
           <div className="row">
             <div className="col-lg-6 mb-2">
-              <div className="lable">શહેર</div>
+              <div className="lable">{FORM_LABELS.CITY}</div>
               <div className="inputOuter">
                 <select
                   className="form-control"
@@ -556,7 +564,7 @@ export default function ProfilePage() {
                   onChange={handleInputChange}
                   required
                 >
-                  <option value="">તમારું શહેર પસંદ કરો</option>
+                  <option value="">{FORM_PLACEHOLDERS.SELECT_CITY}</option>
                   {cities.map((city) => (
                     <option key={city.id} value={city.id.toString()}>
                       {city.title}
@@ -566,14 +574,14 @@ export default function ProfilePage() {
               </div>
             </div>
             <div className="col-lg-6 mb-2">
-              <div className="lable">મોબાઈલ નંબર</div>
+              <div className="lable">{FORM_LABELS.MOBILE_NUMBER}</div>
               <div className="inputOuter">
                 <input
                   type="tel"
                   name="mobile"
                   value={mobileNumber}
                   readOnly
-                  placeholder="તમારો મોબાઈલ નંબર દાખલ કરો"
+                  placeholder={FORM_PLACEHOLDERS.ENTER_MOBILE}
                   id="mobile"
                   className="form-control"
                   required
@@ -584,7 +592,7 @@ export default function ProfilePage() {
 
           <div className="row">
             <div className="col-lg-6 mb-2">
-              <div className="lable">ઇમેલ એડ્રેસ</div>
+              <div className="lable">{FORM_LABELS.EMAIL}</div>
               <div className="inputOuter">
                 <input
                   type="email"
@@ -593,14 +601,14 @@ export default function ProfilePage() {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  placeholder="તમારું ઇમેલ એડ્રેસ દાખલ કરો"
+                  placeholder={FORM_PLACEHOLDERS.ENTER_EMAIL}
                   required
                 />
               </div>
             </div>
 
             <div className="col-lg-6 mb-2">
-              <div className="lable">જન્મ તારીખ</div>
+              <div className="lable">{DATE_TIME_LABELS.BIRTH_DATE}</div>
               <div className="inputOuter">
              <div
   className="date-input-wrapper"
@@ -611,7 +619,7 @@ export default function ProfilePage() {
   <input
     type="text"
     className="form-control"
-    placeholder="DD-MM-YYYY"
+    placeholder={FORM_PLACEHOLDERS.DATE_FORMAT}
     value={formData.birthdate}
     readOnly
     style={{ paddingRight: "40px", cursor: "pointer" }}
@@ -677,7 +685,7 @@ export default function ProfilePage() {
 
           <div className="row">
             <div className="col-lg-4 mb-2">
-              <div className="lable">જન્મ સમય</div>
+              <div className="lable">{DATE_TIME_LABELS.BIRTH_TIME}</div>
               <div className="inputOuter">
                 <input
                   type="text"
@@ -686,12 +694,12 @@ export default function ProfilePage() {
                   name="bdaytime"
                   value={formData.bdaytime}
                   onChange={handleInputChange}
-                  placeholder="જન્મ સમય દાખલ કરો (HH:MM)"
+                  placeholder={FORM_PLACEHOLDERS.ENTER_BIRTH_TIME}
                 />
               </div>
             </div>
             <div className="col-lg-2 mb-2">
-              <div className="lable">AM/PM</div>
+              <div className="lable">{DATE_TIME_LABELS.AM}/{DATE_TIME_LABELS.PM}</div>
               <div className="inputOuter">
                 <select
                   className="form-control"
@@ -700,13 +708,13 @@ export default function ProfilePage() {
                   value={formData.bdaytimeampm}
                   onChange={handleInputChange}
                 >
-                  <option value="am">AM</option>
-                  <option value="pm">PM</option>
+                  <option value="am">{DATE_TIME_LABELS.AM}</option>
+                  <option value="pm">{DATE_TIME_LABELS.PM}</option>
                 </select>
               </div>
             </div>
             <div className="col-lg-6 mb-2">
-              <div className="lable">જન્મ સ્થળ</div>
+              <div className="lable">{DATE_TIME_LABELS.BIRTH_PLACE}</div>
               <div className="inputOuter">
                 <input
                   type="text"
@@ -715,7 +723,7 @@ export default function ProfilePage() {
                   name="birthdateplace"
                   value={formData.birthdateplace}
                   onChange={handleInputChange}
-                  placeholder="તમારું જન્મ સ્થળ દાખલ કરો"
+                  placeholder={FORM_PLACEHOLDERS.ENTER_BIRTH_PLACE}
                 />
               </div>
             </div>
@@ -724,7 +732,7 @@ export default function ProfilePage() {
           <div className="row">
             <div className="col-lg-6 mb-2">
               <div className="lable">
-                સેટ મ-પિન{' '}
+                {FORM_LABELS.SET_MPIN}{' '}
                 <span
                   style={{
                     fontSize: '12px',
@@ -732,7 +740,7 @@ export default function ProfilePage() {
                     fontWeight: 'normal'
                   }}
                 >
-                  (6 digits required)
+                  {FORM_LABELS.MPIN_HINT}
                 </span>
               </div>
               <div className="inputOuter">
@@ -746,7 +754,7 @@ export default function ProfilePage() {
                   minLength={6}
                   value={formData.mpin}
                   onChange={handleInputChange}
-                  placeholder="તમારો 6 અંકનો મ-પિન દાખલ કરો"
+                  placeholder={FORM_PLACEHOLDERS.ENTER_MPIN}
                   required
                 />
               </div>
@@ -758,7 +766,7 @@ export default function ProfilePage() {
             <label className="innerGender">
               <div className="nameBox">
                 <Image src="/images/ico-man.svg" alt="" width={20} height={20} />{' '}
-                પુરુષ
+                {FORM_LABELS.MALE}
               </div>
               <input
                 type="radio"
@@ -777,7 +785,7 @@ export default function ProfilePage() {
                   width={20}
                   height={20}
                 />{' '}
-                સ્ત્રી
+                {FORM_LABELS.FEMALE}
               </div>
               <input
                 type="radio"
@@ -796,7 +804,7 @@ export default function ProfilePage() {
                   width={20}
                   height={20}
                 />{' '}
-                અન્ય
+                {FORM_LABELS.OTHER}
               </div>
               <input
                 type="radio"
@@ -816,7 +824,7 @@ export default function ProfilePage() {
   onClick={handleSubmit}
   disabled={saveLoading}
 >
-  {saveLoading ? "સેવિંગ..." : "સેવ પ્રોફાઇલ"}
+  {saveLoading ? UPDATE_MESSAGES.SAVING : PROFILE_MESSAGES.SAVE_PROFILE}
 </button>
 
 <button
@@ -825,7 +833,7 @@ export default function ProfilePage() {
   onClick={handleDeleteAccount}
   disabled={deleteLoading}
 >
-  {deleteLoading ? "ડેલેટિંગ..." : "ડિલીટ એકાઉન્ટ"}
+  {deleteLoading ? UPDATE_MESSAGES.DELETING : PROFILE_MESSAGES.DELETE_ACCOUNT}
 </button>
           </div>
         </div>

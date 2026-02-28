@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { UPLOAD_PATHS } from '@/constants/api';
+import { POLICY_LINKS, MISC_UI } from '@/constants';
 import { useSiteSetting } from '@/hooks/useSiteSetting';
 import { useStockmarketSiteSetting } from '@/hooks/useStockmarketSiteSetting';
 // import StockMarket from '@/components/StockMarket';
@@ -124,18 +125,18 @@ const RightSidebar = () => {
       <div className="address">
         <h6>
           <ul className="custom-address-list">
-            <li><Link href="/career">કેરીયર</Link></li><span>|</span>
-            <li><Link href="/contact-us">કોન્ટેક્ટ અસ</Link></li><span>|</span>
-            <li><Link href="/cookie-policy">કુકી પોલિસી</Link></li><span>|</span>
-            <li><Link href="/privacy-policy">પ્રાઇવસી પોલિસી</Link></li><span>|</span>
-            <li><Link href="/refund-policy">રિફંડ પોલિસી</Link></li><span>|</span>
-            <li><Link href="/terms-condition">ટર્મ્સ એંડ કંડિશન</Link></li>
+            <li><Link href="/career">{POLICY_LINKS.CAREER}</Link></li><span>|</span>
+            <li><Link href="/contact-us">{POLICY_LINKS.CONTACT_US}</Link></li><span>|</span>
+            <li><Link href="/cookie-policy">{POLICY_LINKS.COOKIE_POLICY}</Link></li><span>|</span>
+            <li><Link href="/privacy-policy">{POLICY_LINKS.PRIVACY_POLICY}</Link></li><span>|</span>
+            <li><Link href="/refund-policy">{POLICY_LINKS.REFUND_POLICY}</Link></li><span>|</span>
+            <li><Link href="/terms-condition">{POLICY_LINKS.TERMS_CONDITIONS}</Link></li>
           </ul>
         </h6>
 
         <h6 className="custom-text">
           <div>
-            ડિજાઇન એંડ ડેવલોપેડ બાય <span className="highlight-text">GSTV</span>
+            {MISC_UI.DESIGN_DEVELOPED_BY} <span className="highlight-text">GSTV</span>
           </div>
           <br />
           © Copyright {new Date().getFullYear()} | GSTV. All rights reserved.

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
@@ -6,6 +6,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import '@/styles/WebStories.css';
 import { API_ENDPOINTS } from '@/constants/api';
+import { ACTION_BUTTONS, CATEGORIES, LOADING_MESSAGES } from '@/constants';
 
 interface SatrangCategory {
   id: number;
@@ -165,7 +166,7 @@ export default function GSTVSatrangBox() {
         </div>
         <div className="storySectionNav-right rightstory">
           <Link href="/category/satrang" className="custom-link-btn">
-            વધુ વાંચો <i className="fas fa-chevron-right"></i>
+            {ACTION_BUTTONS.READ_MORE} <i className="fas fa-chevron-right"></i>
           </Link>
         </div>
       </div>

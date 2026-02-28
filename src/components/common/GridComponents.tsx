@@ -13,6 +13,7 @@ import {
   getNewsDetailUrl
 } from '@/utils/newsUtils';
 import ShareButtons from '../ShareButtons';
+import { DATE_TIME_LABELS, ACTION_BUTTONS } from '@/constants';
 
 /* ===================== Utils (UNCHANGED) ===================== */
 export function stripHtmlAndDecode(html: string): string {
@@ -127,12 +128,12 @@ export const NewsCard = memo((props: any) => {
 
         <div className="news-meta">
           <span className="news-date">
-            છેલ્લું અપડેટ: {isMounted ? formatDate(news.created_at, true) : ''}
+            {DATE_TIME_LABELS.LAST_UPDATE}: {isMounted ? formatDate(news.created_at, true) : ''}
           </span>
 
           {showReadingTime && (
             <span className="reading-time">
-              {calculateReadingTime(news.description, true)} મિનિટ વાંચન સમય
+              {calculateReadingTime(news.description, true)} {DATE_TIME_LABELS.READING_TIME}
             </span>
           )}
         </div>
@@ -162,7 +163,7 @@ export const NewsCard = memo((props: any) => {
                 }
               >
                 <i className="fas fa-share-alt" />
-                <span>શેર</span>
+                <span>{ACTION_BUTTONS.SHARE}</span>
               </button>
             )}
 
@@ -176,7 +177,7 @@ export const NewsCard = memo((props: any) => {
                   }
                   alt="Bookmark"
                 />
-                <span>સેવ</span>
+                <span>{ACTION_BUTTONS.SAVE}</span>
               </button>
             )}
           </div>
@@ -319,7 +320,7 @@ export const BlogGridItem = memo((props: any) => {
         <span className="last-update-blog for-lg">
           {!hideLastUpdate
             ? isMounted
-              ? `છેલ્લું અપડેટ : ${formatDate(news.created_at)}`
+              ? `${DATE_TIME_LABELS.LAST_UPDATE_COLON} ${formatDate(news.created_at)}`
               : '\u00A0'
             : '\u00A0'}
         </span>
@@ -333,7 +334,7 @@ export const BlogGridItem = memo((props: any) => {
               <div className="reading-icon">
                 <img src="/images/clock.webp" alt="" />
               </div>
-              {calculateReadingTime(news.description || news.title || '')} મિનિટ વાંચન સમય
+              {calculateReadingTime(news.description || news.title || '')} {DATE_TIME_LABELS.READING_TIME}
             </div>
           </div>
 

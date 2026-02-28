@@ -284,6 +284,7 @@ export default function LeftSidebar() {
       <div className="sidebar col-lg-2 col-md-2 d-none d-lg-block">
         <div className="nav-list custom-sidebar scrollarea">
           <ul>
+            
             {/* Show categories */}
             {!isMounted && (
               <li className="allcatshow">

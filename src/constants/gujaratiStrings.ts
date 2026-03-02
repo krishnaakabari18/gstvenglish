@@ -901,7 +901,14 @@ export const WEB_STORY_DETAIL = {
 // ============================================
 export const SEARCH_PAGE = {
   TITLE: 'Search - GSTV',
-  DESCRIPTION: 'Search for news, videos and more on GSTV',
+  DESCRIPTION: 'Search for news, videos, and more on GSTV',
+  SEARCH_PLACEHOLDER: 'Search for news, videos, and more...',
+  TOTAL_RESULTS: 'Total {count} results found',
+  NO_RESULTS_TITLE: 'No results found',
+  NO_RESULTS_MESSAGE: 'Please try again with different keywords.',
+  LOADING_MORE_RESULTS: 'Loading more results...',
+  ALL_RESULTS_VIEWED: 'You have viewed all results.',
+  SEARCH_FAILED: 'Failed to retrieve search results.',
 } as const;
 
 // ============================================

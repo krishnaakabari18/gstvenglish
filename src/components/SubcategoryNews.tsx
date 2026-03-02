@@ -33,7 +33,7 @@ export default function SubcategoryNews({ categorySlug, subcategorySlug }: Subca
      initialPages: categorySlug === 'videos' ? 2 : 1 
   });
  const categoryTitle =
-  subcategoryDetails?.category_name_guj ||
+  subcategoryDetails?.category_name ||
   subcategoryDetails?.title ||
   '\u00A0';
   // Fetch subcategory details for dropdown
@@ -67,14 +67,14 @@ export default function SubcategoryNews({ categorySlug, subcategorySlug }: Subca
       <div className={COMMON_CLASSES.MAIN_SECTION}>
         {subcategoryDetails ? (
           <CategoryHeaderWithDropdown
-            categoryName={subcategoryDetails.category_name_guj || subcategoryDetails.title}
+            categoryName={subcategoryDetails.category_name || subcategoryDetails.title}
             categorySlug={subcategorySlug}
             categoryId={subcategoryDetails.id}
             showViewAll={false}
           />
         ) : (
           <div className="blogs-head-bar first">
-            <span className="blog-category">
+            <span className="blog-category">dddd
               {categoryTitle}
             </span>
           </div>

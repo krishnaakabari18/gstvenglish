@@ -90,16 +90,16 @@ export async function performSearch(searchParams: SearchRequest): Promise<Search
  */
 export function getSearchSuggestions() {
   return [
-    { term: 'ગુજરાત', label: 'ગુજરાત', category: 'location' },
-    { term: 'રાજકોટ', label: 'રાજકોટ', category: 'location' },
-    { term: 'અમદાવાદ', label: 'અમદાવાદ', category: 'location' },
-    { term: 'સુરત', label: 'સુરત', category: 'location' },
-    { term: 'વડોદરા', label: 'વડોદરા', category: 'location' },
-    { term: 'રાજકારણ', label: 'રાજકારણ', category: 'topic' },
-    { term: 'વ્યવસાય', label: 'વ્યવસાય', category: 'topic' },
-    { term: 'રમતગમત', label: 'રમતગમત', category: 'topic' },
-    { term: 'મનોરંજન', label: 'મનોરંજન', category: 'topic' },
-    { term: 'આરોગ્ય', label: 'આરોગ્ય', category: 'topic' }
+    { term: 'Gujarat', label: 'Gujarat', category: 'location' },
+    { term: 'Rajkot', label: 'Rajkot', category: 'location' },
+    { term: 'Ahmedabad', label: 'Ahmedabad', category: 'location' },
+    { term: 'Surat', label: 'Surat', category: 'location' },
+    { term: 'Vadodara', label: 'Vadodara', category: 'location' },
+    { term: 'Rajkaran', label: 'Rajkaran', category: 'topic' },
+    { term: 'Business', label: 'Business', category: 'topic' },
+    { term: 'Sports', label: 'Sports', category: 'topic' },
+    { term: 'Entertainment', label: 'Entertainment', category: 'topic' },
+    { term: 'Health', label: 'Health', category: 'topic' }
   ];
 }
 

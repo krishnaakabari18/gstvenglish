@@ -201,7 +201,7 @@ const PodcastPage: React.FC = () => {
                 <span style={{ marginLeft: '8px' }}>{GSTV_PODCAST_PAGE.LOADING_MORE}</span>
               </>
             ) : (
-              {GSTV_PODCAST_PAGE.LOAD_MORE}
+              GSTV_PODCAST_PAGE.LOAD_MORE
             )}
           </button>
         </div>

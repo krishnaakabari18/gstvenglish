@@ -4,7 +4,7 @@
 
 // Base URLs Configuration
 export const BASE_URLS = {
-  PRODUCTION: 'https://english.gstv.in',
+  PRODUCTION: 'https://www.gstv.in',
   DEVELOPMENT: 'http://localhost:3000',
 
   get CURRENT() {
@@ -14,15 +14,15 @@ export const BASE_URLS = {
 
 // Common API Base URL - Change this single variable to switch environments
 
-export const COMMON_API_BASE_URL = 'https://english.gstv.in/backend2/api/v12/mobile';
+export const COMMON_API_BASE_URL = 'https://www.gstv.in/backend2/api/v12/mobile';
 
 
 // Base URLs derived from common base
-export const API_BASE_URL = 'https://english.gstv.in/backend2/api';
+export const API_BASE_URL = 'https://www.gstv.in/backend2/api';
 export const API_V5_BASE_URL = COMMON_API_BASE_URL;
 
-export const API_V6_BASE_URL = 'https://english.gstv.in/backend2/api/v12/mobile';
-export const MEDIA_BASE_URL = 'https://english.gstv.in';
+export const API_V6_BASE_URL = 'https://www.gstv.in/backend2/api/v12/mobile';
+export const MEDIA_BASE_URL = 'https://www.gstv.in';
 
 // Media/Upload paths
 export const UPLOAD_PATHS = {

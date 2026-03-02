@@ -74,7 +74,7 @@ export default function SubcategoryNews({ categorySlug, subcategorySlug }: Subca
           />
         ) : (
           <div className="blogs-head-bar first">
-            <span className="blog-category">dddd
+            <span className="blog-category">
               {categoryTitle}
             </span>
           </div>

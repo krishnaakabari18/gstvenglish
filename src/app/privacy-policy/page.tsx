@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Privacy Policy - GSTV',
     description: 'Read about how GSTV collects, uses, and protects your personal information.',
-    url: 'https://www.gstv.in/privacy-policy',
+    url: 'https://english.gstv.in/privacy-policy',
     siteName: 'GSTV',
     type: 'website',
   },
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   const privacyHtml = `
 <p><strong>Effective date: October 01, 2018</strong></p>
-<p>Shreyarth Aaspas LTD (“us”, “we”, or “our”) operates the https://www.gstv.in website and the GSTV NEWS mobile application (the “Service”).</p>
+<p>Shreyarth Aaspas LTD (“us”, “we”, or “our”) operates the https://english.gstv.in website and the GSTV NEWS mobile application (the “Service”).</p>
 <p>This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.</p>
 <p>We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions.</p>
 

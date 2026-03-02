@@ -13,6 +13,7 @@ import {
   MagazineCategory,
   filterMagazinesByType
 } from '@/services/magazineApi';
+import { BUTTON_TEXT, CATEGORIES, LOADING_MESSAGES } from '@/constants/gujaratiStrings';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import '@/styles/GSTVMagazine.css';
@@ -154,7 +155,7 @@ export default function GSTVMagazine() {
       <div className="carousel-inner-top custom-carousel clearfix">
         <div style={{ padding: 40, textAlign: 'center' }}>
           <LoadingSpinner
-            message="GSTV મેગેઝિન લોડ થઈ રહ્યા છે..."
+            message={LOADING_MESSAGES.LOADING_MAGAZINE_GUJ}
             size="large"
             type="dots"
             color="#850E00"
@@ -168,7 +169,7 @@ export default function GSTVMagazine() {
     return (
       <div className="carousel-inner-top custom-carousel clearfix">
         <div className="section-header">
-          <h2 className="section-title">GSTV મેગેઝિન</h2>
+          <h2 className="section-title">{CATEGORIES.GSTV_MAGAZINE_GUJ}</h2>
         </div>
         <ErrorMessage error={error} onRetry={retryFetch} />
       </div>
@@ -191,12 +192,12 @@ export default function GSTVMagazine() {
         <div className="storySectionNav-left">
           <Link href="/magazine">
             <img src="/assets/icons/e-paper-1.svg" alt="GSTV Magazine" />
-            <span>GSTV મેગેઝિન</span>
+            <span>{CATEGORIES.GSTV_MAGAZINE_GUJ}</span>
           </Link>
         </div>
         <div className="storySectionNav-right">
           <Link href="/magazine" className="custom-link-btn">
-            વધુ વાંચો <i className="fas fa-chevron-right"></i>
+            {BUTTON_TEXT.READ_MORE} <i className="fas fa-chevron-right"></i>
           </Link>
         </div>
       </div>

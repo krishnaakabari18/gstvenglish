@@ -4,7 +4,7 @@
 /**
  * Client-side API Configuration
  */
-const COMMON_API_BASE_URL = 'https://www.gstv.in/backend2/api/v11/mobile';
+const COMMON_API_BASE_URL = 'https://english.gstv.in/backend2/api/v12/mobile';
 const API_CONFIG = {
   COMMON_API_BASE_URL,
 

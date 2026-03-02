@@ -16,6 +16,7 @@ import {
 
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { COMMON_CLASSES } from '@/utils/uiUtils';
+import { LOADING_MESSAGES, EPAPER_PAGE, MAGAZINE_PAGE } from '@/constants/gujaratiStrings';
 
 /* Swiper */
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -185,7 +186,7 @@ const MagazineDetailPage: React.FC = () => {
       <div className="container-fluid epaper-detail-container">
         <div className={COMMON_CLASSES.LOADING_CONTAINER}>
           <LoadingSpinner
-            message="મેગેઝિન લોડ કરી રહ્યા છીએ..."
+            message={LOADING_MESSAGES.LOADING_MAGAZINE_GUJ}
             size="large"
             color="#850E00"
           />
@@ -199,7 +200,7 @@ const MagazineDetailPage: React.FC = () => {
       <div className="epaperDetailMain">
         <div className="container text-center p-5">
           <h2 className="custom-gujrati-font" style={{ textAlign:'center'}}>
-            આ તારીખ માટે મેગેઝિન ઉપલબ્ધ નથી
+            {MAGAZINE_PAGE.NOT_AVAILABLE_FOR_DATE}
           </h2>
           <button
             onClick={() => router.push('/magazine')}
@@ -251,7 +252,7 @@ const MagazineDetailPage: React.FC = () => {
 
               <div className="epaper-controls-center">
                 <div className="zoom-controls">
-                  <span>ઝૂમ:</span>
+                  <span>{EPAPER_PAGE.ZOOM_GUJ}</span>
                   <button onClick={handleZoomOut} disabled={zoomLevel <= 0.5}>-</button>
                   <span>{Math.round(zoomLevel * 100)}%</span>
                   <button onClick={handleZoomIn} disabled={zoomLevel >= 3}>+</button>

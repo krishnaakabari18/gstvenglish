@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: any) {
       title,
       description,
       images: [image],
-      url: `https://www.gstv.in/rashifal/rashi/${id}/${period}`,
+      url: `https://english.gstv.in/rashifal/rashi/${id}/${period}`,
       siteName: "GSTV",
       type: "article",
     },
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: any) {
       images: [image],
     },
     alternates: {
-      canonical: `https://www.gstv.in/rashifal/rashi/${id}/${period}`,
+      canonical: `https://english.gstv.in/rashifal/rashi/${id}/${period}`,
     },
   };
 }

@@ -4,6 +4,7 @@
  */
 
 import { API_ENDPOINTS, DEFAULT_API_PARAMS, API_METHODS, API_REQUEST_TYPES, CATEGORY_MAPPING } from '@/constants/api';
+import { ERROR_MESSAGES } from '@/constants/gujaratiStrings';
 
 // Common API Response Types
 export interface ApiResponse<T = any> {
@@ -349,7 +350,7 @@ export function handleApiError(error: any): string {
     return error.message;
   }
   
-  return 'કંઈક ખોટું થયું છે. કૃપા કરીને ફરી પ્રયાસ કરો.'; // Something went wrong. Please try again.
+  return `${ERROR_MESSAGES.SOMETHING_WENT_WRONG}. કૃપા કરીને ફરી પ્રયાસ કરો.`;
 }
 
 // Build API URL with parameters

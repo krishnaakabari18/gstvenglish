@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { API_V5_BASE_URL } from '@/constants/api';
 import LoadingSpinner from './LoadingSpinner';
+import {SPECIAL_LABELS } from '@/constants/gujaratiStrings';
+
 
 interface LiveNewsItem {
   livetitle: string;
@@ -169,7 +171,7 @@ const LiveNews: React.FC = () => {
                 
                 <div className="col-lg-8 column">
                   <h4>
-                    <span><em>લાઇવ</em></span>{' '}
+                    <span><em>{SPECIAL_LABELS.LIVE}</em></span>{' '}
                     <Link href={`/news/${categorySlug}/${newsItem.slug}`}>
                       {newsItem.title}
                     </Link>

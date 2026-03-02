@@ -6,7 +6,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import '@/styles/WebStories.css';
 import { API_ENDPOINTS } from '@/constants/api';
-import { ACTION_BUTTONS, CATEGORIES, LOADING_MESSAGES } from '@/constants';
+import { ACTION_BUTTONS, CATEGORIES, LOADING_MESSAGES, MISC_UI } from '@/constants';
 
 interface SatrangCategory {
   id: number;
@@ -138,7 +138,7 @@ export default function GSTVSatrangBox() {
     return (
       <div className="custom-carousel clearfix">
         <LoadingSpinner
-          message="GSTV શતરંગ લોડ થઈ રહ્યું છે..."
+          message={MISC_UI.GSTV_SATRANG_LOADING}
           size="large"
           type="dots"
           color="#850E00"
@@ -162,7 +162,7 @@ export default function GSTVSatrangBox() {
     <div className="satrang-section mb-4">
       <div className="storySectionNav blogs-head-bar first">
         <div className="storySectionNav-left">
-          <span className="blog-category">GSTV શતરંગ</span>
+          <span className="blog-category">{MISC_UI.GSTV_SATRANG}</span>
         </div>
         <div className="storySectionNav-right rightstory">
           <Link href="/category/satrang" className="custom-link-btn">

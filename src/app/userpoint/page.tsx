@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { API_V5_BASE_URL } from '@/constants/api';
 import ProFooter from '@/components/ProFooter';
+import { USER_POINTS } from '@/constants/gujaratiStrings';
 
 interface ChartData {
   [key: string]: number;
@@ -171,7 +172,7 @@ export default function UserPointPage() {
       data: {
         labels: Object.keys(chartData),
         datasets: [{
-          label: 'ટોટલ અવધિ',
+          label: USER_POINTS.TOTAL_DURATION,
           data: Object.values(chartData),
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
@@ -273,7 +274,7 @@ export default function UserPointPage() {
           />
 
           <button type="submit" disabled={submitLoading}>
-            {submitLoading ? 'લોડ કરી રહ્યું છે...' : 'સર્ચ'}
+            {submitLoading ? USER_POINTS.LOADING : USER_POINTS.SEARCH}
           </button>
         </form>
 

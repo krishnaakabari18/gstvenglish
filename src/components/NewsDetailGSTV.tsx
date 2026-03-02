@@ -7,6 +7,7 @@ import { API_BASE_URL, getCategoryIds, DEFAULT_API_PARAMS, API_ENDPOINTS } from 
 import { getNewsDetailUrl } from '@/utils/newsUtils';
 import SEOHead from '@/components/SEOHead';
 import { generateNewsDetailSEO } from '@/utils/seoUtils';
+import { DATE_TIME_LABELS } from '@/constants/gujaratiStrings';
 
 interface NewsDetailProps {
   categorySlug: string;
@@ -405,7 +406,7 @@ const NewsDetailGSTV: React.FC<NewsDetailProps> = ({ categorySlug, newsSlug, sub
                   {/* Meta Info Bar */}
                   <div className="news-meta-bar">
                     <div className="last-update-blog">
-                      છેલ્લું અપડેટ : {new Date(newsData.created_at).toLocaleDateString('en-GB', {
+                      {DATE_TIME_LABELS.LAST_UPDATE} : {new Date(newsData.created_at).toLocaleDateString('en-GB', {
                         day: '2-digit',
                         month: 'short',
                         year: 'numeric'

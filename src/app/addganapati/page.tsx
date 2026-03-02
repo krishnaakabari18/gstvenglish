@@ -6,6 +6,7 @@ import ProFooter from '@/components/ProFooter';
 import { useUserSession, getUserId } from '@/hooks/useUserSession';
 import { redirectToLogin, getCurrentPagePath } from '@/utils/authUtils';
 import { API_ENDPOINTS } from '@/constants/api';
+import { GANAPATI_FORM } from '@/constants/gujaratiStrings';
 
 const AddGanapatiPage: React.FC = () => {
   const router = useRouter();
@@ -217,7 +218,7 @@ const AddGanapatiPage: React.FC = () => {
       console.log('📥 API Response data:', result);
 
       if (result.success || response.ok) {
-        const successMessage = isEditMode ? 'ગણપતિ સફળતાપૂર્વક અપડેટ થયું!' : 'ગણપતિ સફળતાપૂર્વક સબમિટ થયું!';
+        const successMessage = isEditMode ? GANAPATI_FORM.UPDATED_SUCCESS : GANAPATI_FORM.ADDED_SUCCESS;
         alert(successMessage);
 
         if (!isEditMode) {
@@ -248,9 +249,9 @@ const AddGanapatiPage: React.FC = () => {
         <div className="profilePage">
           <div className="formBox" style={{ textAlign: 'center', padding: '50px' }}>
             <h3 className="custom-gujrati-font">
-              {isLoadingData ? 'ડેટા લોડ થઈ રહ્યો છે...' : 'લોડ થઈ રહ્યું છે...'}
+              {isLoadingData ? GANAPATI_FORM.LOADING_DATA : GANAPATI_FORM.LOADING}
             </h3>
-            <p className="custom-gujrati-font">કૃપા કરીને રાહ જુઓ</p>
+            <p className="custom-gujrati-font">{GANAPATI_FORM.PLEASE_WAIT}</p>
           </div>
         </div>
       </div>
@@ -272,7 +273,7 @@ const AddGanapatiPage: React.FC = () => {
         <div className="profilePage">
           <div className="formBox" style={{ textAlign: 'center', padding: '50px' }}>
             <h3 className="custom-gujrati-font">લોગિન પેજ પર રીડાયરેક્ટ કરી રહ્યું છે...</h3>
-            <p className="custom-gujrati-font">કૃપા કરીને રાહ જુઓ</p>
+            <p className="custom-gujrati-font">{GANAPATI_FORM.PLEASE_WAIT}</p>
           </div>
         </div>
       </div>
@@ -301,7 +302,7 @@ const AddGanapatiPage: React.FC = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        placeholder="તમારું નામ દાખલ કરો"
+                        placeholder={GANAPATI_FORM.NAME_PLACEHOLDER}
                         required
                       />
                     </div>
@@ -348,7 +349,7 @@ const AddGanapatiPage: React.FC = () => {
                         name="address"
                         value={formData.address}
                         onChange={handleInputChange}
-                        placeholder="તમારું શહેર દાખલ કરો"
+                        placeholder={GANAPATI_FORM.ADDRESS_PLACEHOLDER}
                         required
                       />
                     </div>

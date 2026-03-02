@@ -7,6 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { API_ENDPOINTS } from '@/constants/api';
 import ProFooter from '@/components/ProFooter';
 import { redirectToLogin } from '@/utils/authUtils';
+import { CAMPUSCORNER_MESSAGES } from '@/constants/gujaratiStrings';
 
 // TypeScript interfaces for the API response
 interface CampusCornerEntry {
@@ -209,7 +210,7 @@ const CampusCornerPage: React.FC = () => {
         <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2>કેમ્પસ કોર્નર</h2>
+              <h2>{CAMPUSCORNER_MESSAGES.CAMPUS_CORNER}</h2>
               <Link href="/addcampuscorner" className="btn btnAddpNews">
                 એડ કરો <span>+</span>
               </Link>
@@ -237,7 +238,7 @@ const CampusCornerPage: React.FC = () => {
                       <div style={{ marginBottom: '20px' }}>
                         <i className="fas fa-newspaper" style={{ fontSize: '48px', color: '#ccc' }}></i>
                       </div>
-                      <h4 style={{ color: '#666', marginBottom: '10px' }}>કેમ્પસ કોર્નરની કોઈ એન્ટ્રી મળી નથી.</h4>
+                      <h4 style={{ color: '#666', marginBottom: '10px' }}>{CAMPUSCORNER_MESSAGES.CAMPUSCORNER_NO_ENRTY}</h4>
                       {/* <p style={{ color: '#999', marginBottom: '20px' }}>
                         Be the first to share your campus story!
                       </p> */}

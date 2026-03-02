@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { UPLOAD_PATHS } from '@/constants/api';
-import { POLICY_LINKS, MISC_UI } from '@/constants';
+import { POLICY_LINKS, MISC_UI, APP_MESSAGES } from '@/constants';
 import { useSiteSetting } from '@/hooks/useSiteSetting';
 import { useStockmarketSiteSetting } from '@/hooks/useStockmarketSiteSetting';
 // import StockMarket from '@/components/StockMarket';
@@ -91,7 +91,7 @@ const RightSidebar = () => {
             marginBottom: '10px'
           }}
         >
-          GSTVની એપ્લિકેશન ડાઉનલોડ કરો
+          {APP_MESSAGES.DOWNLOAD_APP_GUJ}
         </h6>
 
         <div className="download-btn clearfix" style={{ display: 'inline-flex', gap: '10px' }}>

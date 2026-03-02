@@ -15,7 +15,7 @@ $(document).ready(function() {
             formData.append('user_id', userId);
             
             $.ajax({
-                url: 'https://www.gstv.in/backend2/api/v11/mobile/getcategorycity',//getApiEndpoint('GET_CATEGORY_CITY'),
+                url: 'https://english.gstv.in/backend2/api/v12/mobile/getcategorycity',//getApiEndpoint('GET_CATEGORY_CITY'),
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -52,10 +52,10 @@ $(document).ready(function() {
         }
 
         // Use the correct API endpoint for category settings (cities with parentID = 1)
-        let url = 'https://www.gstv.in/backend2/api/v11/mobile/categorysettingweb';//getApiEndpoint('CATEGORY_SETTING');
+        let url = 'https://english.gstv.in/backend2/api/v12/mobile/categorysettingweb';//getApiEndpoint('CATEGORY_SETTING');
 
         // Show loading state
-        $('.cityList').html('<div class="loading-cities" style="text-align: center; padding: 40px;"><div style="display: inline-block; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #8B0000; border-radius: 50%; animation: spin 1s linear infinite;"></div><br><br>શહેરો લોડ થઈ રહ્યા છે...</div>');
+        $('.cityList').html('<div class="loading-cities" style="text-align: center; padding: 40px;"><div style="display: inline-block; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #8B0000; border-radius: 50%; animation: spin 1s linear infinite;"></div><br><br>Loading Cities.</div>');
         $('.no-results').hide();
 
         // Fetch user's selected cities if user is logged in
@@ -98,15 +98,15 @@ $(document).ready(function() {
                             cityHTML += `<div class="cityBtn">
                                     <label>
                                         <input type="checkbox" name="city[]" value="${city.id}" ${checkedAttr}>
-                                        <span>${city.category_name_guj}</span>
+                                        <span>${city.category_name}</span>
                                     </label>
                                 </div>`;
                         });
                     } else {
-                        cityHTML = '<div class="no-cities" style="text-align: center; padding: 40px; color: #666; font-size: 16px;">કોઈ શહેર મળ્યું નથી</div>';
+                        cityHTML = '<div class="no-cities" style="text-align: center; padding: 40px; color: #666; font-size: 16px;">'+ LOADING_MESSAGES.NO_CITY_FOUND +'</div>';
                     }
                 } else {
-                    cityHTML = '<div class="no-cities" style="text-align: center; padding: 40px; color: #666; font-size: 16px;">કોઈ શહેર મળ્યું નથી</div>';
+                    cityHTML = '<div class="no-cities" style="text-align: center; padding: 40px; color: #666; font-size: 16px;">'+ LOADING_MESSAGES.NO_CITY_FOUND +'</div>';
                 }
 
                 $('.cityList').html(cityHTML);
@@ -131,7 +131,7 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 $('.loading-cities').remove();
-                $('.cityList').html('<div class="error-message" style="text-align: center; padding: 40px; color: #dc3545; font-size: 16px;">શહેર લોડ કરવામાં ભૂલ થઈ</div>');
+                $('.cityList').html('<div class="error-message" style="text-align: center; padding: 40px; color: #dc3545; font-size: 16px;">'+LOADING_MESSAGES.LOADING_ERROR_CITY+'</div>');
             }
         });
     }
@@ -165,7 +165,7 @@ $(document).ready(function() {
 
 
         if (selectedCities.length === 0) {
-            alert('કૃપા કરીને ઓછામાં ઓછું એક શહેર પસંદ કરો');
+            alert(LOADING_MESSAGE.ATLEAST_ONE_CITY);
             return;
         }
 
@@ -184,14 +184,14 @@ $(document).ready(function() {
         }
 
         if (!userId) {
-            alert('કૃપા કરીને પહેલા લોગિન કરો');
+            alert(LOADING_MESSAGE.BEFORE_LOGIN);
             return;
         }
 
 
 
         // Submit directly to staging API
-        let url = 'https://www.gstv.in/backend2/api/v11/mobile/usercity';//getApiEndpoint('USER_CITY');
+        let url = 'https://english.gstv.in/backend2/api/v12/mobile/usercity';//getApiEndpoint('USER_CITY');
 
         // Prepare FormData for staging API
         let formData = new FormData();
@@ -219,7 +219,7 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
 
-                let errorMessage = 'શહેર અપડેટ કરવામાં ભૂલ થઈ';
+                let errorMessage = LOADING_MESSAGE.UPDATE_CITY_ERROR;
                 
                 try {
                     const response = JSON.parse(xhr.responseText);

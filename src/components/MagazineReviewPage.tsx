@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { API_ENDPOINTS } from '@/constants/api';
+import { MISC_UI } from '@/constants/gujaratiStrings';
 
 interface Magazine {
   slug: string;
@@ -174,3 +175,4 @@ export default function MagazineReviewPage() {
     </div>
   );
 }
+

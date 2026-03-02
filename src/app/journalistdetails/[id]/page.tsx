@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { API_ENDPOINTS, getGujaratImageUrlV2 } from '@/constants/api';
 import ShareButtons from '@/components/ShareButtons';
 import Link from 'next/link';
+import { DATE_TIME_LABELS,CAMPUSCORNER_MESSAGES,ERROR_PAGE,TIME_UNITS,JOURNALIST_MESSAGES } from '@/constants/gujaratiStrings';
 
 // TypeScript interfaces for the API response
 interface JournalistDetail {
@@ -508,7 +509,7 @@ if (
     return (
       <div className="blogs-main-section inner">
         <div className="detail-page-heading-h1">
-          <h1 className="content-page-title">લોડ થઈ રહ્યું છે...</h1>
+          <h1 className="content-page-title">{JOURNALIST_MESSAGES.JOURNA_LOADING}</h1>
         </div>
         <div className="row blog-content" id='news-container'>
           <div className="col-lg-12 detail-page">
@@ -516,7 +517,7 @@ if (
               <div className="detail-page">
                 <div style={{ textAlign: 'center', padding: '40px 0', color: '#666' }}>
                   <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '24px', marginBottom: '10px' }}></i>
-                  <p>જર્નાલિસ્ટ લોડ થઈ રહ્યું છે...</p>
+                  <p>{JOURNALIST_MESSAGES.JOURNALIST_LOADING}</p>
                 </div>
               </div>
             </div>
@@ -530,7 +531,7 @@ if (
     return (
       <div className="blogs-main-section inner">
         <div className="detail-page-heading-h1">
-          <h1 className="content-page-title">ભૂલ</h1>
+          <h1 className="content-page-title">Error</h1>
         </div>
         <div className="row blog-content" id="news-container">
           <div className="col-lg-12 detail-page">
@@ -553,7 +554,7 @@ if (
       <div className="blogs-main-section inner custom-blog-details undefined nextstorydiv">
         <div className="blogs-head-bar inner">
           <span className="blog-category detail-page-heading">
-            <Link href="/">Home</Link> / <Link href="/journalist"><i>આઈ એમ જર્નાલિસ્ટ</i></Link>
+            <Link href="/">Home</Link> / <Link href="/journalist"><i>{JOURNALIST_MESSAGES.I_M_JOURNALIST}</i></Link>
           </span>
         </div>
 
@@ -578,10 +579,10 @@ if (
                   <div className="blog-read-content">
                     <div className="blog-featured-functions">
                       <div className="reading-time-blog">
-                        <b>રિપોર્ટેડ બાય :</b> {entry.name}, {entry.city}
+                        <b>{CAMPUSCORNER_MESSAGES.REPORTED_BY} :</b> {entry.name}, {entry.city}
                         &nbsp;&nbsp;
                         <img src="/assets/icons/clock.webp" alt="" />
-                        છેલ્લું અપડેટ : {formatDate(entry.created_at)}
+                        {DATE_TIME_LABELS.LAST_UPDATE} : {formatDate(entry.created_at)}
                       </div>
                       <ShareButtons
                         url={`${window.location.origin}/journalistdetails/${entry.id}`}
@@ -670,7 +671,7 @@ if (
               {/* Next Story Indicator */}
               {index !== entries.length - 1 && (
                 <div id={`next-story-${entry.id}`} className="next-story">
-                  <span style={{ marginRight: '8px' }}>નેક્સ્ટ સ્ટોરી</span>
+                  <span style={{ marginRight: '8px' }}>{JOURNALIST_MESSAGES.JOURNALIST_NEXT_STORY}</span>
                   <img
                     src="/assets/images/next-arrow.gif"
                     width="16"
@@ -694,7 +695,7 @@ if (
             {hasMore && loadingMore && (
               <>
                 <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '18px', marginRight: '10px' }}></i>
-                <span>વધુ સામગ્રી લોડ થઈ રહી છે...</span>
+                <span>{JOURNALIST_MESSAGES.JOURNALIST_MORE_LOADING}</span>
               </>
             )}
           </div>
@@ -714,15 +715,15 @@ if (
             {duplicateDetected ? (
               <>
                 <p style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>
-                  ⚠️ ડુપ્લિકેટ સામગ્રી શોધાઈ
+                  ⚠️ {JOURNALIST_MESSAGES.JOURNALIST_STORIES_DUPLICATE}
                 </p>
-                <p style={{ fontSize: '14px' }}>સમાન સામગ્રી બતાવવાનું ટાળવા માટે લોડિંગ બંધ કરવામાં આવી છે.</p>
+                <p style={{ fontSize: '14px' }}>{JOURNALIST_MESSAGES.JOURNALIST_SAME_STORIES}</p>
                 <p style={{ fontSize: '12px', marginTop: '10px', color: '#999' }}>
                   (Duplicate content detected. Loading stopped to prevent showing repeated content.)
                 </p>
               </>
             ) : (
-              <p>તમને બધી જર્નાલિસ્ટ સ્ટોરીઝ મળી ગઈ છે.</p>
+              <p>{JOURNALIST_MESSAGES.JOURNALIST_STORIES}</p>
             )}
           </div>
         )}

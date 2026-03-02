@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { getUserId, isUserLoggedIn } from '@/hooks/useUserSession';
 import { API_V5_BASE_URL } from '@/constants/api';
+import { AUTH_MESSAGES, BOOKMARK_MESSAGES } from '@/constants/gujaratiStrings';
 
 interface BookmarkOptions {
   newsId: string | number;
@@ -125,7 +126,7 @@ export const useBookmark = (options: BookmarkOptions): UseBookmarkReturn => {
         });
 
         // Show success message
-        const message = data.message || (newStatus === 1 ? 'બુકમાર્ક ઉમેરવામાં આવ્યું!' : 'બુકમાર્ક દૂર કરવામાં આવ્યું!');
+        const message = data.message || (newStatus === 1 ? BOOKMARK_MESSAGES.BOOKMARK_ADDED : BOOKMARK_MESSAGES.BOOKMARK_REMOVED);
 
         // Use toast notification if available, otherwise use alert
         if (typeof window !== 'undefined' && (window as any).showToast) {
@@ -134,13 +135,13 @@ export const useBookmark = (options: BookmarkOptions): UseBookmarkReturn => {
           alert(message);
         }
       } else {
-        const error = data.error || 'બુકમાર્ક કરવામાં ભૂલ થઈ!';
+        const error = data.error || AUTH_MESSAGES.BOOKMARK_ERROR;
         onError?.(error);
         alert(error);
       }
     } catch (error) {
       console.error('🔖 Error toggling bookmark:', error);
-      const errorMessage = 'બુકમાર્ક કરવામાં ભૂલ થઈ!';
+      const errorMessage = AUTH_MESSAGES.BOOKMARK_ERROR;
       onError?.(errorMessage);
       alert(errorMessage);
     } finally {

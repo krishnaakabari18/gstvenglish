@@ -19,7 +19,7 @@ const LiveTvSection: React.FC = () => {
       <div className="live-tv-content" onClick={handleLiveTvClick} style={{ cursor: 'pointer' }}>
         <img
           src="/images/livetv.jpeg"
-          alt="GSTV લાઇવ ટીવી"
+          alt="GSTV Live TV"
           className="live-tv-image"
           style={{
             width: '100%',

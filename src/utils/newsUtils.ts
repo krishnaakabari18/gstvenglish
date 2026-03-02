@@ -3,6 +3,7 @@
  */
 
 import { MEDIA_BASE_URL, API_V5_BASE_URL } from '../constants/api';
+import { MISC_UI, AUTH_MESSAGES, BOOKMARK_MESSAGES } from '@/constants/gujaratiStrings';
 
 /**
  * Truncate description text to specified length
@@ -62,7 +63,7 @@ export const formatDate = (dateString: string, showRelative: boolean = false): s
       if (diffInHours < 24) {
         return `${diffInHours} hours ago`;
       } else if (diffInHours < 48) {
-        return 'Yesterday';
+        return MISC_UI.YESTERDAY_GUJ;
       }
     }
 
@@ -416,10 +417,10 @@ const fallbackCopyToClipboard = (text: string): void => {
 
   try {
     document.execCommand('copy');
-    alert('લિંક કોપી થઈ ગઈ છે!'); // Link copied!
+    alert(MISC_UI.LINK_COPIED_GUJ);
   } catch (err) {
     console.error('Fallback: Oops, unable to copy', err);
-    alert('લિંક કોપી કરવામાં ભૂલ થઈ!'); // Error copying link!
+    alert(MISC_UI.LINK_COPY_ERROR_GUJ);
   }
 
   document.body.removeChild(textArea);

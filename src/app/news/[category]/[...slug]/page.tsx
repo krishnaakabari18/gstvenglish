@@ -4,6 +4,7 @@ import NewsDetailClientWrapper from '@/components/NewsDetailClientWrapper';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { generateNewsDetailSEO } from '@/utils/seoUtils';
 import { API_ENDPOINTS, DEFAULT_API_PARAMS } from '@/constants/api';
+import { NEWS_DETAIL_PAGE } from '@/constants/gujaratiStrings';
 
 
 // Fetch news data for metadata generation
@@ -66,8 +67,8 @@ export async function generateMetadata({
   const newsSlug = hasSubcategory ? slugArray[1] : slugArray[0];
 
   const canonicalUrl = hasSubcategory
-    ? `https://www.gstv.in/news/${categorySlug}/${subcategorySlug}/${newsSlug}`
-    : `https://www.gstv.in/news/${categorySlug}/${newsSlug}`;
+    ? `https://english.gstv.in/news/${categorySlug}/${subcategorySlug}/${newsSlug}`
+    : `https://english.gstv.in/news/${categorySlug}/${newsSlug}`;
 
   try {
     const newsData = await fetchNewsData(newsSlug, hasSubcategory);
@@ -84,7 +85,7 @@ export async function generateMetadata({
           siteName: 'GSTV',
           images: [
             {
-              url: 'https://www.gstv.in/images/logo.png',
+              url: 'https://english.gstv.in/images/logo.png',
               width: 1200,
               height: 630,
             },
@@ -92,7 +93,7 @@ export async function generateMetadata({
         },
         twitter: {
           card: 'summary_large_image',
-          images: ['https://www.gstv.in/images/logo.png'],
+          images: ['https://english.gstv.in/images/logo.png'],
         },
         alternates: {
           canonical: canonicalUrl,
@@ -105,7 +106,7 @@ export async function generateMetadata({
     const ogImage =
       seoData.ogImage && seoData.ogImage.startsWith('http')
         ? seoData.ogImage
-        : 'https://www.gstv.in/images/logo.png';
+        : 'https://english.gstv.in/images/logo.png';
 
     return {
       title: seoData.title,
@@ -155,7 +156,7 @@ export async function generateMetadata({
         siteName: 'GSTV',
         images: [
           {
-            url: 'https://www.gstv.in/images/logo.png',
+            url: 'https://english.gstv.in/images/logo.png',
             width: 1200,
             height: 630,
           },
@@ -163,7 +164,7 @@ export async function generateMetadata({
       },
       twitter: {
         card: 'summary_large_image',
-        images: ['https://www.gstv.in/images/logo.png'],
+        images: ['https://english.gstv.in/images/logo.png'],
       },
     };
   }
@@ -197,7 +198,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
         fallback={
           <div style={{ padding: 40, textAlign: 'center' }}>
             <LoadingSpinner
-              message="સમાચાર લોડ થઈ રહ્યો છે..."
+              message={NEWS_DETAIL_PAGE.LOADING_NEWS}
               size="large"
               type="dots"
               color="#850E00"

@@ -4,6 +4,7 @@
  */
 
 import { API_ENDPOINTS } from '@/constants/api';
+import { SEARCH_MESSAGES_GUJ } from '@/constants/gujaratiStrings';
 
 export interface SearchItem {
   id: number;
@@ -120,15 +121,15 @@ export function validateSearchQuery(query: string): { isValid: boolean; error?: 
   const trimmedQuery = query.trim();
   
   if (!trimmedQuery) {
-    return { isValid: false, error: 'કૃપા કરીને શોધ શબ્દ દાખલ કરો' };
+    return { isValid: false, error: SEARCH_MESSAGES_GUJ.ENTER_SEARCH };
   }
   
   if (trimmedQuery.length < 2) {
-    return { isValid: false, error: 'શોધ શબ્દ ઓછામાં ઓછા 2 અક્ષરનો હોવો જોઈએ' };
+    return { isValid: false, error: SEARCH_MESSAGES_GUJ.MIN_LENGTH };
   }
   
   if (trimmedQuery.length > 100) {
-    return { isValid: false, error: 'શોધ શબ્દ 100 અક્ષરથી વધુ લાંબો હોઈ શકતો નથી' };
+    return { isValid: false, error: SEARCH_MESSAGES_GUJ.MAX_LENGTH };
   }
   
   return { isValid: true };
@@ -146,15 +147,15 @@ export function getSearchStats(response: SearchResponse) {
       currentPage: 1,
       totalPages: 1,
       hasMore: false,
-      resultsText: 'કોઈ પરિણામો મળ્યા નથી'
+      resultsText: SEARCH_MESSAGES_GUJ.NO_RESULTS
     };
   }
 
   const { data } = response;
   const hasMore = !!data.next_page_url;
   const resultsText = data.total > 0 
-    ? `કુલ ${data.total} પરિણામો મળ્યા`
-    : 'કોઈ પરિણામો મળ્યા નથી';
+    ? SEARCH_MESSAGES_GUJ.TOTAL_RESULTS.replace('{count}', data.total.toString())
+    : SEARCH_MESSAGES_GUJ.NO_RESULTS;
 
   return {
     total: data.total,
@@ -216,13 +217,13 @@ export function getCategoryName(item: SearchItem): string {
   // Fallback based on catID
   if (item.catID) {
     const categoryIds = item.catID.split(',').map(id => parseInt(id.trim()));
-    if (categoryIds.includes(9)) return 'વિડિયો';
-    if (categoryIds.includes(1)) return 'ગુજરાત';
-    if (categoryIds.includes(2)) return 'ભારત';
-    if (categoryIds.includes(3)) return 'વિશ્વ';
+    if (categoryIds.includes(9)) return SEARCH_MESSAGES_GUJ.VIDEO_CATEGORY;
+    if (categoryIds.includes(1)) return SEARCH_MESSAGES_GUJ.GUJARAT_CATEGORY;
+    if (categoryIds.includes(2)) return SEARCH_MESSAGES_GUJ.INDIA_CATEGORY;
+    if (categoryIds.includes(3)) return SEARCH_MESSAGES_GUJ.WORLD_CATEGORY;
   }
   
-  return 'સમાચાર';
+  return SEARCH_MESSAGES_GUJ.NEWS_CATEGORY;
 }
 
 /**

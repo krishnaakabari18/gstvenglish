@@ -26,7 +26,7 @@ export default function Footer() {
           <Link href="/" className={isActive('/') ? 'active' : ''}>
             <div className="footer-image">
               <Image
-                src="https://www.gstv.in/public/assets/icons/f-home.svg"
+                src="https://english.gstv.in/public/assets/icons/f-home.svg"
                 alt="Home"
                 width={28}
                 height={28}

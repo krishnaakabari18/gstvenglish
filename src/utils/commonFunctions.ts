@@ -1,5 +1,6 @@
 // Common utility functions
 import { MEDIA_BASE_URL } from '@/constants/api';
+import { MISC_UI } from '@/constants/gujaratiStrings';
 
 /**
  * Formats date to Gujarati relative time
@@ -12,9 +13,9 @@ export const formatDate = (dateString: string): string => {
   const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
   
   if (diffInHours < 1) {
-    return 'હમણાં જ';
+    return MISC_UI.JUST_NOW_SHORT_GUJ;
   } else if (diffInHours < 24) {
-    return `${diffInHours} કલાક પહેલાં`;
+    return `${diffInHours} ${MISC_UI.HOURS_AGO_TEXT_GUJ}`;
   } else {
     const diffInDays = Math.floor(diffInHours / 24);
     return `${diffInDays} દિવસ પહેલાં`;

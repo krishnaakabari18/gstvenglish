@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -6,7 +6,8 @@ import { API_ENDPOINTS } from '@/constants/api';
 import { getImageUrl } from '@/utils/commonUtils';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { LOADING_MESSAGES } from '@/utils/uiUtils';
-import { CATEGORIES } from '@/constants';
+import { CATEGORIES } from '@/constants/gujaratiStrings';
+
 
 interface NewsItem {
   id: number;
@@ -151,7 +152,7 @@ const GstvFastTrack: React.FC<GstvFastTrackProps> = ({ className = '' }) => {
       <div className={`gstv-fasttrack-container ${className}`}>
         <div className="storySectionNav blogs-head-bar first fastrack_head">
           <div className="storySectionNav-left">
-            <h3 className="blog-category">GSTV ફાસ્ટ ટ્રેક</h3>
+            <h3 className="blog-category">{CATEGORIES.GSTV_FAST_TRACK}</h3>
             <div className="position-relative">
               <Link href="/category/gujarat">
                 <div className="arrow">
@@ -178,7 +179,7 @@ const GstvFastTrack: React.FC<GstvFastTrackProps> = ({ className = '' }) => {
       <div className={`gstv-fasttrack-container ${className}`}>
         <div className="storySectionNav blogs-head-bar first fastrack_head">
           <div className="storySectionNav-left">
-            <h3 className="blog-category">GSTV ફાસ્ટ ટ્રેક</h3>
+            <h3 className="blog-category">{CATEGORIES.GTV_FAST_TRACK_GUJ}</h3>
             <div className="position-relative">
               <Link href="/category/gujarat">
                 <div className="arrow">
@@ -192,7 +193,7 @@ const GstvFastTrack: React.FC<GstvFastTrackProps> = ({ className = '' }) => {
         </div>
         <div className="error-container" style={{ padding: '20px', textAlign: 'center' }}>
           <p className="custom-gujrati-font" style={{ color: '#dc3545', marginBottom: '10px' }}>
-            GSTV Fast Track લોડ કરવામાં ભૂલ: {error}
+            GSTV Fast Track ??? ??????? ???: {error}
           </p>
           <button
             onClick={fetchGstvFastTrack}
@@ -207,7 +208,7 @@ const GstvFastTrack: React.FC<GstvFastTrackProps> = ({ className = '' }) => {
               fontSize: '14px'
             }}
           >
-            ફરી પ્રયાસ કરો
+            ??? ?????? ???
           </button>
         </div>
       </div>
@@ -227,7 +228,7 @@ const GstvFastTrack: React.FC<GstvFastTrackProps> = ({ className = '' }) => {
       {/* Header */}
       <div className="storySectionNav blogs-head-bar first fastrack_head" style={{ marginBottom: '0', paddingBottom: '8px' }}>
         <div className="storySectionNav-left">
-          <h3 className="blog-category">GSTV ફાસ્ટ ટ્રેક</h3>
+          <h3 className="blog-category">{CATEGORIES.GSTV_FAST_TRACK}</h3>
           <div className="position-relative">
             <Link href="/category/gujarat">
               <div className="arrow">

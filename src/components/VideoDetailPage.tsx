@@ -6,6 +6,7 @@ import Head from 'next/head';
 import { commonApiPost, COMMON_API_BASE_URL } from '@/constants/api';
 import { getOrCreateDeviceId } from '@/utils/deviceId';
 import VideoActionButtons from '@/components/VideoActionButtons';
+import { MISC_UI } from '@/constants/gujaratiStrings';
 
 
 interface Video {
@@ -869,8 +870,8 @@ useEffect(() => {
         // Success - UI is already updated optimistically
 
         const message = newStatus === 1
-          ? 'વીડિયો બુકમાર્ક કરવામાં આવ્યો' // Video bookmarked
-          : 'વીડિયો બુકમાર્કમાંથી દૂર કરવામાં આવ્યો'; // Video removed from bookmarks
+          ? MISC_UI.VIDEO_BOOKMARKED // Video bookmarked
+          : MISC_UI.VIDEO_UNBOOKMARKED; // Video removed from bookmarks
 
         console.log(`✅ ${message}`);
 
@@ -1434,7 +1435,7 @@ useEffect(() => {
                   svg.style.stroke = "#850e00";
                 }
             }}
-            title="આગળનો વીડિયો"
+            title={MISC_UI.NEXT_VIDEO}
           >
             {/* 🔽 Red DOWN Arrow SVG */}
             <svg
@@ -1483,7 +1484,7 @@ useEffect(() => {
             borderRadius: '50%',
             animation: 'spin 1s linear infinite'
           }}></div>
-          આગળનો વીડિયો આવી રહ્યો છે... {/* Next video coming... */}
+          {MISC_UI.NEXT_VIDEO_COMING} {/* Next video coming... */}
         </div>
       )}
 <div className="sliderOuter videoOuter">

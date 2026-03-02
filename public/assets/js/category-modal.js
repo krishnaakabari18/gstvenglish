@@ -14,7 +14,7 @@ $(document).ready(function() {
             formData.append('user_id', userId);
 
             $.ajax({
-                url: 'https://www.gstv.in/backend2/api/v11/mobile/categorysettingweb',
+                url: 'https://english.gstv.in/backend2/api/v12/mobile/categorysettingweb',
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -49,7 +49,7 @@ $(document).ready(function() {
         }
 
         // Use the correct API endpoint for category settings
-        let url = 'https://www.gstv.in/backend2/api/v11/mobile/categorysettingweb';//getApiEndpoint('CATEGORY_SETTING');
+        let url = 'https://english.gstv.in/backend2/api/v12/mobile/categorysettingweb';//getApiEndpoint('CATEGORY_SETTING');
 
         // Show loading state
         $('.categorydataList').html('');
@@ -112,15 +112,15 @@ $(document).ready(function() {
                                             color: ${textColor};
                                             transition: all 0.3s ease;
                                             font-family: 'Hind Vadodara', sans-serif;
-                                        ">${category.category_name_guj}</span>
+                                        ">${category.category_name}</span>
                                     </label>
                                 </div>`;
                         });
                     } else {
-                        categoryHTML = '<div class="no-categories" style="text-align: center; padding: 40px; color: #666; font-size: 16px;">કોઈ કેટેગરી મળી નથી</div>';
+                        categoryHTML = '<div class="no-categories" style="text-align: center; padding: 40px; color: #666; font-size: 16px;">'+ LOADING_MESSAGES.NO_CATEGORY_FOUND +'</div>';
                     }
                 } else {
-                    categoryHTML = '<div class="no-categories" style="text-align: center; padding: 40px; color: #666; font-size: 16px;">કોઈ કેટેગરી મળી નથી</div>';
+                    categoryHTML = '<div class="no-categories" style="text-align: center; padding: 40px; color: #666; font-size: 16px;">'+ LOADING_MESSAGES.NO_CATEGORY_FOUND +'</div>';
                 }
 
                 $('.categorydataList').html(categoryHTML);
@@ -243,7 +243,7 @@ $(document).ready(function() {
        
 
         if (selectedCategories.length === 0) {
-            alert('કૃપા કરીને ઓછામાં ઓછી એક કેટેગરી પસંદ કરો');
+            alert(LOADING_MESSAGE.ATLEAST_ONE_CATEGORY);
             return;
         }
 
@@ -262,14 +262,14 @@ $(document).ready(function() {
         }
 
         if (!userId) {
-            alert('કૃપા કરીને પહેલા લોગિન કરો');
+            alert(LOADING_MESSAGE.BEFORE_LOGIN);
             return;
         }
 
        
 
         // Submit directly to staging API
-        let url = 'https://www.gstv.in/backend2/api/v11/mobile/usercategory';//getApiEndpoint('USER_CATEGORY');
+        let url = 'https://english.gstv.in/backend2/api/v12/mobile/usercategory';//getApiEndpoint('USER_CATEGORY');
 
         // Prepare FormData for staging API
         let formData = new FormData();
@@ -296,7 +296,7 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
        
-                let errorMessage = 'કેટેગરી અપડેટ કરવામાં ભૂલ થઈ';
+                let errorMessage = LOADING_MESSAGE.UPDATE_CATEGORY_ERROR;
                 
                 try {
                     const response = JSON.parse(xhr.responseText);

@@ -6,6 +6,7 @@ import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import { GridContainer, BlogGridItem } from '@/components/common/GridComponents';
+import { MISC_UI } from '@/constants/gujaratiStrings';
 import {
   performSearch,
   getSearchSuggestions,
@@ -268,3 +269,4 @@ export default function SearchPage() {
     </div>
   );
 }
+

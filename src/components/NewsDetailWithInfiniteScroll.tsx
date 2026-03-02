@@ -5,6 +5,7 @@ import Link from 'next/link';
 // Removed commonApiPost import as we're using internal API routes
 import styles from './NewsDetailWithInfiniteScroll.module.css';
 import { getCategoryIds, DEFAULT_API_PARAMS, API_ENDPOINTS } from '@/constants/api';
+import { LOADING_MESSAGES, DATE_TIME_LABELS } from '@/constants/gujaratiStrings';
 import '../styles/smooth-scroll.css';
 import '../styles/also-read.css';
 
@@ -1921,7 +1922,7 @@ const NewsDetailWithInfiniteScroll: React.FC<NewsDetailProps> = ({
     return (
       <div className={styles.newsDetailLoading}>
         <div className={styles.loadingSpinner}></div>
-        <p>સમાચાર લોડ થઈ રહ્યા છે...</p>
+        <p>{LOADING_MESSAGES.LOADING_NEWS_GUJ}</p>
       </div>
     );
   }
@@ -1970,7 +1971,7 @@ const NewsDetailWithInfiniteScroll: React.FC<NewsDetailProps> = ({
           <div className={styles.newsMeta}>
             <div className={styles.newsDate}>
               <img src="/assets/icons/clock.webp" alt="Time" />
-              <span>છેલ્લું અપડેટ : {formatDate(newsItem.created_at)}</span>
+              <span>{DATE_TIME_LABELS.LAST_UPDATE_COLON_GUJ} {formatDate(newsItem.created_at)}</span>
             </div>
 
             <div className={styles.newsActions}>

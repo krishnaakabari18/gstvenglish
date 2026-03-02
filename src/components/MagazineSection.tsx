@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { API_ENDPOINTS } from '@/constants/api';
+import { LOADING_MESSAGES } from '@/constants/gujaratiStrings';
 
 interface Magazine {
   id: number;
@@ -68,7 +69,7 @@ const MagazineSection = () => {
       <div className="magazine-wrapper">
         <div style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
           <i className="fa-solid fa-spinner fa-spin"></i>
-          <span style={{ marginLeft: '8px' }}>મેગેઝિન લોડ કરી રહ્યા છીએ...</span>
+          <span style={{ marginLeft: '8px' }}>{LOADING_MESSAGES.LOADING_MAGAZINE_GUJ}</span>
         </div>
       </div>
     );

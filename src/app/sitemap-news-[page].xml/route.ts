@@ -18,7 +18,7 @@ export async function GET(
 ) {
   const { page } = params;
 
-  const BASE_URL = MEDIA_BASE_URL || 'https://www.gstv.in';
+  const BASE_URL = MEDIA_BASE_URL || 'https://english.gstv.in';
 
   const pageNumber = Number(page) || 1;
   const perPage = 1000;

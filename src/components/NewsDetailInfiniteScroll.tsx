@@ -17,7 +17,8 @@ import ShareButtons from './ShareButtons';
 import RelatedNews from "@/components/RelatedNews";
 import LockScreen from '@/components/LockScreen';
 import { useContentLock } from '@/hooks/useContentLock';
-import { RELATED_NEWS, APP_DOWNLOAD } from '@/constants';
+import { RELATED_NEWS, APP_DOWNLOAD, NAVIGATION } from '@/constants';
+import { DATE_TIME_LABELS,GENERAL_MESSAGES,MISC_UI,SPECIAL_LABELS } from '@/constants/gujaratiStrings';
 
 // Global registry to avoid re-processing the same embed container multiple times
 const processedEmbedsRegistry = new Set<string>();
@@ -58,7 +59,7 @@ interface NewsItem {
   relatedNewsIddata?: Array<any>;
   categories?: Array<{ id: number; title: string; slug: string }>;
   live?: LiveNewsItem[];
-  category_name_guj?: string;
+  category_name?: string;
   is_live_news?: number;
 }
 
@@ -1357,8 +1358,8 @@ newPath += `/${candidateNews.slug}`;
   let actualCategory = categorySlug;
   let actualSubcategory = subcategorySlug;
 
-  if (newsItem.category_name_guj) {
-    const parts = newsItem.category_name_guj.split(',').map(v => v.trim());
+  if (newsItem.category_name) {
+    const parts = newsItem.category_name.split(',').map(v => v.trim());
     if (parts.length >= 1) actualCategory = parts[0];
     if (parts.length >= 2) actualSubcategory = parts[1];
   }
@@ -1374,7 +1375,7 @@ newPath += `/${candidateNews.slug}`;
                     
       {/* 🔥 Correct Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <Link href="/">હોમ</Link>
+        <Link href="/">{NAVIGATION.HOME}</Link>
         <span> / </span>
 
         <Link href={`/category/${categorySlug}`}>
@@ -1422,7 +1423,7 @@ newPath += `/${candidateNews.slug}`;
         <h1>
             {newsItem.is_live_news === 1 && (
               <span className="liveNewsHeading">
-                <em>લાઇવ</em>
+                <em>{SPECIAL_LABELS.LIVE}</em>
               </span>
             )}{' '}
             {newsItem.title}
@@ -1430,7 +1431,7 @@ newPath += `/${candidateNews.slug}`;
         <div className={styles.newsMeta}>
           <div className="reading-time-blog">
             <img src="/assets/icons/clock.webp" alt="Time" />
-            <span>છેલ્લું અપડેટ : {formatDate(newsItem.created_at)}</span>
+            <span>{DATE_TIME_LABELS.LAST_UPDATE} : {formatDate(newsItem.created_at)}</span>
           </div>
 
           <div className={styles.newsActions}>
@@ -1439,7 +1440,7 @@ newPath += `/${candidateNews.slug}`;
               className={styles.liveTvLink}
               style={{ display: typeof window !== 'undefined' && window.innerWidth <= 768 ? 'none' : 'block' }}
             >
-              <img src="/assets/images/live-ico.svg" alt="લાઇવ ટીવી" />
+              <img src="/assets/images/live-ico.svg" alt="Live TV" />
             </Link>
 
             <Link
@@ -1525,7 +1526,7 @@ newPath += `/${candidateNews.slug}`;
         ) : null}
 
         {newsItem.img_credit_txt && (
-          <div className="news_credit_txt"><strong>સોર્સ :</strong> {newsItem.img_credit_txt}</div>
+          <div className="news_credit_txt"><strong>{GENERAL_MESSAGES.SOURCE} :</strong> {newsItem.img_credit_txt}</div>
         )}
 
         {/* Description */}
@@ -1587,7 +1588,7 @@ newPath += `/${candidateNews.slug}`;
         {/* Tags */}
         {newsItem.tags && (
           <div className="tagsOuterblock">
-            <strong>ટોપિક્સ:</strong>
+            <strong>{GENERAL_MESSAGES.TOPICS}:</strong>
             {newsItem.tags.split(',').map((tag, tIdx) => (
               <span key={tIdx} className="tagscls">
                 <Link href={`/tags/${tag.trim().toLowerCase().replace(/\s+/g, '-')}`}>
@@ -1616,7 +1617,7 @@ newPath += `/${candidateNews.slug}`;
         {/* Next Story */}
         {index !== newsItems.length - 1 && (
           <div id={`next-story-${newsItems[index].id}`} className="next-story">
-            <span style={{ marginRight: 8 }}>નેક્સ્ટ સ્ટોરી</span>
+            <span style={{ marginRight: 8 }}>{SPECIAL_LABELS.NEXT_STORY}</span>
             <img
               src="/assets/images/next-arrow.gif"
               width="16"
@@ -1653,3 +1654,4 @@ newPath += `/${candidateNews.slug}`;
 };
 
 export default NewsDetailWithInfiniteScroll;
+

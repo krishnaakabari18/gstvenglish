@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 // Note: SEO meta tags are handled by the page component in App Router
 import { API_ENDPOINTS, MEDIA_BASE_URL, DEFAULT_API_PARAMS } from '@/constants/api';
+import { MISC_UI,DATE_TIME_LABELS } from '@/constants/gujaratiStrings';
 
 interface NewsDetailProps {
   categorySlug: string;
@@ -691,7 +692,7 @@ export default function NewsDetail({ categorySlug, newsSlug }: NewsDetailProps) 
                       alt="Clock"
                       style={{ width: '16px', height: '16px' }}
                     />
-                    છેલ્લું અપડેટ : {new Date(newsData.updated_at).toLocaleDateString('en-GB', {
+                    {DATE_TIME_LABELS.LAST_UPDATE} : {new Date(newsData.updated_at).toLocaleDateString('en-GB', {
                       day: '2-digit',
                       month: 'short',
                       year: 'numeric'
@@ -1132,3 +1133,4 @@ export default function NewsDetail({ categorySlug, newsSlug }: NewsDetailProps) 
     </>
   );
 }
+

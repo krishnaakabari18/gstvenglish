@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { API_ENDPOINTS } from '@/constants/api';
 import MobileInput from "@/components/MobileInput";
+import { AUTH_MESSAGES, FORM_PLACEHOLDERS, LOGIN_PAGE_ADDITIONAL } from '@/constants';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -267,15 +268,15 @@ useEffect(() => {
 
       if (data) {
         setCurrentView('otp');
-        setSuccess('OTP સક્સેસ ફુલ્લી સેંટ થઈ ગયો છે!');
+        setSuccess(AUTH_MESSAGES.OTP_SENT_SUCCESS);
         setOtpTimer(300); // 5 minutes
       } else {
-        setError(data.error || 'OTP મોકલવામાં નિષ્ફળ ગયા છો. કૃપા કરીને ફરી પ્રયાસ કરો.');
+        setError(data.error || AUTH_MESSAGES.OTP_SEND_FAILED);
         hideMessageAfterTimeout('error');
       }
     } catch (error) {
       console.error('🔐 Send OTP Error:', error);
-      setError('ભૂલ આવી છે . કૃપા કરીને ફરી પ્રયાસ કરો.');
+      setError(AUTH_MESSAGES.ERROR_OCCURRED);
       hideMessageAfterTimeout('error');
     } finally {
       setLoading(false);
@@ -342,7 +343,7 @@ useEffect(() => {
         const actualUserId = data.user_id || data.id || data.data?.user_id || data.data?.id;
 
         if (!actualUserId) {
-          setError('તમારો મોબાઈલ નંબર એંડ એમ પિન ચકાસો.');
+          setError(AUTH_MESSAGES.VERIFY_MOBILE_AND_MPIN);
           console.error('🔐 No user_id in OTP verification response:', data);
           return;
         }
@@ -445,7 +446,7 @@ useEffect(() => {
         const actualUserId = data.user_id || data.id || data.data?.user_id || data.data?.id;
 
         if (!actualUserId) {
-          setError('તમારો મોબાઈલ નંબર એંડ એમ પિન ચકાસો.');
+          setError(AUTH_MESSAGES.VERIFY_MOBILE_AND_MPIN);
           console.error('🔐 No user_id in MPIN verification response:', data);
           return;
         }
@@ -471,7 +472,7 @@ useEffect(() => {
 
         // Set user session using AuthContext
         login(userSession);
-        setSuccess('એમ-પિન સફળતાપૂર્વક વેરિફાય થઈ ગયું છે!');
+        setSuccess(AUTH_MESSAGES.MPIN_VERIFIED_SUCCESS);
 
         // Handle different redirect scenarios based on API response
         setTimeout(() => {
@@ -585,7 +586,7 @@ useEffect(() => {
             onClick={() => handleAuthToggle('signup')}
             style={{ color: isSignup ? '#850E00' : '#000' }}
           >
-            સાઇન અપ 
+            {AUTH_MESSAGES.SIGNUP}
           </Link>
           {' | '}
           <Link
@@ -593,7 +594,7 @@ useEffect(() => {
             onClick={() => handleAuthToggle('login')}
             style={{ color: !isSignup ? '#850E00' : '#000' }}
           >
-            લોગિન
+            {AUTH_MESSAGES.LOGIN}
           </Link>
         </div>
 
@@ -603,13 +604,13 @@ useEffect(() => {
             className={`col text-center pincls loginSectab ${activeTab === 'login' ? 'pinactive' : ''}`}
             onClick={() => handleTabSwitch('login')}
           >
-            {isSignup ? 'સાઇન અપ' : 'મોબાઈલ OTP'}
+            {isSignup ? AUTH_MESSAGES.SIGNUP : AUTH_MESSAGES.MOBILE_OTP}
           </div>
           <div
             className={`col text-center pincls mpinclstab ${activeTab === 'mpin' ? 'pinactive' : ''}`}
             onClick={() => handleTabSwitch('mpin')}
           >
-           એમ-પિન 
+            {AUTH_MESSAGES.M_PIN}
           </div>
         </div>
 
@@ -635,14 +636,14 @@ useEffect(() => {
               <span>+91</span>
               <input
                 type="tel"
-                placeholder="તમારો મોબાઈલ નંબર દાખલ કરો"
+                placeholder={LOGIN_PAGE_ADDITIONAL.MOBILE_PLACEHOLDER}
                 value={mpinMobile}
                 onChange={(e) => setMpinMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
                 maxLength={10}
               />
             </div> */}
 
-            <h2>એમ-પિન</h2>
+            <h2>{AUTH_MESSAGES.M_PIN}</h2>
 
             <div className="otp-wrapper">
               {Array.from({ length: 6 }, (_, index) => (
@@ -674,7 +675,7 @@ useEffect(() => {
               onClick={handleVerifyMpin}
               disabled={loading}
             >
-              {loading ? 'વેરિફાય કરી રહ્યા છીએ...' : 'વેરિફાય કરો'}
+              {loading ? AUTH_MESSAGES.VERIFYING : AUTH_MESSAGES.VERIFY}
             </button>
           </div>
         )}
@@ -683,7 +684,7 @@ useEffect(() => {
         {currentView === 'mobile' && (
           <div className="loginSec">
             <h2 className="logintext">
-              {isSignup ? 'મોબાઈલ નંબર વડે સાઇનઅપ કરો' : 'મોબાઈલ નંબર વડે લોગીન કરો'}
+              {isSignup ? AUTH_MESSAGES.SIGNUP_WITH_MOBILE : AUTH_MESSAGES.LOGIN_WITH_MOBILE}
             </h2>
 <MobileInput value={mobile} onChange={setMobile} />
             {/* <div className="inputOuter">
@@ -691,7 +692,7 @@ useEffect(() => {
               
               <input
                 type="tel"
-                placeholder="તમારો મોબાઈલ નંબર દાખલ કરો"
+                placeholder={LOGIN_PAGE_ADDITIONAL.MOBILE_PLACEHOLDER}
                 value={mobile}
                 onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
                 maxLength={10}
@@ -707,8 +708,8 @@ useEffect(() => {
                 className="img-fluid"
               />
               <span>
-                <strong>તમારી પર્સનલ માહિતી સુરક્ષિત છે. </strong>
-                તમારો નંબર માત્ર અકાઉન્ટ વેરિફાય કરવા માટે જ લઈ રહ્યા છીએ.
+                <strong>{AUTH_MESSAGES.PRIVACY_MESSAGE} </strong>
+                {AUTH_MESSAGES.PRIVACY_DETAIL}
               </span>
             </div>
 
@@ -717,20 +718,20 @@ useEffect(() => {
               onClick={() => handleSendOtp()}
               disabled={loading || mobile.length !== 10}
             >
-              {loading ? 'મોકલી રહ્યા છીએ...' : 'ચાલુ રાખો'}
+              {loading ? AUTH_MESSAGES.SENDING : AUTH_MESSAGES.CONTINUE}
             </button>
           </div>
         )}
         {/* OTP Verification Section */}
         {currentView === 'otp' && (
           <div className="otpSec">
-            <h2>વેરિફાય OTP</h2>
+            <h2>{AUTH_MESSAGES.VERIFY_OTP}</h2>
             <p className="lineNumber">
-              +91-{mobile} પર મોકલેલો 6 આંકડાનો કોડ એન્ટર કરો
+              +91-{mobile} {AUTH_MESSAGES.ENTER_OTP_CODE}
             </p>
             <p className="lineChangeNumber">
               <Link href="#" onClick={() => setCurrentView('mobile')}>
-                મોબાઇલ નંબર બદલો
+                {AUTH_MESSAGES.CHANGE_MOBILE_NUMBER}
               </Link>
             </p>
 
@@ -760,12 +761,12 @@ useEffect(() => {
 
             {otpTimer > 0 ? (
               <p id="otp-timer">
-                OTP ફરીથી મોકલો <span>{formatTimer(otpTimer)}</span>
+                {AUTH_MESSAGES.RESEND_OTP} <span>{formatTimer(otpTimer)}</span>
               </p>
             ) : (
               <p className="lineChangeNumber">
                 <Link href="#" onClick={handleResendOtp}>
-                  OTP ફરીથી મોકલો
+                  {AUTH_MESSAGES.RESEND_OTP}
                 </Link>
               </p>
             )}
@@ -775,7 +776,7 @@ useEffect(() => {
               onClick={handleVerifyOtp}
               disabled={loading}
             >
-              {loading ? 'વેરિફાય કરી રહ્યા છીએ...' : 'વેરિફાય કરો'}
+              {loading ? AUTH_MESSAGES.VERIFYING : AUTH_MESSAGES.VERIFY}
             </button>
           </div>
         )} 
@@ -795,7 +796,7 @@ useEffect(() => {
       <i className="fas fa-arrow-left"></i>
       
     </button>
-<span> વેબસાઇટ પર પાછા જાઓ</span>
+<span> {AUTH_MESSAGES.BACK_TO_WEBSITE}</span>
 </a>
       </div>
     </div>

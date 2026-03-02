@@ -6,6 +6,7 @@ import { API_ENDPOINTS } from '@/constants/api';
 import { getImageUrl } from '@/utils/commonUtils';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { LOADING_MESSAGES } from '@/utils/uiUtils';
+import { CATEGORIES, ERROR_MESSAGES, MAGAZINE_PAGE } from '@/constants/gujaratiStrings';
 
 interface MagazineItem {
   id: number;
@@ -143,7 +144,7 @@ const GstvMagazineBox: React.FC<GstvMagazineBoxProps> = ({ className = '' }) => 
         <Header />
         <div className="text-center p-3">
           <p style={{ color: '#dc3545' }}>
-            મેગેઝિન લોડ કરવામાં ભૂલ: {error}
+            {MAGAZINE_PAGE.LOADING_MAGAZINE_ERROR} {error}
           </p>
           <button
             onClick={fetchMagazineNews}
@@ -231,7 +232,7 @@ const Header = () => (
   <div className="storySectionNav blogs-head-bar first fastrack_head" style={{ marginBottom: 0 }}>
     <div className="storySectionNav-left">
       <Link href="/category/magazines">
-        <h3 className="blog-category">મેગેઝિન</h3>
+        <h3 className="blog-category">{CATEGORIES.MAGAZINE}</h3>
       </Link>
     </div>
     <style jsx>{`

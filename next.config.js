@@ -16,7 +16,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "www.gstv.in",
+        hostname: "english.gstv.in",
         pathname: "/**",
       },
       {

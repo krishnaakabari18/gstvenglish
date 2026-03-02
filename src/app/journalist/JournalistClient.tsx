@@ -7,6 +7,7 @@ import { LOADING_MESSAGES, COMMON_CLASSES } from '@/utils/uiUtils';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ShareButtons from '@/components/ShareButtons';
 import { requireLogin } from '@/utils/authRedirect';
+import { DATE_TIME_LABELS,CAMPUSCORNER_MESSAGES,JOURNALIST_MESSAGES,TIME_UNITS } from '@/constants/gujaratiStrings';
 
 
 // TypeScript interfaces for the API response
@@ -194,7 +195,7 @@ const JournalistPage: React.FC = () => {
           <div style={{ float: 'right', marginTop: '20px' }}>
             <button onClick={() => requireLogin('/addjournalist')} className="btn btn-primary newsuploadtext" 
                   style={{ float: 'right', backgroundColor: '#800d00', border: 'none' }}>
-              તમારા સમાચાર અપલોડ કરો
+              {JOURNALIST_MESSAGES.JOURNALIST_NEWS}
             </button>
           </div>
         </div>
@@ -205,7 +206,7 @@ const JournalistPage: React.FC = () => {
           <div style={{ float: 'right', marginTop: '-8px' }}>
             <button onClick={() => requireLogin('/addjournalist')} className="btn btn-primary newsuploadtext" 
                   style={{ float: 'right', backgroundColor: '#800d00', border: 'none' }}>
-              તમારા સમાચાર અપલોડ કરો
+              {JOURNALIST_MESSAGES.JOURNALIST_NEWS}
             </button>
           </div>
         </div>
@@ -243,7 +244,7 @@ const JournalistPage: React.FC = () => {
                         <h4 className="custom-blog-title for-sm">
                           {newsItem.title}
                           <span className="athai-mobile for-sm">
-                            <b>રિપોર્ટેડ બાય:</b> {newsItem.name}
+                            <b>{CAMPUSCORNER_MESSAGES.REPORTED_BY}:</b> {newsItem.name}
                           </span>
                         </h4>
                         <div className="hover-image">
@@ -271,7 +272,7 @@ const JournalistPage: React.FC = () => {
                             </div>
                           )}
                           <p className="blog-excerpt">
-                          <b>રિપોર્ટેડ બાય:</b> {newsItem.name}
+                          <b>{CAMPUSCORNER_MESSAGES.REPORTED_BY}:</b> {newsItem.name}
                         </p>
                         </div>
                        
@@ -284,7 +285,7 @@ const JournalistPage: React.FC = () => {
                                     <div className="reading-icon">
                                       <img src="/images/clock.webp" alt="" />
                                     </div>
-                                    1 મિનિટ વાંચન સમય
+                                    1 {TIME_UNITS.MINUTES_AGO_ALT}
                                   </div>
                                 </div>
                       <ShareButtons

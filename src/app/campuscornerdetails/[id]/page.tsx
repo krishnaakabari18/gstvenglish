@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { API_ENDPOINTS, getcampuscornerImageUrl } from '@/constants/api';
 import ShareButtons from '@/components/ShareButtons';
 import Link from 'next/link';
-
+import { DATE_TIME_LABELS,CAMPUSCORNER_MESSAGES,ERROR_PAGE,TIME_UNITS,NAVIGATION } from '@/constants/gujaratiStrings';
 // TypeScript interfaces for the API response
 interface CampusCornerData {
   id: number;
@@ -550,7 +550,7 @@ if (twitterImage) twitterImage.setAttribute("content", shareImage);
               <div className="detail-page">
                 <div style={{ textAlign: 'center', padding: '40px 0', color: '#666' }}>
                   <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '24px', marginBottom: '10px' }}></i>
-                  <p>કેમ્પસ કોર્નર લોડ થઈ રહ્યું છે...</p>
+                  <p>{CAMPUSCORNER_MESSAGES.CAMPUS_LOADING}</p>
                 </div>
               </div>
             </div>
@@ -616,7 +616,7 @@ if (twitterImage) twitterImage.setAttribute("content", shareImage);
         </div>
         <div style={{ textAlign: 'center', padding: '50px 20px' }}>
           <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '32px', marginBottom: '20px', color: '#007bff' }}></i>
-          <p style={{ fontSize: '18px', color: '#666' }}>લોડ થઈ રહ્યું છે...</p>
+          <p style={{ fontSize: '18px', color: '#666' }}>{CAMPUSCORNER_MESSAGES.CAMPUSCORNER_LOADING}</p>
         </div>
       </div>
     );
@@ -657,7 +657,7 @@ if (twitterImage) twitterImage.setAttribute("content", shareImage);
       <div className="blogs-main-section inner custom-blog-details undefined nextstorydiv">
          <div className="blogs-head-bar inner">
         <span className="blog-category detail-page-heading">
-          <Link href="/">હોમ</Link> / <Link href="/campuscorner"><i>કેમ્પસ કોર્નર</i></Link>
+          <Link href="/">{NAVIGATION.HOME}</Link> / <Link href="/campuscorner"><i>{CAMPUSCORNER_MESSAGES.CAMPUS_CORNER}</i></Link>
         </span>
       </div>
       {entries.map((entry, index) => {
@@ -684,10 +684,10 @@ if (twitterImage) twitterImage.setAttribute("content", shareImage);
 
                   <div className="blog-featured-functions">
                     <div className="reading-time-blog">
-                      <b>રિપોર્ટેડ બાય :</b> {entry.name}, {entry.city}
+                      <b>{CAMPUSCORNER_MESSAGES.REPORTED_BY} :</b> {entry.name}, {entry.city}
                       &nbsp;&nbsp;
                       <img src="/assets/icons/clock.webp" alt="" />
-                      છેલ્લું અપડેટ : {formatDate(entry.created_at)}
+                      {DATE_TIME_LABELS.LAST_UPDATE} : {formatDate(entry.created_at)}
                     </div>
                    <ShareButtons
                       url={`${window.location.origin}/campuscornerdetails/${entry.id}`}
@@ -754,7 +754,7 @@ if (twitterImage) twitterImage.setAttribute("content", shareImage);
                       })()}
                     </div>
                   </div>
-                  <span><b>શાળા/કોલેજ :</b> {entry.school}</span>
+                  <span><b>{CAMPUSCORNER_MESSAGES.SCHOOL} :</b> {entry.school}</span>
 
                   <div className="detail-page finalContent">
                     <div dangerouslySetInnerHTML={{ __html: entry.description }} />
@@ -805,7 +805,7 @@ if (twitterImage) twitterImage.setAttribute("content", shareImage);
               id={`next-story-${entry.id}`}
               className="next-story"
             >
-              <span style={{ marginRight: '8px' }}>નેક્સ્ટ સ્ટોરી</span>
+              <span style={{ marginRight: '8px' }}>{CAMPUSCORNER_MESSAGES.CAMPUSCORNER_NEXT_STORY}</span>
               <img
                 src="/assets/images/next-arrow.gif"
                 width="16"
@@ -841,7 +841,7 @@ if (twitterImage) twitterImage.setAttribute("content", shareImage);
           {hasMore && loadingMore && (
             <>
               <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '18px', marginRight: '10px' }}></i>
-              <span>વધુ સામગ્રી લોડ થઈ રહી છે...</span>
+              <span> {CAMPUSCORNER_MESSAGES.CAMPUSCORNER_MORE_LOADING}</span>
             </>
           )}
         </div>
@@ -861,17 +861,17 @@ if (twitterImage) twitterImage.setAttribute("content", shareImage);
           {duplicateDetected ? (
             <>
               <p style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>
-                ⚠️ ડુપ્લિકેટ સામગ્રી શોધાઈ
+                ⚠️ {CAMPUSCORNER_MESSAGES.CAMPUSCORNER_STORIES_DUPLICATE}
               </p>
               <p style={{ fontSize: '14px' }}>
-                સમાન સામગ્રી બતાવવાનું ટાળવા માટે લોડિંગ બંધ કરવામાં આવી છે.
+                {CAMPUSCORNER_MESSAGES.CAMPUSCORNER_SAME_STORIES}
               </p>
               <p style={{ fontSize: '12px', marginTop: '10px', color: '#999' }}>
                 (Duplicate content detected. Loading stopped to prevent showing repeated content.)
               </p>
             </>
           ) : (
-            <p>તમે બધી કેમ્પસ કોર્નર સ્ટોરીઝ જોઈ લીધી છે.</p>
+            <p>{CAMPUSCORNER_MESSAGES.CAMPUSCORNER_STORIES}.</p>
           )}
         </div>
       )}

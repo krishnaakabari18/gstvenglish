@@ -5,6 +5,7 @@ import { fetchWebStories, WebStoryItem } from '@/services/webStoryApi';
 import WebStoryCard from '@/components/WebStoryCard';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
+import { WEB_STORIES} from '@/constants/gujaratiStrings';
 
 interface WebStoriesData {
   stories: WebStoryItem[];
@@ -160,7 +161,7 @@ export default function WebStoriesListPage() {
     <div className="blogs-main-section">
       {/* Header */}
       <div className="blogs-head-bar first">
-        <span className="blog-category">વેબ સ્ટોરીઝ</span>
+        <span className="blog-category">{WEB_STORIES.TITLE}</span>
       </div>
 
       {/* Web Stories Grid */}

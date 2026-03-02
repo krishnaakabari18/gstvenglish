@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { MISC_UI} from '@/constants/gujaratiStrings';
+
 
 const LiveTvPage: React.FC = () => {
   useEffect(() => {
@@ -29,7 +31,7 @@ const LiveTvPage: React.FC = () => {
   return (
     <div className="blogs-main-section">
       <div className="blogs-head-bar first">
-        <span className="blog-category">લાઇવ ટીવી</span>
+        <span className="blog-category">{MISC_UI.LIVE_TV_GUJ}</span>
       </div>
       <div className="row blog-content">
         <div className="col-lg-12 p-2 detail-page custom-content-page">

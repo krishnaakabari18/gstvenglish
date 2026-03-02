@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { LOADING_MESSAGES as GUJARATI_LOADING_MESSAGES, BUTTON_TEXT, SUCCESS_MESSAGES } from '@/constants/gujaratiStrings';
+import { LOADING_MESSAGES as GUJARATI_LOADING_MESSAGES, BUTTON_TEXT, SUCCESS_MESSAGES, ERROR_MESSAGES, BOOKMARK_MESSAGES } from '@/constants/gujaratiStrings';
 
 // Loading States
 export interface LoadingState {
@@ -67,7 +67,7 @@ export interface NewsGridProps {
 export const LOADING_MESSAGES = {
   ...GUJARATI_LOADING_MESSAGES,
   RETRY: BUTTON_TEXT.RETRY,
-  SOMETHING_WENT_WRONG: 'કંઈક ખોટું થયું છે'
+  SOMETHING_WENT_WRONG: ERROR_MESSAGES.SOMETHING_WENT_WRONG
 } as const;
 
 /**
@@ -301,7 +301,7 @@ export const bookmarkNews = (news: any): void => {
     // Remove bookmark
     const updatedBookmarks = existingBookmarks.filter((bookmark: any) => bookmark.id !== news.id);
     localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
-    alert('બુકમાર્ક દૂર કરવામાં આવ્યું!'); // Bookmark removed!
+    alert(BOOKMARK_MESSAGES.BOOKMARK_REMOVED);
   } else {
     // Add bookmark
     existingBookmarks.push({
@@ -312,7 +312,7 @@ export const bookmarkNews = (news: any): void => {
       created_at: news.created_at
     });
     localStorage.setItem('bookmarks', JSON.stringify(existingBookmarks));
-    alert('બુકમાર્ક ઉમેરવામાં આવ્યું!'); // Bookmark added!
+    alert(BOOKMARK_MESSAGES.BOOKMARK_ADDED);
   }
 };
 

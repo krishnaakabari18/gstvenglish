@@ -6,7 +6,7 @@ import { useSettings } from '@/hooks/useSettings';
 import dynamic from 'next/dynamic';
 import { useStockmarketSiteSetting } from '@/hooks/useStockmarketSiteSetting';
 import { MEDIA_BASE_URL, API_ENDPOINTS } from '@/constants/api';
-import { NAVIGATION, WEB_STORIES, PLACEHOLDERS } from '@/constants/gujaratiStrings';
+import { NAVIGATION, WEB_STORIES, PLACEHOLDERS, BUTTON_TEXT, LOADING_MESSAGES } from '@/constants/gujaratiStrings';
 import ProfileMenuItems from './ProfileMenuItems';
 import Link from 'next/link';
 
@@ -357,7 +357,7 @@ export default function Header() {
                     fontFamily: "'Noto Sans Gujarati', sans-serif"
                   }}
                 >
-                  શહેર પસંદ કરો
+                  {PLACEHOLDERS.SELECT_CITY}
                 </h4>
               </div>
 
@@ -437,7 +437,7 @@ export default function Header() {
             >
               <div className="cityList"></div>
               <div className="no-results" style={{display: 'none', textAlign: 'center', padding: '40px', color: '#666', fontSize: '18px', fontFamily: "'Noto Sans Gujarati', sans-serif"}}>
-                શહેર મળ્યું નથી
+                {LOADING_MESSAGES.NO_CITY_FOUND}
               </div>
             </div>
 
@@ -471,7 +471,7 @@ export default function Header() {
                   minWidth: '200px'
                 }}
               >
-                આગળ વધો
+                {BUTTON_TEXT.PROCEED}
               </button>
             </div>
           </form>
@@ -529,7 +529,7 @@ export default function Header() {
                     fontFamily: '"Hind Vadodara", sans-serif'
                   }}
                 >
-                  કેટેગરી પસંદ કરો
+                  {PLACEHOLDERS.SELECT_CATEGORY}
                 </h4>
 
                 <div style={{ flex: 1, maxWidth: '400px' }}>
@@ -624,7 +624,7 @@ export default function Header() {
                   fontFamily: '"Hind Vadodara", sans-serif'
                 }}
               >
-                કેટેગરી મળ્યું નથી
+                {LOADING_MESSAGES.NOT_LOADING_CATEGORY}
               </div>
               <div
                 className="loading-categories"
@@ -648,7 +648,7 @@ export default function Header() {
                     margin: '0 auto'
                   }}></div>
                 </div>
-                કેટેગરી લોડ થઈ રહી છે...
+                {LOADING_MESSAGES.LOADING_CATEGORIES}
               </div>
             </div>
 
@@ -683,7 +683,7 @@ export default function Header() {
                   minWidth: '150px'
                 }}
               >
-                આગળ વધો
+                {BUTTON_TEXT.PROCEED}
               </button>
             </div>
           </form>

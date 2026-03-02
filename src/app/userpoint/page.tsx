@@ -231,9 +231,9 @@ export default function UserPointPage() {
       <div className="profilePage">
         <div className="text-center" style={{ padding: '50px' }}>
           <div className="spinner-border" role="status">
-            <span className="visually-hidden">લોડ થઈ રહ્યું છેલોડ થઈ રહ્યું છે...</span>
+            <span className="visually-hidden">{USER_POINTS.LOADING_TEXT}</span>
           </div>
-          <p style={{ marginTop: '20px' }}>યુઝર પોઇન્ટ લોડ થઈ રહ્યા છે...</p>
+          <p style={{ marginTop: '20px' }}>{USER_POINTS.USER_POINTS_LOADING}</p>
         </div>
       </div>
     );
@@ -253,7 +253,7 @@ export default function UserPointPage() {
 
         {/* Date Range Picker */}
         <form onSubmit={handleSubmit} className="date-range-form">
-          <label htmlFor="start_date">ફર્સ્ટ તારીખ:</label>
+          <label htmlFor="start_date">{USER_POINTS.FIRST_DATE}</label>
           <input
             type="date"
             id="start_date"
@@ -263,7 +263,7 @@ export default function UserPointPage() {
             required
           />
 
-          <label htmlFor="end_date">છેલ્લી તારીખ:</label>
+          <label htmlFor="end_date">{USER_POINTS.LAST_DATE}</label>
           <input
             type="date"
             id="end_date"
@@ -280,13 +280,13 @@ export default function UserPointPage() {
 
         <div className="text-center">
           <p>
-            <b>ટોટલ ટાઇમ:</b> {totalDurationFormatted} <br />
-            ({formatDate(startDate)} થી {formatDate(endDate)} સુધી)
+            <b>{USER_POINTS.TOTAL_TIME}</b> {totalDurationFormatted} <br />
+            ({formatDate(startDate)} {USER_POINTS.FROM} {formatDate(endDate)} {USER_POINTS.TO})
           </p>
         </div>
 
         <div id="noDataMessage" className="text-center" style={{ display: Object.keys(chartData).length === 0 ? 'block' : 'none', color: 'red' }}>
-          <p>ચાલુ અઠવાડિયાનો ડેટા મળ્યો નથી.</p>
+          <p>{USER_POINTS.NO_DATA_FOUND}</p>
         </div>
 
         {/* Chart Container */}

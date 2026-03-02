@@ -65,6 +65,8 @@ export {
   BOOKMARK_LIST,
   GSTV_PODCAST_PAGE,
   GET_PAGES,
+  CAMPUSCORNER_MESSAGES,
+  JOURNALIST_MESSAGES,
   getTimeAgoMessage,
   getErrorMessage,
   formatViews,

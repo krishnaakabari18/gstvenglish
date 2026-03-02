@@ -7,6 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { API_ENDPOINTS } from '@/constants/api';
 import ProFooter from '@/components/ProFooter';
 import { redirectToLogin } from '@/utils/authUtils';
+import { JOURNALIST_MESSAGES } from '@/constants/gujaratiStrings';
 
 // TypeScript interfaces for the API response
 interface JournalistEntry {
@@ -173,9 +174,9 @@ const GetJournalistPage: React.FC = () => {
           <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2>જર્નાલિસ્ટ લિસ્ટ</h2>
+              <h2>{JOURNALIST_MESSAGES.JOURNALIST_LIST_GUJ}</h2>
               <Link href="/addjournalist" className="btn btnAddpNews">
-                એડ કરો <span>+</span>
+                {JOURNALIST_MESSAGES.ADD_BTN_GUJ} <span>+</span>
               </Link>
             </div>
 
@@ -184,7 +185,7 @@ const GetJournalistPage: React.FC = () => {
                 <div className="bookmarklisting">
                   {loading && entries.length === 0 ? (
                     <div className="text-center">
-                      <p style={{ color: 'red' }}>લોડ થઈ રહ્યું છે...</p>
+                      <p style={{ color: 'red' }}>{JOURNALIST_MESSAGES.LOADING_GUJ}</p>
                     </div>
                   ) : error ? (
                     <div className="text-center">
@@ -198,7 +199,7 @@ const GetJournalistPage: React.FC = () => {
                     </div>
                   ) : entries.length === 0 ? (
                     <div className="text-center">
-                      <p style={{ color: 'red' }}>કોઈ જર્નાલિસ્ટ ઉપલબ્ધ નથી.</p>
+                      <p style={{ color: 'red' }}>{JOURNALIST_MESSAGES.NO_JOURNALIST_GUJ}</p>
                     </div>
                   ) : (
                     <ul id="bookmark-list">
@@ -246,18 +247,18 @@ const GetJournalistPage: React.FC = () => {
                               )}
                               
                               <div className="catDate pnewsDate">
-                                <div className="date">તારીખ: <span>{formatDate(news.created_at)}</span></div>
+                                <div className="date">{JOURNALIST_MESSAGES.DATE_GUJ} <span>{formatDate(news.created_at)}</span></div>
                               </div>
                               {news.drop_reason && (
                                 <div className="catDate pnewsDate">
-                                  કારણ: <span>{news.drop_reason}</span>
+                                  {JOURNALIST_MESSAGES.REASON_GUJ} <span>{news.drop_reason}</span>
                                 </div>
                               )}
                               <div className="nseditLine">
                                 <div className={`pnewsStatus ${finalStatus}`}>{finalStatus}</div>
                                 {news.status === "Inactive" && (
                                   <Link href={`/addjournalist?id=${news.id}`} className="pEditNews" data-id={news.id}>
-                                    <i className="fas fa-edit"></i> એડિટ
+                                    <i className="fas fa-edit"></i> {JOURNALIST_MESSAGES.EDIT_GUJ}
                                   </Link>
                                 )}
                               </div>
@@ -269,7 +270,7 @@ const GetJournalistPage: React.FC = () => {
                   )}
                   
                   <div className="loading" style={{ display: loadingMore ? 'block' : 'none' }}>
-                    <img src="/assets/images/loading.gif" alt="લોડ થઈ રહ્યું છે..." />
+                    <img src="/assets/images/loading.gif" alt={JOURNALIST_MESSAGES.LOADING_GUJ} />
                   </div>
                   
                   {totalCount > 10 && currentPage < lastPage && (
@@ -280,7 +281,7 @@ const GetJournalistPage: React.FC = () => {
                         onClick={loadMoreNews}
                         disabled={loadingMore}
                       >
-                        વધુ લોડ કરો
+                        {JOURNALIST_MESSAGES.LOAD_MORE_GUJ}
                       </button>
                     </div>
                   )}

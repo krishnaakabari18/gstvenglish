@@ -6,7 +6,6 @@ import { fetchTopWebStories, WebStory } from '@/services/newsApi';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import '@/styles/WebStories.css';
-import { ACTION_BUTTONS } from '@/constants';
 
 export default function WebStories() {
   console.log('WebStories component rendering...');
@@ -24,6 +23,12 @@ export default function WebStories() {
 
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+
+  // Mouse drag refs
+  const mouseStartX = useRef(0);
+  const mouseEndX = useRef(0);
+  const isDragging = useRef(false);
+  const dragStartSlide = useRef(0);
 
  
 
@@ -55,6 +60,51 @@ export default function WebStories() {
 
     loadWebStories();
   }, []);
+
+  /* =========================
+     Mouse Drag (Desktop Touch-like)
+  ========================= */
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDragging.current = false;
+    mouseStartX.current = e.clientX;
+    mouseEndX.current = e.clientX;
+    dragStartSlide.current = currentSlide;
+    setIsAutoRotating(false);
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (mouseStartX.current === 0) return;
+    
+    const diff = Math.abs(e.clientX - mouseStartX.current);
+    if (diff > 5) {
+      isDragging.current = true;
+    }
+    
+    if (!isDragging.current) return;
+    
+    mouseEndX.current = e.clientX;
+    const dragDiff = mouseStartX.current - mouseEndX.current;
+    const maxSlides = Math.max(0, webStories.length - itemsPerView);
+    const slidesMoved = Math.round(dragDiff / (itemWidth || 1));
+    const newSlide = Math.max(0, Math.min(maxSlides, dragStartSlide.current + slidesMoved));
+    
+    setCurrentSlide(newSlide);
+  };
+
+  const handleMouseUp = () => {
+    mouseStartX.current = 0;
+    setTimeout(() => {
+      isDragging.current = false;
+    }, 50);
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging.current) {
+      isDragging.current = false;
+    }
+    mouseStartX.current = 0;
+  };
 
   /* ===============================
    MOBILE TOUCH SCROLL (ADDED)
@@ -109,24 +159,14 @@ useEffect(() => {
     return '/images/video-default.png'; // fallback image
   };
 
-  // Navigation functions (matching TopVideos)
-  const goToSlide = (slideIndex: number) => {
-    const maxSlides = Math.max(0, webStories.length - itemsPerView);
-    const targetSlide = Math.max(0, Math.min(slideIndex, maxSlides));
-    setCurrentSlide(targetSlide);
-    console.log('WebStories: Going to slide:', targetSlide);
-  };
-
+  // Navigation functions
   const nextSlide = () => {
     const maxSlides = Math.max(0, webStories.length - itemsPerView);
-    console.log('WebStories: Next slide clicked. Current:', currentSlide, 'Max:', maxSlides);
-    setCurrentSlide(prev => prev >= maxSlides ? 0 : prev + 1);
+    setCurrentSlide(prev => Math.min(prev + 1, maxSlides));
   };
 
   const prevSlide = () => {
-    const maxSlides = Math.max(0, webStories.length - itemsPerView);
-    console.log('WebStories: Previous slide clicked. Current:', currentSlide, 'Max:', maxSlides);
-    setCurrentSlide(prev => prev <= 0 ? maxSlides : prev - 1);
+    setCurrentSlide(prev => Math.max(prev - 1, 0));
   };
 
   // Retry function for error handling
@@ -198,8 +238,7 @@ useEffect(() => {
           const maxSlides = Math.max(0, webStories.length - itemsPerView);
           return prev >= maxSlides ? 0 : prev + 1;
         });
-      }, 5000); // data-interval="1000"
-    } else {
+      }, 5000); // data-interval="1000"    } else {
       if (autoRotateRef.current) {
         clearInterval(autoRotateRef.current);
         autoRotateRef.current = null;
@@ -273,8 +312,8 @@ useEffect(() => {
           </Link>
         </div>
         <div className="storySectionNav-right">
-          <Link href="/web-stories" className="custom-link-btn">
-            {ACTION_BUTTONS.READ_MORE} <i className="fas fa-chevron-right"></i>
+          <Link href="/web-stories" className="custom-link-btn ws-more-link">
+            વધુ વાંચો &nbsp;<span className="ws-more-btn"><i className="fas fa-chevron-right"></i></span>
           </Link>
         </div>
       </div>
@@ -288,31 +327,34 @@ useEffect(() => {
           id="MultiCarousel"
           data-interval="1000"
           onMouseEnter={() => setIsAutoRotating(false)}
-          onMouseLeave={() => setIsAutoRotating(true)}
+          onMouseLeave={handleMouseLeave}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          style={{ cursor: isDragging.current ? 'grabbing' : 'grab' }}
         >
-          <div
-            className="MultiCarousel-inner topwebstory"
-            id="topwebstory-container"
-            ref={sliderRef}
-            style={{
-              transform: `translateX(-${currentSlide * itemWidth}px)`,
-              transition: 'transform 0.3s ease',
-              display: 'flex',
-              width: `${itemWidth * webStories.length}px`
-            }}
-          >
-            {webStories.map((story, index) => (
-              <div
-                key={`${story.id}-${index}`}
-                className=""
-                style={{
-                  width: `${itemWidth}px`,
-                  flex: 'none'
-                }}
-              >
-                <div className="loader"></div>
-                <div className="">
-                  <Link href={`/web-stories/${story.slug}`}>
+          {/* ws-clip-wrap clips sliding cards; arrows are siblings so they overflow freely */}
+          <div className="ws-clip-wrap">
+            <div
+              className="MultiCarousel-inner topwebstory"
+              id="topwebstory-container"
+              ref={sliderRef}
+              style={{
+                transform: `translateX(-${currentSlide * itemWidth}px)`,
+                transition: 'transform 0.3s ease',
+                display: 'flex',
+                width: `${itemWidth * webStories.length}px`
+              }}
+            >
+              {webStories.map((story, index) => (
+                <div
+                  key={`${story.id}-${index}`}
+                  style={{ width: `${itemWidth}px`, flex: 'none' }}
+                >
+                  <Link
+                    href={`/web-stories/${story.slug}`}
+                    onClick={(e) => { if (isDragging.current) e.preventDefault(); }}
+                  >
                     <div className="card custom-card">
                       <div className="img-wrappers custom-webstory-image">
                         <img
@@ -320,32 +362,64 @@ useEffect(() => {
                           className="video-thumbnail-img"
                           alt={story.title}
                           onError={(e) => {
-                            // Fallback to default image if thumbnail fails to load
-                            const img = e.target as HTMLImageElement;
-                            img.src = '/images/video-default.png';
+                            (e.target as HTMLImageElement).src = '/images/video-default.png';
                           }}
                         />
                       </div>
-
-                     
-                      {/* Story Title - Same as TopVideos */}
-                       <div className="webstory-title-content custom-gujrati-font">
-                                <span className="samachar-title">{story.title}</span>
-                            </div>
-                      
+                      <div className="webstory-title-content custom-gujrati-font">
+                        <span className="samachar-title">{story.title}</span>
+                      </div>
                     </div>
                   </Link>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </div>{/* end ws-clip-wrap */}
 
-          {/* Navigation Buttons - Exact match to TopVideos */}
-          <button className={`btn btn-primary leftLst ${currentSlide === 0 ? 'over' : ''}`} onClick={prevSlide}
-            disabled={currentSlide === 0}><i className="fa fa-chevron-left"></i></button>
-        <button className={`btn btn-primary rightLst ${currentSlide >= Math.max(0, webStories.length - itemsPerView) ? 'over' : ''}`} onClick={nextSlide}
-            disabled={currentSlide >= Math.max(0, webStories.length - itemsPerView)}>
-          <i className="fa fa-chevron-right"></i></button>
+          {/* Navigation Buttons — span when disabled so clicks cannot reach cards beneath */}
+          {currentSlide === 0 ? (
+            <span
+              className="btn btn-primary leftLst over disabled-arrow"
+              aria-hidden="true"
+              onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}
+              onMouseDown={(e) => { e.stopPropagation(); e.preventDefault(); }}
+              onMouseUp={(e) => { e.stopPropagation(); e.preventDefault(); }}
+            >
+              <i className="fa fa-chevron-left"></i>
+            </span>
+          ) : (
+            <button
+              className="btn btn-primary leftLst"
+              type="button"
+              onClick={(e) => { e.stopPropagation(); e.preventDefault(); prevSlide(); }}
+              onMouseDown={(e) => e.stopPropagation()}
+              aria-label="Previous"
+            >
+              <i className="fa fa-chevron-left"></i>
+            </button>
+          )}
+
+          {currentSlide >= Math.max(0, webStories.length - itemsPerView) ? (
+            <span
+              className="btn btn-primary rightLst over disabled-arrow"
+              aria-hidden="true"
+              onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}
+              onMouseDown={(e) => { e.stopPropagation(); e.preventDefault(); }}
+              onMouseUp={(e) => { e.stopPropagation(); e.preventDefault(); }}
+            >
+              <i className="fa fa-chevron-right"></i>
+            </span>
+          ) : (
+            <button
+              className="btn btn-primary rightLst"
+              type="button"
+              onClick={(e) => { e.stopPropagation(); e.preventDefault(); nextSlide(); }}
+              onMouseDown={(e) => e.stopPropagation()}
+              aria-label="Next"
+            >
+              <i className="fa fa-chevron-right"></i>
+            </button>
+          )}
          
         </div>
       </div>

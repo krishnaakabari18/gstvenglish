@@ -3,8 +3,6 @@
 import React, { useState } from 'react';
 import styles from './LoginOtpModal.module.css';
 import { API_ENDPOINTS } from '@/constants/api';
-import { AUTH_MESSAGES, FORM_PLACEHOLDERS } from '@/constants';
-import { MISC_UI } from '@/constants/gujaratiStrings';
 
 interface LoginOtpModalProps {
   isOpen: boolean;
@@ -171,7 +169,7 @@ const LoginOtpModal: React.FC<LoginOtpModalProps> = ({ isOpen, pollData, onClose
                 <input
                   type="tel"
                   inputMode="numeric"
-                  placeholder={FORM_PLACEHOLDERS.ENTER_MOBILE}
+                  placeholder="તમારો મોબાઈલ નંબર દાખલ કરો"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className={styles.formControl}
@@ -185,8 +183,8 @@ const LoginOtpModal: React.FC<LoginOtpModalProps> = ({ isOpen, pollData, onClose
               <div>
                 <img src="/assets/images/privacy_lock.png" alt="Privacy" width="25" />
                 <small>
-                  <strong>{AUTH_MESSAGES.PRIVACY_MESSAGE}</strong>
-                  {AUTH_MESSAGES.PRIVACY_DETAIL}
+                  <strong>તમારી પર્સનલ માહિતી સુરક્ષિત છે.</strong>
+                  તમારો નંબર માત્ર અકાઉન્ટ વેરિફાય કરવા માટે જ લઈ રહ્યા છીએ.
                 </small>
               </div>
 
@@ -208,4 +206,3 @@ const LoginOtpModal: React.FC<LoginOtpModalProps> = ({ isOpen, pollData, onClose
 };
 
 export default LoginOtpModal;
-

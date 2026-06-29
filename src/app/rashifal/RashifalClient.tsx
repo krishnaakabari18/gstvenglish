@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { commonApiGet } from '@/constants/api';
-import { RASHIFAL_PAGE } from '@/constants';
 
 interface RashiData {
   id: number;
@@ -90,12 +89,12 @@ export default function RashifalPage() {
     <div className="blogs-main-section inner rashifal-page">
       <div className="blogs-head-bar inner custom-blog-details undefined">
         <span className="blog-category detail-page-heading">
-          <Link href="/">{RASHIFAL_PAGE.HOME} </Link> : <i>{RASHIFAL_PAGE.RASHIFAL}</i>
+          <Link href="/">હોમ </Link> : <i>રાશિફળ</i>
         </span>
       </div>
 
       <div className="detail-page-heading-h1">
-        <h1 className="content-page-title">{RASHIFAL_PAGE.RASHIFAL}</h1>
+        <h1 className="content-page-title">રાશિફળ</h1>
       </div>
 
       <div className="row blog-content">
@@ -111,11 +110,11 @@ export default function RashifalPage() {
                         <i>
                           <img
                             src={rashi.rashiicon}
-                            alt={rashi.engtitle || 'Rashi'}
+                            alt={rashi.title || 'Rashi'}
                             onError={(e) => (e.currentTarget.src = '/images/default-rashi-icon.png')}
                           />
                         </i>
-                        <h5>{rashi.engtitle || 'Unknown Rashi'}</h5>
+                        <h5>{rashi.title || 'Unknown Rashi'}</h5>
                         <h6>({rashi.rashiword || 'Unknown'})</h6>
                       </Link>
                     </li>

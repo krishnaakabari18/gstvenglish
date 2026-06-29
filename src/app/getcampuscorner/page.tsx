@@ -7,7 +7,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { API_ENDPOINTS } from '@/constants/api';
 import ProFooter from '@/components/ProFooter';
 import { redirectToLogin } from '@/utils/authUtils';
-import { CAMPUSCORNER_MESSAGES } from '@/constants/gujaratiStrings';
 
 // TypeScript interfaces for the API response
 interface CampusCornerEntry {
@@ -210,9 +209,9 @@ const CampusCornerPage: React.FC = () => {
         <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2>{CAMPUSCORNER_MESSAGES.CAMPUS_CORNER_GUJ}</h2>
+              <h2>કેમ્પસ કોર્નર</h2>
               <Link href="/addcampuscorner" className="btn btnAddpNews">
-                {CAMPUSCORNER_MESSAGES.ADD_BTN} <span>+</span>
+                એડ કરો <span>+</span>
               </Link>
             </div>
 
@@ -221,7 +220,7 @@ const CampusCornerPage: React.FC = () => {
                 <div className="bookmarklisting">
                   {loading && entries.length === 0 ? (
                     <div className="text-center">
-                      <p style={{ color: 'red' }}>{CAMPUSCORNER_MESSAGES.LOADING_GUJ}</p>
+                      <p style={{ color: 'red' }}>લોડ થઈ રહ્યું છે...</p>
                     </div>
                   ) : error ? (
                     <div className="text-center">
@@ -238,7 +237,7 @@ const CampusCornerPage: React.FC = () => {
                       <div style={{ marginBottom: '20px' }}>
                         <i className="fas fa-newspaper" style={{ fontSize: '48px', color: '#ccc' }}></i>
                       </div>
-                      <h4 style={{ color: '#666', marginBottom: '10px' }}>{CAMPUSCORNER_MESSAGES.CAMPUSCORNER_NO_ENRTY}</h4>
+                      <h4 style={{ color: '#666', marginBottom: '10px' }}>કેમ્પસ કોર્નરની કોઈ એન્ટ્રી મળી નથી.</h4>
                       {/* <p style={{ color: '#999', marginBottom: '20px' }}>
                         Be the first to share your campus story!
                       </p> */}
@@ -292,19 +291,19 @@ const CampusCornerPage: React.FC = () => {
                               )}
                               
                               <div className="catDate pnewsDate">
-                                <div className="date">{CAMPUSCORNER_MESSAGES.DATE_GUJ} <span>{formatDate(news.created_at)}</span></div>
-                                <div className="school">{CAMPUSCORNER_MESSAGES.SCHOOL_GUJ} <span>{news.school}</span></div>
+                                <div className="date">તારીખ: <span>{formatDate(news.created_at)}</span></div>
+                                <div className="school">શાળા: <span>{news.school}</span></div>
                               </div>
                               {news.drop_reason && (
                                 <div className="catDate pnewsDate">
-                                  {CAMPUSCORNER_MESSAGES.REASON_GUJ} <span>{news.drop_reason}</span>
+                                  કારણ: <span>{news.drop_reason}</span>
                                 </div>
                               )}
                               <div className="nseditLine">
                                 <div className={`pnewsStatus ${finalStatus}`}>{finalStatus}</div>
                                 {news.status === "Inactive" && (
                                   <Link href={`/addcampuscorner?id=${news.id}`} className="pEditNews" data-id={news.id}>
-                                    <i className="fas fa-edit"></i> {CAMPUSCORNER_MESSAGES.EDIT_GUJ}
+                                    <i className="fas fa-edit"></i> એડિટ
                                   </Link>
                                 )}
                               </div>
@@ -316,7 +315,7 @@ const CampusCornerPage: React.FC = () => {
                   )}
                   
                   <div className="loading" style={{ display: loadingMore ? 'block' : 'none' }}>
-                    <img src="/assets/images/loading.gif" alt={CAMPUSCORNER_MESSAGES.LOADING_GUJ} />
+                    <img src="/assets/images/loading.gif" alt="લોડ થઈ રહ્યું છે..." />
                   </div>
 
                   {/* Show load more button if there are more pages */}
@@ -328,7 +327,7 @@ const CampusCornerPage: React.FC = () => {
                         onClick={loadMoreNews}
                         disabled={loadingMore}
                       >
-                        {CAMPUSCORNER_MESSAGES.LOAD_MORE_GUJ}
+                        વધુ લોડ કરો
                       </button>
                     </div>
                   )}

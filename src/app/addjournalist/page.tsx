@@ -9,7 +9,8 @@ import Script from 'next/script';
 import ProFooter from '@/components/ProFooter';
 import { useUserSession, getUserId } from '@/hooks/useUserSession';
 import { redirectToLogin } from '@/utils/authUtils';
-import { JOURNALIST_FORM, AGREEMENT_TEXT } from '@/constants/gujaratiStrings';
+
+
 import { useSettings } from '@/hooks/useSettings';
 
 interface FormData {
@@ -63,7 +64,7 @@ const AddJournalistPage: React.FC = () => {
 
   // Dynamic agreement text from Category Settings, with fallback
   const { settings } = useSettings();
-  const agreeText = settings?.gujrat_agree_text || AGREEMENT_TEXT.GUJRAT_AGREE;
+  const agreeText = settings?.gujrat_agree_text || 'હું સંમત છું કે મારા દ્વારા અપલોડ કરવામાં આવતી સામગ્રી સંપૂર્ણપણે સત્ય અને વાસ્તવિક છે. જો કોઈ પણ પ્રકારની ખોટી માહિતી મળશે તો તેની સંપૂર્ણ જવાબદારી મારી રહેશે.';
 
   const imageInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
@@ -317,24 +318,24 @@ const AddJournalistPage: React.FC = () => {
     setError('');
 
     if (!formData.name.trim()) {
-      setError(JOURNALIST_FORM.ENTER_NAME);
+      setError('તમારું નામ દાખલ કરો.');
       return false;
     }
 
     if (!formData.city.trim()) {
-      setError(JOURNALIST_FORM.ENTER_CITY);
+      setError('કૃપા કરીને તમારું શહેર દાખલ કરો.');
       return false;
     }
 
     if (!formData.title.trim()) {
-      setError(JOURNALIST_FORM.ENTER_TITLE);
+      setError('કૃપા કરીને ટાઇટલ દાખલ કરો.');
       return false;
     }
 
     // Title word count validation (1-14 words)
     const titleWords = formData.title.trim().split(/\s+/).filter(Boolean);
     if (titleWords.length < 1 || titleWords.length > 14) {
-      setError(JOURNALIST_FORM.TITLE_LENGTH_ERROR);
+      setError('ટાઇટલ ૧-૧૪ શબ્દોની વચ્ચે હોવું જોઈએ.');
       return false;
     }
 
@@ -344,7 +345,7 @@ const AddJournalistPage: React.FC = () => {
       formData.description.replace(/<[^>]*>/g, '').trim();
 
     if (!descriptionText) {
-      setError(JOURNALIST_FORM.DESCRIPTION_REQUIRED);
+      setError('વર્ણન જરૂરી છે.');
       return false;
     }
 
@@ -359,12 +360,12 @@ const AddJournalistPage: React.FC = () => {
     const hasAnyMedia = hasExistingImages || hasExistingVideo || hasNewMedia;
 
     if (!hasAnyMedia) {
-      setError(JOURNALIST_FORM.UPLOAD_MEDIA);
+      setError('કૃપા કરીને ઓછામાં ઓછી 1 છબી અથવા 1 વિડીયો અપલોડ કરો.');
       return false;
     }
 
     if (!formData.agree_status) {
-      setError(JOURNALIST_FORM.AGREE_REQUIRED);
+      setError('સબમિટ કરતા પહેલા તમારે સંમત થવું આવશ્યક છે.');
       return false;
     }
 
@@ -389,7 +390,7 @@ const AddJournalistPage: React.FC = () => {
 
     // Check if user is logged in before allowing submission
     if (!isLoggedIn || !userId) {
-      setErrorMessage(JOURNALIST_FORM.LOGIN_REQUIRED);
+      setErrorMessage('જર્નાલિસ્ટ એન્ટ્રી સબમિટ કરવા માટે તમારે લૉગ ઇન થયેલ હોવું આવશ્યક છે. કૃપા કરીને લૉગ ઇન કરો અને ફરી પ્રયાસ કરો.');
       redirectToLogin('/addjournalist', router);
       return;
     }
@@ -464,7 +465,7 @@ const AddJournalistPage: React.FC = () => {
       const result = await response.json();
 
       if (result.success) {
-        setSubmitMessage(isEditMode ? JOURNALIST_FORM.UPDATED_SUCCESS : JOURNALIST_FORM.ADDED_SUCCESS);
+        setSubmitMessage(isEditMode ? 'જર્નાલિસ્ટ સફળતાપૂર્વક અપડેટ થયો!' : 'જર્નાલિસ્ટ સફળતાપૂર્વક ઉમેરાયો!');
 
         if (!isEditMode) {
           // Reset form only for add mode
@@ -484,12 +485,12 @@ const AddJournalistPage: React.FC = () => {
           router.push('/getjournalist');
         }, 2000);
       } else {
-        setErrorMessage(result.message || `${JOURNALIST_FORM.SUBMIT_FAILED.replace('{action}', isEditMode ? 'update' : 'add')}`);
+        setErrorMessage(result.message || `Failed to ${isEditMode ? 'update' : 'add'} જર્નાલિસ્ટ. કૃપા કરીને ફરી પ્રયાસ કરો.`);
       }
 
     } catch (err) {
       console.error('Error submitting journalist entry:', err);
-      setErrorMessage(JOURNALIST_FORM.ERROR_OCCURRED);
+      setErrorMessage('ભૂલ આવી છે. કૃપા કરીને ફરી પ્રયાસ કરો..');
     } finally {
       setLoading(false);
     }
@@ -526,9 +527,9 @@ const AddJournalistPage: React.FC = () => {
           style={{ width: '3rem', height: '3rem' }}
           role="status"
         >
-          <span className="sr-only">{JOURNALIST_FORM.LOADING}</span>
+          <span className="sr-only">લોડ થઈ રહ્યું છે...</span>
         </div>
-        <p style={{ marginTop: '10px' }}>{JOURNALIST_FORM.LOADING}</p>
+        <p style={{ marginTop: '10px' }}>લોડ થઈ રહ્યું છે...</p>
       </div>
     );
   }
@@ -542,8 +543,8 @@ const AddJournalistPage: React.FC = () => {
               <form className="formBox" id="news-form" encType="multipart/form-data" onSubmit={handleSubmit}>
                 <div className="pNewsBox">
                   <div className="title">
-                    <h2>{isEditMode ? JOURNALIST_FORM.EDIT_TITLE : JOURNALIST_FORM.ADD_TITLE}</h2>
-                    {isEditMode && <small style={{color: '#666'}}>{JOURNALIST_FORM.EDITING_ID} {editId}</small>}
+                    <h2>{isEditMode ? 'એડિટ કરો' : 'એડ કરો'}</h2>
+                    {isEditMode && <small style={{color: '#666'}}>ID સંપાદન: {editId}</small>}
                   </div>
 
                   <div className="pnewsContent">
@@ -564,7 +565,7 @@ const AddJournalistPage: React.FC = () => {
                 {/* Name Field */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">{JOURNALIST_FORM.NAME_LABEL}</div>
+                    <div className="lable">નામ</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -573,7 +574,7 @@ const AddJournalistPage: React.FC = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        placeholder={JOURNALIST_FORM.NAME_PLACEHOLDER}
+                        placeholder="તમારું નામ દાખલ કરો"
                         required
                       />
                     </div>
@@ -583,7 +584,7 @@ const AddJournalistPage: React.FC = () => {
                 {/* Title Field */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">{JOURNALIST_FORM.TITLE_LABEL}</div>
+                    <div className="lable">સમાચાર ટાઇટલ</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -592,7 +593,7 @@ const AddJournalistPage: React.FC = () => {
                         name="title"
                         value={formData.title}
                         onChange={handleInputChange}
-                        placeholder={JOURNALIST_FORM.TITLE_PLACEHOLDER}
+                        placeholder="તમારું ટાઇટલ દાખલ કરો"
                         required
                       />
                     </div>
@@ -602,7 +603,7 @@ const AddJournalistPage: React.FC = () => {
                 {/* Description Field */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">{JOURNALIST_FORM.DESCRIPTION_LABEL}</div>
+                    <div className="lable">ડિસ્ક્રીપ્શન</div>
                     <div className="inputOuter">
                       
 
@@ -629,7 +630,7 @@ const AddJournalistPage: React.FC = () => {
                               'alignright alignjustify | bullist numlist outdent indent | ' +
                               'image media | removeformat | help',
                             branding: false,
-                            placeholder: JOURNALIST_FORM.DESCRIPTION_PLACEHOLDER,
+                            placeholder: 'વર્ણન દાખલ કરો',
 
                             /* ⭐ Enables image upload */
                             images_upload_url: '/api/upload/tinymce',
@@ -673,7 +674,7 @@ const AddJournalistPage: React.FC = () => {
                 {/* City Field */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">{JOURNALIST_FORM.CITY_LABEL}</div>
+                    <div className="lable">શહેર</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -682,7 +683,7 @@ const AddJournalistPage: React.FC = () => {
                         name="city"
                         value={formData.city}
                         onChange={handleInputChange}
-                        placeholder={JOURNALIST_FORM.CITY_PLACEHOLDER}
+                        placeholder="તમારું શહેર દાખલ કરો"
                         required
                       />
                     </div>
@@ -692,13 +693,13 @@ const AddJournalistPage: React.FC = () => {
                 {/* Images Upload */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">{JOURNALIST_FORM.IMAGES_LABEL}</div>
+                    <div className="lable">તસવીરો (ઓછામાં ઓછી ૧, મહત્તમ ૫ છબી અપલોડ)</div>
                     <div className="inputOuter">
 
                       {/* Existing Images Display */}
                       {isEditMode && existingImages.length > 0 && (
                         <div className="mb-3">
-          <label className="form-label">{JOURNALIST_FORM.EXISTING_IMAGES}</label>
+                          <label className="form-label">હાલની છબીઓ:</label>
                           <div className="row">
                             {existingImages.map((imageUrl, index) => (
                               <div key={`existing-${index}`} className="col-6 col-md-2 thumbOuter">
@@ -771,13 +772,13 @@ const AddJournalistPage: React.FC = () => {
                 {/* Video Upload */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">{JOURNALIST_FORM.VIDEO_LABEL}</div>
+                    <div className="lable">વીડિયો (વૈકલ્પિક, ફક્ત mp4/mov, ≤ 100MB)</div>
                     <div className="inputOuter">
 
                       {/* Existing Video Display */}
                       {isEditMode && existingVideo && (
                         <div className="mb-3">
-          <label className="form-label">{JOURNALIST_FORM.EXISTING_VIDEO}</label>
+                          <label className="form-label">હાલના વિડીયો:</label>
                           <div className="row">
                             <div className="col-12 col-md-4 thumbOuter">
                               <video
@@ -863,7 +864,7 @@ const AddJournalistPage: React.FC = () => {
                 {/* Submit Button */}
                 <div className="profileBtn">
                   <button type="submit" className="btn-gstv" disabled={loading}>
-                    {loading ? JOURNALIST_FORM.UPLOADING : JOURNALIST_FORM.UPLOAD}
+                    {loading ? 'અપલોડ થઈ રહ્યું છે...' : 'અપલોડ'}
                   </button>
                 </div>
               </div>
@@ -904,9 +905,9 @@ const AddJournalistPage: React.FC = () => {
               style={{ width: '3rem', height: '3rem' }}
               role="status"
             >
-              <span className="sr-only">{JOURNALIST_FORM.LOADING}</span>
+              <span className="sr-only">લોડ થઈ રહ્યું છે...</span>
             </div>
-            <p style={{ marginTop: '10px' }}>{JOURNALIST_FORM.LOADING}</p>
+            <p style={{ marginTop: '10px' }}>મહેરબાની કરીને રાહ જુઓ...</p>
           </div>
         </div>
       )}

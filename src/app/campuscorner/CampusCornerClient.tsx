@@ -7,7 +7,6 @@ import { LOADING_MESSAGES, COMMON_CLASSES } from '@/utils/uiUtils';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ShareButtons from '@/components/ShareButtons';
 import { requireLogin } from '@/utils/authRedirect';
-import { CAMPUSCORNER_MESSAGES,ERROR_PAGE,TIME_UNITS } from '@/constants/gujaratiStrings';
 
 
 // TypeScript interfaces for the API response
@@ -191,12 +190,12 @@ const CampusCornerPage: React.FC = () => {
         {/* Header for small screens */}
         <div className="blogs-head-bar first ">
           <span className="blog-category">
-            {CAMPUSCORNER_MESSAGES.CAMPUS_CORNER}
+            કેમ્પસ કોર્નર
           </span>
           <div style={{ float: 'right' }}>
             <button onClick={() => requireLogin('/addcampuscorner')} className="btn btn-primary newsuploadtext"
                   style={{ float: 'right', backgroundColor: '#800d00', border: 'none' }}>
-              {CAMPUSCORNER_MESSAGES.UPLOAD_YOUR_CAMPUS_CORNER}
+              તમારા કેમ્પસની પ્રવૃત્તિ અપલોડ કરો
             </button>
           </div>
         </div>
@@ -223,7 +222,7 @@ const CampusCornerPage: React.FC = () => {
                       onClick={() => fetchCampusCornerEntries(1, false)}
                       className="btn btn-primary"
                     >
-                      {ERROR_PAGE.TRY_AGAIN}
+                      ફરી પ્રયાસ કરો
                     </button>
                   </div>
                 </div>
@@ -236,7 +235,7 @@ const CampusCornerPage: React.FC = () => {
                         <h4 className="custom-blog-title for-sm">
                           {newsItem.title}
                           <span className="athai-mobile for-sm">
-                            <b>{CAMPUSCORNER_MESSAGES.REPORTED_BY}:</b> {newsItem.name}
+                            <b>રિપોર્ટેડ બાય:</b> {newsItem.name}
                           </span>
                         </h4>
                         <div className="hover-image">
@@ -264,7 +263,7 @@ const CampusCornerPage: React.FC = () => {
                             </div>
                           )}
                           <p className="blog-excerpt">
-                          <b>{CAMPUSCORNER_MESSAGES.REPORTED_BY}:</b> {newsItem.name}<br />
+                          <b>રિપોર્ટેડ બાય:</b> {newsItem.name}<br />
                           {/* <b>School:</b> {newsItem.school} */}
                         </p>
                         </div>
@@ -277,7 +276,7 @@ const CampusCornerPage: React.FC = () => {
                                     <div className="reading-icon">
                                       <img src="/images/clock.webp" alt="" />
                                     </div>
-                                    1 {TIME_UNITS.MINUTES_AGO_ALT}
+                                    1 મિનિટ વાંચન સમય
                                   </div>
                                 </div>
                      <ShareButtons

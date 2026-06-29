@@ -1,11 +1,11 @@
 import RashifalPage from "./RashifalClient";
-import { RASHIFAL_PAGE } from "@/constants/gujaratiStrings";
 
 export const metadata = {
   title: "12 Zodiac Signs (Rashi) - Traits, Horoscope & Astrology Info | GSTV News",
-  description: RASHIFAL_PAGE.META_DESCRIPTION,
+  description:
+    "તમારા દૈનિક રાશિફળ, ભાગ્ય, પ્રેમ, નોખી, આરોગ્ય અને જીવન વિશે વાંચો. આજે તમારી રાશિ માટે શું લખ્યું છે તે જાણો.",
   keywords: [
-    RASHIFAL_PAGE.META_KEYWORDS,
+    "રાશિફળ",
     "daily rashifal",
     "today rashifal",
     "gujarati rashifal",
@@ -14,27 +14,29 @@ export const metadata = {
   ],
   openGraph: {
     title: "12 Zodiac Signs (Rashi) - Traits, Horoscope & Astrology Info | GSTV News",
-    description: RASHIFAL_PAGE.META_DESCRIPTION,
-    url: "https://english.gstv.in/rashifal",
+    description:
+      "તમારા દૈનિક રાશિફળ, ભાગ્ય, પ્રેમ, નોખી, આરોગ્ય અને જીવન વિશે વાંચો.",
+    url: "https://www.gstv.in/rashifal",
     siteName: "GSTV",
     type: "website",
     images: [
       {
-        url: "https://english.gstv.in/public/assets/images/gstv-logo.png",
+        url: "https://www.gstv.in/public/assets/images/gstv-logo.png",
         width: 1200,
         height: 630,
-        alt: RASHIFAL_PAGE.OG_ALT
+        alt: "રાશિફળ - Daily Rashifal"
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "12 Zodiac Signs (Rashi) - Traits, Horoscope & Astrology Info | GSTV News",
-    description: RASHIFAL_PAGE.META_DESCRIPTION,
-    images: ["https://english.gstv.in/public/assets/images/gstv-logo.png"],
+    description:
+      "તમારા દૈનિક રાશિફળ, ભાગ્ય, પ્રેમ, નોખી, આરોગ્ય અને જીવન વિશે વાંચો.",
+    images: ["https://www.gstv.in/public/assets/images/gstv-logo.png"],
   },
   alternates: {
-    canonical: "https://english.gstv.in/rashifal",
+    canonical: "https://www.gstv.in/rashifal",
   },
 };
 

@@ -3,7 +3,6 @@
  */
 
 import { MEDIA_BASE_URL, API_V5_BASE_URL } from '../constants/api';
-import { MISC_UI, AUTH_MESSAGES, BOOKMARK_MESSAGES } from '@/constants/gujaratiStrings';
 
 /**
  * Truncate description text to specified length
@@ -63,7 +62,7 @@ export const formatDate = (dateString: string, showRelative: boolean = false): s
       if (diffInHours < 24) {
         return `${diffInHours} hours ago`;
       } else if (diffInHours < 48) {
-        return MISC_UI.YESTERDAY_GUJ;
+        return 'Yesterday';
       }
     }
 
@@ -417,10 +416,10 @@ const fallbackCopyToClipboard = (text: string): void => {
 
   try {
     document.execCommand('copy');
-    alert(MISC_UI.LINK_COPIED_GUJ);
+    alert('લિંક કોપી થઈ ગઈ છે!'); // Link copied!
   } catch (err) {
     console.error('Fallback: Oops, unable to copy', err);
-    alert(MISC_UI.LINK_COPY_ERROR_GUJ);
+    alert('લિંક કોપી કરવામાં ભૂલ થઈ!'); // Error copying link!
   }
 
   document.body.removeChild(textArea);
@@ -544,19 +543,33 @@ export const getNewsImage = (news: any): string => {
  */
 export const getVideoThumbnail = (news: any): string => {
   // Check if both videoURL and featureImage exist
-  if (news.videoURL && news.videoURL !== '' && news.featureImage && news.featureImage !== '') {
-    // Use featureImage directly if both exist
-    const featureImage = news.featureImage;
+  // if (news.videoURL && news.videoURL !== '' && news.featureImage && news.featureImage !== '') {
+  //   // Use featureImage directly if both exist
+  //   const featureImage = news.featureImage;
 
-    // If it's a relative path, make it absolute
-    if (featureImage.startsWith('/')) {
-      return `${MEDIA_BASE_URL}${featureImage}`;
-    }
-    return featureImage;
-  }
+  //   // If it's a relative path, make it absolute
+  //   if (featureImage.startsWith('/')) {
+  //     return `${MEDIA_BASE_URL}${featureImage}`;
+  //   }
+  //   return featureImage;
+  // }
 
   // If only videoURL exists, create GIF thumbnail
- if (news.videoURL && news.videoURL !== '') {
+  //  if (news.videoURL && news.videoURL !== '') {
+  //   const fileExtension = news.videoURL.split('.').pop()?.toLowerCase();
+
+  //   let jpgUrl = news.videoURL.replace(
+  //     `.${fileExtension}`,
+  //     '_video.jpg'
+  //   );
+
+  //   if (jpgUrl.startsWith('/')) {
+  //     jpgUrl = `${MEDIA_BASE_URL}${jpgUrl}`;
+  //   }
+
+  //   return jpgUrl;
+  // }
+ /*if (news.videoURL && news.videoURL !== '') {
   const fileExtension = news.videoURL.split('.').pop()?.toLowerCase();
 
   let webpUrl = news.videoURL.replace(`.${fileExtension}`, '_video.webp');
@@ -570,7 +583,32 @@ export const getVideoThumbnail = (news: any): string => {
 
   // try webp first, fallback handled by browser
   return webpUrl;
-}
+}*/
+ if (news.videoURL && news.videoURL !== '') {
+    const fileExtension = news.videoURL.split('.').pop()?.toLowerCase();
+
+    let webpUrl = '';
+
+    if (Number(news.is_video_horizontal) === 1) {
+      webpUrl = news.videoURL.replace(
+        `.${fileExtension}`,
+        '_video_vert.webp'
+      );
+    } else {
+      webpUrl = news.videoURL.replace(
+        `.${fileExtension}`,
+        '_video.webp'
+      );
+    }
+
+    // If it's a relative path, make it absolute
+    if (webpUrl.startsWith('/')) {
+      webpUrl = `${MEDIA_BASE_URL}${webpUrl}`;
+    }
+
+    return webpUrl;
+  }
+
 
   // Fallback to default video image
   return '/images/video-default.png';

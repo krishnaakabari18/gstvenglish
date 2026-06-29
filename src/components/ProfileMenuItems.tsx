@@ -258,7 +258,7 @@ const ProfileMenuItems = ({ onMenuClick }: ProfileMenuItemsProps) => {
           )}
         </i>
         <span className='userNavLable'>
-          {item.menu}
+          {item.menu_guj}
           {item.menuactionweb === "userpoint" && (
             <>&nbsp;&nbsp;<b className="upText">{remainingPoints}</b></>
           )}

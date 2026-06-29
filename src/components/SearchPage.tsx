@@ -6,7 +6,6 @@ import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import { GridContainer, BlogGridItem } from '@/components/common/GridComponents';
-import { MISC_UI, SEARCH_PAGE } from '@/constants/gujaratiStrings';
 import {
   performSearch,
   getSearchSuggestions,
@@ -102,7 +101,7 @@ export default function SearchPage() {
         }
 
         // Show user-friendly error message
-        const errorMessage = result.message || SEARCH_PAGE.SEARCH_FAILED;
+        const errorMessage = result.message || 'શોધ પરિણામો મેળવવામાં નિષ્ફળ';
         throw new Error(errorMessage);
       }
     } catch (err) {
@@ -158,7 +157,7 @@ export default function SearchPage() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={SEARCH_PAGE.SEARCH_PLACEHOLDER}
+                  placeholder="સમાચાર, વિડિયો અને વધુ શોધો..."
                 />
                 <button type="submit" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0px', margin: '-2px 0 0 0px' }}>
                   <img 
@@ -185,7 +184,7 @@ export default function SearchPage() {
            <>             
               {totalResults > 0 && (
                 <p className="results-count" style={{ textAlign: 'right', color: '#666', fontSize: '14px' }}>
-                  {SEARCH_PAGE.TOTAL_RESULTS.replace('{count}', totalResults.toString())}
+                  કુલ {totalResults} પરિણામો મળ્યા
                 </p>
               )}
             </>
@@ -225,8 +224,8 @@ export default function SearchPage() {
           {/* No results */}
           {!loading && hasSearched && searchResults.length === 0 && !error && (
             <div className="no-results">
-              <h3>{SEARCH_PAGE.NO_RESULTS_TITLE}</h3>
-              <p>{SEARCH_PAGE.NO_RESULTS_MESSAGE}</p>
+              <h3>કોઈ પરિણામો મળ્યા નથી</h3>
+              <p>કૃપા કરીને અલગ કીવર્ડ્સ સાથે ફરીથી પ્રયાસ કરો</p>
             </div>
           )}
 
@@ -249,7 +248,7 @@ export default function SearchPage() {
           )}
           {loadingMore && (
                   <LoadingSpinner
-                    message={SEARCH_PAGE.LOADING_MORE_RESULTS}
+                    message="વધુ પરિણામો લોડ કરી રહ્યા છીએ..."
                     size="small"
                     color="#850E00"
                     compact={true}
@@ -260,7 +259,7 @@ export default function SearchPage() {
           {/* End of Data Indicator */}
           {!hasMoreData && searchResults.length > 0 && (
             <div className="end-of-results">
-              <p>{SEARCH_PAGE.ALL_RESULTS_VIEWED}</p>
+              <p>તમે બધા પરિણામો જોઈ લીધા છે.</p>
             </div>
           )}
         </div>
@@ -269,4 +268,3 @@ export default function SearchPage() {
     </div>
   );
 }
-

@@ -2,6 +2,7 @@
 
 import { useMemo, memo } from 'react';
 import { useTopNews } from '@/hooks/useTopNews';
+import { useHomePageSettings } from '@/hooks/useHomePageSettings';
 import ErrorMessage from '@/components/ErrorMessage';
 import { GridContainer, BlogGridItem } from '@/components/common/GridComponents';
 import '@/styles/TopNewsShimmer.css';
@@ -13,16 +14,20 @@ interface TopNewsProps {
 const TopNews = ({ className = '' }: TopNewsProps) => {
   const { newsData, loading, error, refetch } = useTopNews();
 
-  // 🔥 Memoize news items rendering
+  // Fetch home_page_video_big from CATEGORY_SETTING_WITH_PLAN API
+  // Falls back to 2 while loading or on error
+  const { homePageVideoBig } = useHomePageSettings();
+
+  // Apply grid-one-cls to the first `homePageVideoBig` items (large card style)
   const newsItems = useMemo(() => {
     return newsData.map((news, index) => (
       <BlogGridItem
         key={news.id}
         news={news}
-        className={index < 2 ? 'grid-one-cls' : ''}
+        className={index < homePageVideoBig ? 'grid-one-cls' : ''}
       />
     ));
-  }, [newsData]);
+  }, [newsData, homePageVideoBig]);
 
   if (error) {
     return (

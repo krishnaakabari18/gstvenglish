@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { POLICY_LINKS } from '@/constants';
 
 export default function ProFooter() {
   return (
@@ -12,12 +11,12 @@ export default function ProFooter() {
         </div>
         <div className="col-lg-6 d-flex justify-content-lg-end justify-content-center">
           <ul className="custom-address-list">
-            <li><Link href="/career">{POLICY_LINKS.CAREER}</Link></li><span>|</span>
-            <li><Link href="/contact-us">{POLICY_LINKS.CONTACT_US}</Link></li><span>|</span>
-            <li><Link href="/cookie-policy">{POLICY_LINKS.COOKIE_POLICY}</Link></li><span>|</span>
-            <li><Link href="/privacy-policy">{POLICY_LINKS.PRIVACY_POLICY}</Link></li><span>|</span>
-            <li><Link href="/refund-policy">{POLICY_LINKS.REFUND_POLICY}</Link></li><span>|</span>
-            <li><Link href="/terms-condition">{POLICY_LINKS.TERMS_CONDITIONS}</Link></li>
+            <li><Link href="/career">Career</Link></li><span>|</span>
+            <li><Link href="/contact-us">Contact us</Link></li><span>|</span>
+            <li><Link href="/cookie-policy">Cookie policy</Link></li><span>|</span>
+            <li><Link href="/privacy-policy">Privacy policy</Link></li><span>|</span>
+            <li><Link href="/refund-policy">Refund policy</Link></li><span>|</span>
+            <li><Link href="/terms-condition">Terms & condition</Link></li>
           </ul>
         </div>
       </div>

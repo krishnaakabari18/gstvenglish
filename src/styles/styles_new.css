@@ -1413,7 +1413,7 @@ color:#800d00 !important;
 
 .magazinelogo-item {
   flex: 1 1 140px;
-  max-width: 140px;
+  max-width: 120px;
   text-align: center;
 }
 
@@ -1641,4 +1641,19 @@ color:#800d00 !important;
 }
 #livecricket_detail_page .table-bordered tbody td {
     border: 1px solid #dee2e6;
+}
+ /* hide both by default */
+.andriod_applink,
+.ios_applink{
+display:none;
+}
+
+/* android device */
+.android-device .andriod_applink{
+display:block;
+}
+
+/* ios device */
+.ios-device .ios_applink{
+display:block;
 }

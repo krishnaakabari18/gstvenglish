@@ -1,7 +1,5 @@
 'use client';
 
-import { LOCK_SCREEN } from '@/constants/gujaratiStrings';
-
 interface LockScreenProps {
   userId: number;    // 0 or user id
 }
@@ -35,13 +33,13 @@ export default function LockScreen({ userId }: LockScreenProps) {
         <div className="lockNews_line">
           {userId !== 0 ? (
             <>
-              {LOCK_SCREEN.READ_FULL_NEWS}{' '}
-              <a href="/payment">{LOCK_SCREEN.READ_ON_WEBSITE}</a>
+              અધૂરું નહીં! વાંચો પૂરું! વાંચો પૂરા સમાચાર GSTV એપ પર{' '}
+              <a href="/payment">વેબસાઇટ પર જ વાંચો</a>
             </>
           ) : (
             <>
-              {LOCK_SCREEN.PREMIUM_MEMBERSHIP}{' '}
-              <a href="/login">{LOCK_SCREEN.LOGIN_NOW}</a>
+              પ્રીમિયમ મેમ્બર શિપ હોય, તો{' '}
+              <a href="/login">લોગીન કરો</a>
             </>
           )}
         </div>
@@ -49,7 +47,7 @@ export default function LockScreen({ userId }: LockScreenProps) {
         {/* Buy Now */}
         <div className="lockNews_line buynowlockbtn">
           <a href="/payment" tabIndex={0}>
-            {LOCK_SCREEN.VIEW_PLANS}
+            પ્લાન જુઓ
           </a>
         </div>
 
@@ -63,7 +61,7 @@ export default function LockScreen({ userId }: LockScreenProps) {
 
           <div className="lockQr_code_right">
             <span className="appDownload_line">
-              {LOCK_SCREEN.SCAN_QR_DOWNLOAD}
+              એપ ડાઉનલોડ કરવા માટે QR સ્કેન કરો
             </span>
 
             <a

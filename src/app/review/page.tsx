@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { API_ENDPOINTS } from '@/constants/api';
 import { useParams } from 'next/navigation';
-import { REVIEW_FORM, MAGAZINE_PAGE } from '@/constants/gujaratiStrings';
 
 interface Magazine {
   id: number;
@@ -70,13 +69,13 @@ useEffect(() => {
     const newErrors: FormErrors = {};
 
     if (!fullname.trim()) {
-      newErrors.fullname = REVIEW_FORM.ENTER_FULLNAME;
+      newErrors.fullname = 'કૃપા કરીને તમારું પૂરું નામ દાખલ કરો.';
     }
 
     if (!phone.trim()) {
-      newErrors.phone = REVIEW_FORM.ENTER_PHONE;
+      newErrors.phone = 'કૃપા કરીને તમારો ફોન નંબર દાખલ કરો.';
     } else if (!/^[6-9]\d{9}$/.test(phone)) {
-      newErrors.phone = REVIEW_FORM.VALID_MOBILE;
+      newErrors.phone = 'માન્ય મોબાઇલ નંબર દાખલ કરો.';
     }
 
     // if (!city.trim()) {
@@ -88,13 +87,13 @@ useEffect(() => {
     // }
 
     if (!rating) {
-      newErrors.rating = REVIEW_FORM.SELECT_RATING;
+      newErrors.rating = 'કૃપા કરીને રેટિંગ પસંદ કરો.';
     }
 
     if (!description.trim()) {
-      newErrors.description = REVIEW_FORM.ENTER_MESSAGE;
+      newErrors.description = 'કૃપા કરીને સંદેશ દાખલ કરો.';
     } else if (description.length < 10) {
-      newErrors.description = REVIEW_FORM.MESSAGE_MIN_LENGTH;
+      newErrors.description = 'સંદેશ ઓછામાં ઓછો 10 અક્ષરોનો હોવો જોઈએ.';
     }
 
     setErrors(newErrors);
@@ -130,7 +129,7 @@ useEffect(() => {
       const data = await res.json();
 
       if (data?.success) {
-        setSubmitMessage(data.message || REVIEW_FORM.SUBMIT_SUCCESS);
+        setSubmitMessage(data.message || 'તમારો રિવ્યૂ સફળતાપૂર્વક સબમિટ થયો!');
         setFullname('');
         setPhone('');
         setCity('');
@@ -138,10 +137,10 @@ useEffect(() => {
         setRating(0);
         setDescription('');
       } else {
-        setErrorMessage(data.message || REVIEW_FORM.SUBMIT_FAILED);
+        setErrorMessage(data.message || 'સબમિશન નિષ્ફળ ગયું.');
       }
     } catch (err) {
-      setErrorMessage(REVIEW_FORM.ERROR_TRY_AGAIN);
+      setErrorMessage('ભૂલ આવી. કૃપા કરીને ફરી પ્રયાસ કરો.');
     } finally {
       setLoading(false);
     }
@@ -152,7 +151,7 @@ useEffect(() => {
       <form className="formBox" onSubmit={handleSubmit}>
         <div className="pNewsBox">
           <div className="title">
-            <h2>{MAGAZINE_PAGE.MAGAZINE_REVIEW}</h2>
+            <h2>મેગેઝિન રિવ્યૂ</h2>
           </div>
 
           <div className="pnewsContent">
@@ -296,7 +295,7 @@ useEffect(() => {
 
             <div className="profileBtn mt-4">
               <button type="submit" className="btn-gstv" disabled={loading}>
-                {loading ? REVIEW_FORM.SUBMITTING : REVIEW_FORM.SUBMIT}
+                {loading ? 'સબમિટિંગ...' : 'સબમિટ'}
               </button>
             </div>
           </div>

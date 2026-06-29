@@ -6,8 +6,6 @@ import Head from 'next/head';
 import { commonApiPost, COMMON_API_BASE_URL } from '@/constants/api';
 import { getOrCreateDeviceId } from '@/utils/deviceId';
 import VideoActionButtons from '@/components/VideoActionButtons';
-import { VIDEO_PLAYER } from '@/constants/gujaratiStrings';
-import { MISC_UI } from '@/constants/gujaratiStrings';
 
 interface Video {
   id: number;
@@ -881,8 +879,8 @@ export default function VideoDetailPage() {
       
 
         const message = newStatus === 1
-          ? VIDEO_PLAYER.VIDEO_BOOKMARKED
-          : VIDEO_PLAYER.VIDEO_UNBOOKMARKED;
+          ? 'વીડિયો બુકમાર્ક કરવામાં આવ્યો' // Video bookmarked
+          : 'વીડિયો બુકમાર્કમાંથી દૂર કરવામાં આવ્યો'; // Video removed from bookmarks
 
      
 
@@ -1387,7 +1385,7 @@ export default function VideoDetailPage() {
                 e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
                 e.currentTarget.style.transform = 'scale(1)';
               }}
-              title={VIDEO_PLAYER.GO_BACK}
+              title="પાછા જાઓ" // Go back
         >
           ←
         </button>
@@ -1445,7 +1443,7 @@ export default function VideoDetailPage() {
                   (icon as HTMLElement).style.transform = 'scale(1)';
                 }
               }}
-              title={VIDEO_PLAYER.PREVIOUS_VIDEO}
+              title="પાછલો વીડિયો" // Previous video
             >
               <i
                 className="fa-solid fa-chevron-up"
@@ -1642,7 +1640,7 @@ export default function VideoDetailPage() {
                 } else {
                   // No more videos, show completion message
                   console.log(`🏁 Reached end of all videos`);
-                  alert(VIDEO_PLAYER.ALL_VIDEOS_WATCHED);
+                  alert('તમે બધા વીડિયો જોઈ લીધા છે!'); // You have watched all videos!
                 }
               }}
               onPlay={() => {

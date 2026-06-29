@@ -14,14 +14,14 @@ export const BASE_URLS = {
 
 // Common API Base URL - Change this single variable to switch environments
 
-export const COMMON_API_BASE_URL = 'https://www.gstv.in/backend2/api/v12/mobile';
+export const COMMON_API_BASE_URL = 'https://www.gstv.in/backend2/api/v16/mobile';
 
 
 // Base URLs derived from common base
 export const API_BASE_URL = 'https://www.gstv.in/backend2/api';
 export const API_V5_BASE_URL = COMMON_API_BASE_URL;
 
-export const API_V6_BASE_URL = 'https://www.gstv.in/backend2/api/v12/mobile';
+export const API_V6_BASE_URL = 'https://www.gstv.in/backend2/api/v16/mobile';
 export const MEDIA_BASE_URL = 'https://www.gstv.in';
 
 // Media/Upload paths
@@ -41,12 +41,18 @@ export const API_ENDPOINTS = {
   CATEGORY_NEWS: `${API_V5_BASE_URL}/categorynews`,
   TOP_HOME_CATEGORY: `${API_V5_BASE_URL}/tophomecategoryweb`,
   TOP_VIDEOS: `${API_V5_BASE_URL}/topVideos`,
+  TOP_VIDEOS_GROUPED: `${API_V5_BASE_URL}/topVideos`,
+  TOP_VIDEOS_BY_SLUG: `${API_V5_BASE_URL}/topVideosBySlug`,
   NEWS_DETAIL: `${API_V5_BASE_URL}/newsnextContent`,
   VIDEOLIKE: `${API_V5_BASE_URL}/videolike`,
   ELECTIONRESULTS: `${API_V5_BASE_URL}/getElectionResultsApi`,
+  ELECTION_MODULE: `${API_V5_BASE_URL}/electionmodule`,
+  BUDDHIPRAKASHAN: `${API_V5_BASE_URL}/buddhiprakash`,
   EPAPERRIGHTSIDEBAR: `${API_V5_BASE_URL}/epaperrigthsidebar`,
   GETEPAPERCAT: `${API_V5_BASE_URL}/getepapercat`,
   VIDEODETAIL:`${API_V5_BASE_URL}/videoDetail`,
+  GET_STATIC_MENU_HOME_PAGE: `${API_V5_BASE_URL}/getStaticMenuHomepage`,
+  GET_YOUTUBE_SHORTS: `${API_V5_BASE_URL}/getYoutubeShorts`,
 
   RASHIFAL_DATA: `${API_V5_BASE_URL}/rashifaldata`,
   GSTV_MAGAZINE_NEWSDATA: `${API_V5_BASE_URL}/gstvmagazinenews`,
@@ -174,8 +180,8 @@ export const API_ENDPOINTS = {
 
 // Default API Parameters
 export const DEFAULT_API_PARAMS = {
-  device_id: '', // Default device ID for staging
-  user_id: '', // Default user ID for staging
+  device_id: '', // Default device ID for www
+  user_id: '', // Default user ID for www
   pageNumber: '1',
 } as const;
 

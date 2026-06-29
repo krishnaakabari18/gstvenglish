@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { MEDIA_BASE_URL } from '@/constants/api';
-import { PLACEHOLDERS,SEARCH_MESSAGES,ACTION_BUTTONS,LIST_PAGES } from '@/constants/gujaratiStrings';
 import Link from 'next/link';
 import { fetchCategories, buildCategoryTree, Category } from '@/services/categoryApi';
 import { fetchCategorySetting, CategorySettingItem } from '@/services/newsApi';
@@ -160,16 +159,16 @@ export default function CategoryHeaderWithDropdown({
   const getDefaultGujaratiLabel = () => {
   // Gujarat special case
   if (categorySlug === 'gujarat') {
-    return PLACEHOLDERS.SELECT_YOUR_CITY;
+    return 'તમારું શહેર પસંદ કરો';
   }
 
   // If current category loaded, use Gujarati
-  if (currentCategory?.category_name) {
-    return currentCategory.category_name;
+  if (currentCategory?.category_name_guj) {
+    return currentCategory.category_name_guj;
   }
 
   // Safe Gujarati fallback (NO ENGLISH)
-  return PLACEHOLDERS.PLEASE_SELECT;
+  return 'પસંદ કરો';
 };
   // Handle search functionality
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -182,7 +181,7 @@ export default function CategoryHeaderWithDropdown({
       const filtered = dropdownCategories.filter(category =>
         category.title.toLowerCase().includes(term) ||
         category.category_name.toLowerCase().includes(term) ||
-        (category.category_name && category.category_name.toLowerCase().includes(term))
+        (category.category_name_guj && category.category_name_guj.toLowerCase().includes(term))
       );
       setFilteredCategories(filtered);
     }
@@ -229,7 +228,7 @@ export default function CategoryHeaderWithDropdown({
     selectedCategory !== categorySlug
       ? (
           filteredCategories.find(cat => cat.slug === selectedCategory)
-            ?.category_name || getDefaultGujaratiLabel()
+            ?.category_name_guj || getDefaultGujaratiLabel()
         )
 
       // Default state (no selection yet)
@@ -265,7 +264,7 @@ export default function CategoryHeaderWithDropdown({
                           onClick={() => handleCategorySelect(parentCategory.slug, true)}
                           role="option"
                         >
-                          ALL {parentCategory.category_name}
+                          ઓલ {parentCategory.category_name_guj}
                         </li>
                       ) : (
                         <li
@@ -273,7 +272,7 @@ export default function CategoryHeaderWithDropdown({
                           onClick={() => handleCategorySelect(categorySlug)}
                           role="option"
                         >
-                          ALL {categoryName}
+                          ઓલ {categoryName}
                         </li>
                       )}
 
@@ -286,12 +285,12 @@ export default function CategoryHeaderWithDropdown({
                             onClick={() => handleCategorySelect(category.slug)}
                             role="option"
                           >
-                            {category.category_name}
+                            {category.category_name_guj}
                           </li>
                         ))
                       ) : (
                         <li className="select2-results__option select2-results__option--disabled">
-                          {SEARCH_MESSAGES.NO_RESULTS}
+                          કોઈ પરિણામ મળ્યું નથી
                         </li>
                       )}
                     </ul>
@@ -301,7 +300,7 @@ export default function CategoryHeaderWithDropdown({
 
               {loading && (
                 <div className="select2-loading">
-                  <i className="fas fa-spinner fa-spin"></i> {LIST_PAGES.LOADING_ALT}
+                  <i className="fas fa-spinner fa-spin"></i> લોડ કરી રહ્યું છે...
                 </div>
               )}
             </div>
@@ -311,7 +310,7 @@ export default function CategoryHeaderWithDropdown({
         {/* View All Link */}
         {showViewAll && (
           <Link href={`/category/${categorySlug}`} className="category-view-all">
-            {ACTION_BUTTONS.READ_MORE}
+            વધુ વાંચો
             <i className="fas fa-chevron-right"></i>
           </Link>
         )}

@@ -6,8 +6,6 @@ import Link from 'next/link';
 import { API_ENDPOINTS, getGanapatiImageUrl } from '@/constants/api';
 import { COMMON_CLASSES, LOADING_MESSAGES } from '@/utils/uiUtils';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { DATE_TIME_LABELS } from '@/constants/gujaratiStrings';
-
 
 // TypeScript interfaces for the API response
 interface GaneshutsavEntry {
@@ -141,7 +139,7 @@ const GaneshutsavDetailsPage: React.FC = () => {
             <div className="blog-featured-functions">
               <div className="reading-time-blog">
                 <img src="/assets/icons/clock.webp" alt="" />
-                {DATE_TIME_LABELS.LAST_UPDATE}: {new Date(entry.created_at).toLocaleDateString('en-GB', {
+                છેલ્લું અપડેટ: {new Date(entry.created_at).toLocaleDateString('en-GB', {
                   day: '2-digit',
                   month: 'short',
                   year: 'numeric'

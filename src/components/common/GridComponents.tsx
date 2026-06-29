@@ -13,7 +13,6 @@ import {
   getNewsDetailUrl
 } from '@/utils/newsUtils';
 import ShareButtons from '../ShareButtons';
-import { DATE_TIME_LABELS, ACTION_BUTTONS } from '@/constants';
 
 /* ===================== Utils (UNCHANGED) ===================== */
 export function stripHtmlAndDecode(html: string): string {
@@ -104,7 +103,7 @@ export const NewsCard = memo((props: any) => {
     <div className={`news-card ${className}`}>
       {showImage && (
         <div className="news-image">
-          <Link href={newsUrl}>
+          <a href={newsUrl}>
             <img
               src={imageUrl}
               alt={news.title}
@@ -113,13 +112,13 @@ export const NewsCard = memo((props: any) => {
                 (e.target as HTMLImageElement).src = '/images/gstv-logo-bg.png';
               }}
             />
-          </Link>
+          </a>
         </div>
       )}
 
       <div className="news-content">
         <h3 className="news-title">
-          <Link href={newsUrl}>{news.title}</Link>
+          <a href={newsUrl}>{news.title}</a>
         </h3>
 
         {showDescription && news.description && (
@@ -128,12 +127,12 @@ export const NewsCard = memo((props: any) => {
 
         <div className="news-meta">
           <span className="news-date">
-            {DATE_TIME_LABELS.LAST_UPDATE}: {isMounted ? formatDate(news.created_at, true) : ''}
+            છેલ્લું અપડેટ: {isMounted ? formatDate(news.created_at, true) : ''}
           </span>
 
           {showReadingTime && (
             <span className="reading-time">
-              {calculateReadingTime(news.description, true)} {DATE_TIME_LABELS.READING_TIME}
+              {calculateReadingTime(news.description, true)} મિનિટ વાંચન સમય
             </span>
           )}
         </div>
@@ -163,7 +162,7 @@ export const NewsCard = memo((props: any) => {
                 }
               >
                 <i className="fas fa-share-alt" />
-                <span>{ACTION_BUTTONS.SHARE}</span>
+                <span>શેર</span>
               </button>
             )}
 
@@ -177,7 +176,7 @@ export const NewsCard = memo((props: any) => {
                   }
                   alt="Bookmark"
                 />
-                <span>{ACTION_BUTTONS.SAVE}</span>
+                <span>સેવ</span>
               </button>
             )}
           </div>
@@ -256,13 +255,13 @@ export const BlogGridItem = memo((props: any) => {
   if (isVideoItem) {
     return (
       <div className={`col-lg-3 col-6 custom-video-section ${className}`} id="news-container">
-        <Link href={newsUrl} className="popupbtn">
+        <a href={newsUrl} className="popupbtn">
           <div className="blog-read-content">
             <div className="card">
               <div className="img-wrappers">
                 <div className="videonewscls">
                   <div className="lazyload-wrapper">
-                    <img
+                    {/* <img
                       src={videoThumb}
                       className="lazyload gridimg custom-image"
                       alt={news.title}
@@ -271,6 +270,31 @@ export const BlogGridItem = memo((props: any) => {
                         const img = e.currentTarget as HTMLImageElement;
                         img.onerror = null;
                         img.src = img.src.replace('_video.webp', '_video.gif');
+                      }}
+                    /> */}
+                    <img
+                      src={videoThumb}
+                      className="lazyload gridimg custom-image"
+                      alt={news.title}
+                      loading="lazy"
+                      onError={e => {
+                        const img = e.currentTarget as HTMLImageElement;
+
+                        // Prevent infinite loop
+                        img.onerror = null;
+
+                        // If jpg/webp fails → load gif
+                        if (
+                          img.src.includes('_video.jpg') ||
+                          img.src.includes('_video.webp')
+                        ) {
+                          img.src = img.src
+                            .replace('_video.jpg', '_video.gif')
+                            .replace('_video.webp', '_video.gif');
+                        } else {
+                          // If gif also fails → default image
+                          img.src = '/images/gstv-logo-bg.png';
+                        }
                       }}
                     />
                   </div>
@@ -282,7 +306,7 @@ export const BlogGridItem = memo((props: any) => {
               </div>
             </div>
           </div>
-        </Link>
+        </a>
       </div>
     );
   }
@@ -291,7 +315,7 @@ export const BlogGridItem = memo((props: any) => {
   return (
     <div className={`col-lg-6 ${className}`}>
       <div className="blog-read-content custom-top-news hometopnews">
-        <Link href={newsUrl} className="flexAlink">
+        <a href={newsUrl} className="flexAlink">
           <h4 className="custom-blog-title">{news.title}</h4>
 
           <div className={`hover-image detail-video-news ${news.videoURL ? 'bgvideonews' : ''}`}>
@@ -315,12 +339,12 @@ export const BlogGridItem = memo((props: any) => {
           </div>
 
           <p className="blog-excerpt">{description}...</p>
-        </Link>
+        </a>
 
         <span className="last-update-blog for-lg">
           {!hideLastUpdate
             ? isMounted
-              ? `${DATE_TIME_LABELS.LAST_UPDATE_COLON} ${formatDate(news.created_at)}`
+              ? `છેલ્લું અપડેટ : ${formatDate(news.created_at)}`
               : '\u00A0'
             : '\u00A0'}
         </span>
@@ -334,7 +358,7 @@ export const BlogGridItem = memo((props: any) => {
               <div className="reading-icon">
                 <img src="/images/clock.webp" alt="" />
               </div>
-              {calculateReadingTime(news.description || news.title || '')} {DATE_TIME_LABELS.READING_TIME}
+              {calculateReadingTime(news.description || news.title || '')} મિનિટ વાંચન સમય
             </div>
           </div>
 

@@ -6,7 +6,6 @@ import Head from 'next/head';
 import { commonApiPost, COMMON_API_BASE_URL } from '@/constants/api';
 import { getOrCreateDeviceId } from '@/utils/deviceId';
 import VideoActionButtons from '@/components/VideoActionButtons';
-import { VIDEO_PLAYER } from '@/constants/gujaratiStrings';
 
 /* ================= INTERFACES ================= */
 
@@ -27,6 +26,7 @@ interface Video {
   bookmark?: number;
   featureImage?: string;
   imageURL?: string;
+  is_video_horizontal?: number;
   [key: string]: any;
 }
 
@@ -73,7 +73,8 @@ const DownArrow = () => (
   const [windowWidth, setWindowWidth] = useState(1024); // Default to desktop to avoid hydration mismatch
   const [isMounted, setIsMounted] = useState(false); // Track if component is mounted on client
   
-
+const isMobile = windowWidth <= 768;
+console.log('mob----------'+isMobile);
   // Fetch videos from staging API (matching your Laravel implementation)
   const fetchVideos = async (page: number = 1, append: boolean = false) => {
     try {
@@ -985,8 +986,8 @@ useEffect(() => {
         // Success - UI is already updated optimistically
 
         const message = newStatus === 1
-          ? VIDEO_PLAYER.VIDEO_BOOKMARKED
-          : VIDEO_PLAYER.VIDEO_UNBOOKMARKED;
+          ? 'વીડિયો બુકમાર્ક કરવામાં આવ્યો' // Video bookmarked
+          : 'વીડિયો બુકમાર્કમાંથી દૂર કરવામાં આવ્યો'; // Video removed from bookmarks
 
         console.log(`✅ ${message}`);
 
@@ -1192,7 +1193,7 @@ useEffect(() => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '98vh',
+        height: '100vh',
         backgroundColor: '#000',
         color: '#fff'
       }}>
@@ -1207,7 +1208,7 @@ useEffect(() => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '98vh',
+        height: '100vh',
         backgroundColor: '#000',
         color: '#fff',
         flexDirection: 'column'
@@ -1238,7 +1239,7 @@ useEffect(() => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '98vh',
+        height: '100vh',
         backgroundColor: '#000',
         color: '#fff'
       }}>
@@ -1440,12 +1441,46 @@ useEffect(() => {
             font-size: 16px;
           }
         }
+          .normal-video-wrapper {
+  width: 100%;
+  height: 100%;
+}
+          @media (max-width: 768px) {
+
+  .video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+  }
+  .horizontal-video-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #000;
+  }
+  .horizontal-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: calc(100vh - 20px) !important;
+    height: calc(100vw - 20px) !important;
+
+    transform: translate(-50%, -50%) rotate(90deg);
+    transform-origin: center center;
+
+    object-fit: contain   !important;
+    background: #000;
+  }
+}
       `}</style>
 
       <div
         className="video-container"
         style={{
-          height: '98vh',
+          height: '100vh',
           overflow: 'hidden',
           position: 'relative',
           width: '100%'
@@ -1464,7 +1499,7 @@ useEffect(() => {
                 e.currentTarget.style.background = '#800d00';
                 e.currentTarget.style.borderColor = '#800d00';
               }}
-              title={VIDEO_PLAYER.GO_BACK}
+              title="પાછા જાઓ" // Go back
         >
             <i className='fas fa-arrow-left'></i>
         </button>
@@ -1516,7 +1551,7 @@ useEffect(() => {
                   svg.style.stroke = "#850e00";
                 }
               }}
-              title={VIDEO_PLAYER.PREVIOUS_VIDEO}
+              title="પાછલો વીડિયો"
             >
               {/* 🔼 Red UP Arrow SVG */}
               <svg
@@ -1650,90 +1685,82 @@ useEffect(() => {
           >
            
            <div className="swiper-slide">
-
     <div className="innerbox">
         <figure className="shorts_art-img">
             <div className="video-container">
 
 
-            <video
-              ref={el => { videoRefs.current[index] = el; }}
-              src={video.videoURL}
-              className="video-player"
-              style={{
-                width: '100%',
-                height: '100%'
-               
-              }}
-              controls
-              playsInline
-              preload="metadata"
-              disablePictureInPicture
-              webkit-playsinline="true"
-              x5-playsinline="true"
-              controlsList="nodownload noplaybackrate"
+            <div
+  className={
+    isMobile && Number(video.is_video_horizontal) === 1
+      ? 'horizontal-video-wrapper'
+      : 'normal-video-wrapper'
+  }
+>
+  <video
+    ref={el => {
+      videoRefs.current[index] = el;
+    }}
+    src={video.videoURL}
+    className={`video-player ${
+      isMobile && Number(video.is_video_horizontal) === 1
+        ? 'horizontal-video'
+        : 'vertical-video'
+    }`}
+    controls
+    playsInline
+    preload="metadata"
+    disablePictureInPicture
+    webkit-playsinline="true"
+    x5-playsinline="true"
+    controlsList="nodownload noplaybackrate"
+    onContextMenu={(e) => e.preventDefault()}
+    onTimeUpdate={(e) => {
+      const videoElement = e.currentTarget;
+      const timeLeft = videoElement.duration - videoElement.currentTime;
 
-              // ✅ PREVENT CONTEXT MENU
-              onContextMenu={(e) => e.preventDefault()}
-              onTimeUpdate={(e) => {
-                const video = e.currentTarget;
-                const timeLeft = video.duration - video.currentTime;
+      if (timeLeft <= 3 && timeLeft > 0 && index === currentVideoIndex) {
+        setShowAutoAdvanceIndicator(true);
+      } else {
+        setShowAutoAdvanceIndicator(false);
+      }
+    }}
+    onEnded={() => {
+      setShowAutoAdvanceIndicator(false);
 
-                // Show auto-advance indicator in last 3 seconds
-                if (timeLeft <= 3 && timeLeft > 0 && index === currentVideoIndex) {
-                  setShowAutoAdvanceIndicator(true);
-                } else {
-                  setShowAutoAdvanceIndicator(false);
-                }
-              }}
-              onEnded={() => {
-              
-                setShowAutoAdvanceIndicator(false);
+      if (index < videos.length - 1) {
+        setTimeout(() => {
+          goToVideo(index + 1);
+        }, 1500);
+      } else if (currentPage < totalPages && !isLoadingMore) {
+        fetchVideos(currentPage + 1, true);
+      } else {
+        alert('તમે બધા વીડિયો જોઈ લીધા છે!');
+      }
+    }}
+    onPlay={() => {
+      setCurrentVideoIndex(index);
 
-                if (index < videos.length - 1) {
-                 
-                  setTimeout(() => {
-                    goToVideo(index + 1);
-                  }, 1500); // 1.5 second delay before auto-advance
-                } else if (currentPage < totalPages && !isLoadingMore) {
-                 
-                  fetchVideos(currentPage + 1, true).then(() => {
-                    // After loading new videos, move to the first video of the new batch
-                    setTimeout(() => {
-                      if (videos.length > index + 1) {
-                       
-                        goToVideo(index + 1);
-                      }
-                    }, 1000);
-                  });
-                } else {
-                  // No more videos, show completion message
-                 
-                  alert(VIDEO_PLAYER.ALL_VIDEOS_WATCHED);
-                }
-              }}
-              onPlay={() => {
-                setCurrentVideoIndex(index);
-                videoRefs.current.forEach((otherVideo, otherIndex) => {
-                  if (otherVideo && otherIndex !== index) {
-                    otherVideo.pause();
-                    otherVideo.currentTime = 0; // Reset other videos to start
-                  }
-                });
-              }}
-              onLoadedMetadata={() => {
-                // Auto-play current video if it's the active one
-                if (index === currentVideoIndex) {
-                  const video = videoRefs.current[index];
-                  if (video) {
-                    video.play().catch(error => {
-                      console.log(`Auto-play failed for video ${index + 1}:`, error);
-                    });
-                  }
-                }
-              }}
-            />
+      videoRefs.current.forEach((otherVideo, otherIndex) => {
+        if (otherVideo && otherIndex !== index) {
+          otherVideo.pause();
+          otherVideo.currentTime = 0;
+        }
+      });
+    }}
+    onLoadedMetadata={() => {
+      if (index === currentVideoIndex) {
+        const currentVideo = videoRefs.current[index];
 
+        if (currentVideo) {
+          currentVideo.play().catch(error => {
+            console.log(`Auto-play failed for video ${index + 1}:`, error);
+          });
+        }
+      }
+    }}
+  />
+</div>
 
              {/* Source text - Hidden on Mobile */}
              {isMounted && windowWidth > 768 && video.img_credit_txt && (
@@ -1760,7 +1787,7 @@ useEffect(() => {
                 className="video-info-overlay"
                 style={{
                   position: 'absolute',
-                  bottom: '1%',
+                  top: '88%',
                   left: '0',
                   right: '0',
                   padding: '10px',
@@ -1829,12 +1856,19 @@ useEffect(() => {
   overflow: hidden !important;
 }
 @media (max-width: 768px) {
-    .video-player {
-      width: 100% !important;
-      height: auto !important;
-      object-fit: contain !important;
-      background: #000 !important;
-    }
+     .horizontal-video {
+        object-fit: contain !important;
+        background: #000 !important;
+        max-width: unset !important;
+      }
+
+      /* Normal / Vertical video */
+      .vertical-video {
+        object-fit: contain !important;
+        background: #000 !important;
+        width: 100% !important;
+        height: auto !important;
+      }
     
   }
 

@@ -10,7 +10,6 @@ import ErrorMessage from '@/components/ErrorMessage';
 import { LOADING_MESSAGES, COMMON_CLASSES } from '@/utils/uiUtils';
 import { NewsItem } from '@/utils/apiUtils';
 import Link from 'next/link';
-import { ACTION_BUTTONS } from '@/constants';
 
 // ==============================
 // News Grid
@@ -118,7 +117,7 @@ export const CategoryHeader: React.FC<CategoryHeaderProps> = memo(({
     </Link>
     {showViewAll && (
       <Link href={`/category/${categorySlug}`} className={COMMON_CLASSES.CATEGORY_LINK}>
-        {ACTION_BUTTONS.READ_MORE} <i className="fas fa-chevron-right" />
+        વધુ વાંચો <i className="fas fa-chevron-right" />
       </Link>
     )}
   </div>

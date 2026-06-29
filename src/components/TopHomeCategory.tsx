@@ -6,7 +6,6 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import { GridContainer, BlogGridItem } from '@/components/common/GridComponents';
 import Link from 'next/link';
-import { LOADING_MESSAGES } from '@/constants/gujaratiStrings';
 
 interface TopHomeCategoryProps {
   className?: string;
@@ -106,7 +105,7 @@ export default function TopHomeCategory({ className = '' }: TopHomeCategoryProps
     return (
       <div style={{ padding: '40px', textAlign: 'center' }}>
         <LoadingSpinner
-          message={LOADING_MESSAGES.LOADING_NEWS_GUJ}
+          message="સમાચાર લોડ થઈ રહ્યા છે..."
           size="large"
           type="dots"
           color="#850E00"
@@ -174,7 +173,7 @@ export default function TopHomeCategory({ className = '' }: TopHomeCategoryProps
       {loadingMore && (
         <div style={{ padding: '40px', textAlign: 'center' }}>
           <LoadingSpinner
-            message={LOADING_MESSAGES.LOADING_NEWS_GUJ}
+            message="સમાચાર લોડ થઈ રહ્યા છે..."
             size="large"
             type="dots"
             color="#850E00"

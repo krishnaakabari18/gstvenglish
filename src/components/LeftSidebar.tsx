@@ -9,7 +9,6 @@ import { useStockmarketSiteSetting } from '@/hooks/useStockmarketSiteSetting';
 import { CategorySettingsItem } from '@/services/newsApi';
 import { API_ENDPOINTS, MEDIA_BASE_URL } from '@/constants/api';
 import { useUserSession } from '@/hooks/useUserSession';
-import { MISC_UI } from '@/constants/gujaratiStrings';
 import '@/styles/sidebar.css';
 
 interface UserCategoryPreferences {
@@ -256,46 +255,45 @@ export default function LeftSidebar() {
         >
           <i className="fa-solid fa-bars" style={{ fontSize: '20px', marginBottom: '2px' }}></i>
         </button>
-         <div className="nav-list custom-sidebar scrollarea">
+         <div className="nav-list custom-sidebar scrollarea" style={{display: 'none' }}>
             <ul className="sidebar-menu">
               <li className=" allcatshow catMobileshow">
                 <Link href="/category/gstv-satrang" className="">
-                  <img src="/assets/icons/gstv_satrang.svg" alt={MISC_UI.GSTV_SATRANG}/>
-                  <span>{MISC_UI.GSTV_SATRANG}</span>
+                  <img src="/assets/icons/gstv_satrang.svg" alt="GSTV શતરંગ"/>
+                  <span>GSTV શતરંગ</span>
                 </Link>
               </li>
               {RashiEnabled && (
               <li className=" allcatshow catMobileshow">
                 <Link href="/rashifal" className="">
-                  <img src={`${MEDIA_BASE_URL}/backend/public/uploads/category/icon/rashifal.svg`} alt={MISC_UI.RASHIFAL}/>
-                  <span>{MISC_UI.RASHIFAL}</span>
+                  <img src={`${MEDIA_BASE_URL}/backend/public/uploads/category/icon/rashifal.svg`} alt="રાશિફળ"/>
+                  <span>રાશિફળ</span>
                 </Link>
               </li>
              )}
 
               <li className="allcatshow catMobileshow">
                 <Link href="/livetv" className="">
-                  <img src={`${MEDIA_BASE_URL}/public/assets/icons/icon-live.svg`} alt={MISC_UI.LIVE_TV_GUJ}/>
-                  <span>{MISC_UI.LIVE_TV_GUJ}</span>
+                  <img src={`${MEDIA_BASE_URL}/public/assets/icons/icon-live.svg`} alt="લાઇવ ટીવી"/>
+                  <span>લાઇવ ટીવી</span>
                 </Link>
               </li>
             </ul>
           </div>
       </div>
       <div className="sidebar col-lg-2 col-md-2 d-none d-lg-block">
-        <div className="nav-list custom-sidebar scrollarea">
+        <div className="nav-list custom-sidebar scrollarea" >
           <ul>
-            
             {/* Show categories */}
             {!isMounted && (
               <li className="allcatshow">
-                <div style={{ padding: 10, textAlign: 'center', color: '#666' }}>{MISC_UI.CATEGORY_LOADING}</div>
+                <div style={{ padding: 10, textAlign: 'center', color: '#666' }}>કેટેગરી લોડ થઈ રહી છે...</div>
               </li>
             )}
 
             {isMounted && loading && (
               <li className="allcatshow">
-                <div style={{ padding: 10, textAlign: 'center', color: '#666' }}>{MISC_UI.CATEGORY_LOADING}</div>
+                <div style={{ padding: 10, textAlign: 'center', color: '#666' }}>કેટેગરી લોડ થઈ રહી છે...</div>
               </li>
             )}
 
@@ -318,7 +316,7 @@ export default function LeftSidebar() {
                         className={`category-link ${isActiveCategory(category.slug, category.id) ? 'active' : ''}`}
                       >
                         {renderCategoryIcon(category)}
-                        <span>{category.category_name}</span>
+                        <span>{category.category_name_guj}</span>
                       </Link>
 
                       {hasSub && (
@@ -337,7 +335,7 @@ export default function LeftSidebar() {
                               className={`subcategory-link ${isActiveSubcategory(category.slug, sub.slug) ? 'active' : ''}`}
                             >
                               {renderCategoryIcon(sub)}
-                              <span>{sub.category_name}</span>
+                              <span>{sub.category_name_guj}</span>
                             </Link>
                           </li>
                         ))}
@@ -351,19 +349,19 @@ export default function LeftSidebar() {
           {/* Download Apps & Social */}
           <div className="download-app" style={{ padding: '0 15px', marginTop: '0px' }}>
             <h6 style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '0px', color: '#977e34' }}>
-              {MISC_UI.DOWNLOAD_GSTV_APP}
+              GSTVની એપ્લિકેશન ડાઉનલોડ કરો
             </h6>
             <div className="download-btn clearfix" style={{ marginBottom: '0px', gap: '0px' }}>
               <Link href="https://play.google.com/store/apps/details?id=com.tops.gstvapps" target="_blank" rel="noopener noreferrer">
-                <img src="https://english.gstv.in/public/assets/images/play-store.png" alt="Play Store" />
+                <img src="https://www.gstv.in/public/assets/images/play-store.png" alt="Play Store" />
               </Link>
               &nbsp;&nbsp;&nbsp;
               <Link href="https://apps.apple.com/in/app/gstv-gujarat-samachar/id1609602449" target="_blank" rel="noopener noreferrer">
-                <img src="https://english.gstv.in/public/assets/images/appstore.png" alt="App Store" />
+                <img src="https://www.gstv.in/public/assets/images/appstore.png" alt="App Store" />
               </Link>
             </div>
             <h6 style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '10px', marginTop: '0px', color: '#977e34' }}>
-              {MISC_UI.FOLLOWERS}
+              ફોલવર્સ માટે
             </h6>
             <div className="socila-media" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               <Link href="https://www.facebook.com/GSTV.NEWS" target="_blank" rel="noopener noreferrer">
@@ -393,7 +391,7 @@ export default function LeftSidebar() {
           <button className="back-arrow-btn" onClick={() => setIsMobileMenuOpen(false)}>
             <img src="/images/arrow-backProfile.svg" alt="Back" className="back-arrow" />
           </button>
-          <span className="menu-title">{MISC_UI.ALL_CATEGORIES}</span>
+          <span className="menu-title">All Categories</span>
         </div>
 
         <div className="mobile-menu-content">
@@ -401,7 +399,7 @@ export default function LeftSidebar() {
             {!isMounted && (
               <li className="mobile-menu-item">
                 <div style={{ padding: '15px', textAlign: 'center', color: '#666' }}>
-                  {MISC_UI.CATEGORY_LOADING}
+                  કેટેગરી લોડ થઈ રહી છે...
                 </div>
               </li>
             )}
@@ -409,7 +407,7 @@ export default function LeftSidebar() {
             {isMounted && loading && (
               <li className="mobile-menu-item">
                 <div style={{ padding: '15px', textAlign: 'center', color: '#666' }}>
-                  {MISC_UI.CATEGORY_LOADING}
+                  કેટેગરી લોડ થઈ રહી છે...
                 </div>
               </li>
             )}
@@ -434,7 +432,7 @@ export default function LeftSidebar() {
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {renderCategoryIcon(category)}
-                        <span>{category.category_name}</span>
+                        <span>{category.category_name_guj}</span>
                       </Link>
 
                       {hasSub && (
@@ -454,7 +452,7 @@ export default function LeftSidebar() {
                               onClick={() => setIsMobileMenuOpen(false)}
                             >
                               {renderCategoryIcon(sub)}
-                              <span>{sub.category_name}</span>
+                              <span>{sub.category_name_guj}</span>
                             </Link>
                           </li>
                         ))}

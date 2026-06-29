@@ -6,7 +6,6 @@ import { fetchSatrangCategory, SatrangAuthor } from '@/services/newsApi';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import '@/styles/WebStories.css';
-import { MISC_UI } from '@/constants/gujaratiStrings';
 
 export default function GSTVSatrang() {
   const [satrangCategories, setSatrangCategories] = useState<SatrangAuthor[]>([]);
@@ -189,4 +188,3 @@ export default function GSTVSatrang() {
     </div>
   );
 }
-

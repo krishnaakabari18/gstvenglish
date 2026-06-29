@@ -13,11 +13,10 @@ import {
   formatDateToDDMMYYYY,
   getCurrentDateDDMMYYYY,
 } from "@/services/magazineApi";
-import { LOADING_MESSAGES, CATEGORIES, ERROR_MESSAGES } from '@/constants/gujaratiStrings';
-import Link from 'next/link';
 import ProFooter from "@/components/ProFooter";
 import MagazineLogoStrip from "@/components/MagazineLogoStrip";
 import EpaperCalendar from "@/components/EpaperCalendar";
+import Link from "next/link";
 
 const MagazinePageContent: React.FC = () => {
   const [magazines, setMagazines] = useState<MagazineItem[]>([]);
@@ -84,7 +83,7 @@ const MagazinePageContent: React.FC = () => {
       }
     } catch (err) {
       console.error("[Magazine] Error loading:", err);
-      setError(ERROR_MESSAGES.MAGAZINE_LOAD_ERROR_GUJ);
+      setError("મેગેઝિન લોડ કરવામાં તકલીફ આવી. કૃપા કરીને ફરી પ્રયાસ કરો.");
     } finally {
       setLoading(false);
       setLoadingMore(false);
@@ -156,7 +155,7 @@ const MagazinePageContent: React.FC = () => {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <p>{LOADING_MESSAGES.LOADING_MAGAZINE_GUJ}</p>
+        <p>મેગેઝિન લોડ કરી રહ્યા છીએ...</p>
       </div>
     );
   }
@@ -166,8 +165,9 @@ const MagazinePageContent: React.FC = () => {
     <div className="container-fluid epaper-page-container" data-page="magazine">
       <div className="epaperTopFixed">
         <div className="filterTAbEpaper">
-          <Link className="tab-link" href="/epaper">{CATEGORIES.NEWS_PAPER_GUJ}</Link>
-          <Link className="tab-link active-link" href="/magazine">{CATEGORIES.MAGAZINE_GUJ}</Link>
+          <Link className="tab-link" href="/epaper">ન્યૂઝ પેપર</Link>
+          <Link className="tab-link active-link" href="/magazine">મેગેઝિન</Link>
+          {/* <Link className="tab-link" href="/buddhiprakash">બુદ્ધિપ્રકાશ</Link> */}
         </div>
       </div>
 

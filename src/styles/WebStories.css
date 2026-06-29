@@ -1,5 +1,48 @@
 /* Web Stories Section Styles */
 
+/* ═══════════════════════════════════════════════════════
+   Align WebStories & Magazine edge-to-edge like GSTV Shorts
+   ═══════════════════════════════════════════════════════ */
+
+/* 1. Let arrows overflow outside the carousel box */
+.web-stories-section .custom-carousel,
+.web-stories-section .MultiCarousel {
+  overflow: visible !important;
+  position: relative;
+}
+
+/* 2. ws-clip-wrap clips the sliding track without clipping arrows */
+.ws-clip-wrap {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* 3. Arrows sit outside the card edge (matches ys-arrow-left/right) */
+.web-stories-section .MultiCarousel .leftLst {
+  left: -3px !important;
+  right: auto !important;
+}
+.web-stories-section .MultiCarousel .rightLst {
+  right: -3px !important;
+  left: auto !important;
+}
+
+/* 4. Zero out the card margin/padding that creates inner left/right spacing */
+.web-stories-section .MultiCarousel-inner .card,
+.web-stories-section .MultiCarousel-inner .custom-card {
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* 5. Small gap between cards via padding — first card starts flush */
+.web-stories-section .MultiCarousel-inner > div {
+  padding: 0 6px 0 6px;
+}
+.web-stories-section .MultiCarousel-inner > div:last-child {
+  padding-right: 0;
+}
 
 .storySectionNav {
   display: flex;
@@ -35,6 +78,42 @@
   transition: background-color 0.3s ease;
 }
 
+/* "વધુ વાંચો" circle-arrow button — matches GSTV Shorts style */
+.ws-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #850E00 !important;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0 !important;
+  background: none !important;
+  border-radius: 0 !important;
+}
+.ws-more-link:hover { text-decoration: underline; }
+
+.ws-more-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(133, 14, 0, 0.90);
+  border: 2px solid #b1974f;
+  color: #fff;
+  font-size: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.20);
+  transition: background 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+.ws-more-link:hover .ws-more-btn {
+  background: rgba(133, 14, 0, 1);
+  transform: scale(1.1);
+  text-decoration: none;
+}
+
 
 
 .carousel-inner-top {
@@ -45,6 +124,15 @@
 .MultiCarousel {
   position: relative;
   width: 100%;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.MultiCarousel:active {
+  cursor: grabbing;
 }
 
 .MultiCarousel-inner {

@@ -1,3 +1,6 @@
+// NewsDetailWithInfiniteScroll.tsx
+'use client';
+
 import React, {
   useCallback,
   useEffect,
@@ -17,9 +20,7 @@ import ShareButtons from './ShareButtons';
 import RelatedNews from "@/components/RelatedNews";
 import LockScreen from '@/components/LockScreen';
 import { useContentLock } from '@/hooks/useContentLock';
-import { RELATED_NEWS, APP_DOWNLOAD, NAVIGATION } from '@/constants';
-import { DATE_TIME_LABELS,GENERAL_MESSAGES,MISC_UI,SPECIAL_LABELS } from '@/constants/gujaratiStrings';
-
+ 
 // Global registry to avoid re-processing the same embed container multiple times
 const processedEmbedsRegistry = new Set<string>();
 
@@ -59,8 +60,9 @@ interface NewsItem {
   relatedNewsIddata?: Array<any>;
   categories?: Array<{ id: number; title: string; slug: string }>;
   live?: LiveNewsItem[];
-  category_name?: string;
+  category_name_guj?: string;
   is_live_news?: number;
+  audio_path?: string;
 }
 
 interface NewsDetailProps {
@@ -110,8 +112,21 @@ const NewsDetailWithInfiniteScroll: React.FC<NewsDetailProps> = ({
   newsSlug,
   subcategorySlug
 }) => {
+  useEffect(() => {
+
+    const ua = navigator.userAgent;
+
+    if (/android/i.test(ua)) {
+      document.body.classList.add("android-device");
+    } 
+    else if (/iPhone|iPad|iPod/i.test(ua)) {
+      document.body.classList.add("ios-device");
+    }
+
+  }, []);
   // Basic states
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -125,6 +140,8 @@ const NewsDetailWithInfiniteScroll: React.FC<NewsDetailProps> = ({
   const [bookmarkUpdate, setBookmarkUpdate] = useState(0);
   const videoRefs = useRef<HTMLVideoElement[]>([]);
   const [activeVideoIndex, setActiveVideoIndex] = useState<number | null>(null);
+  const audioRefs = useRef<HTMLAudioElement[]>([]);
+  const [activeAudioIndex, setActiveAudioIndex] = useState<number | null>(null);
   const processedContentCache = useRef<Map<string, string>>(new Map());
   const isClient = useIsClient();
 
@@ -173,6 +190,85 @@ useEffect(() => {
     }
   });
 }, [activeVideoIndex]);
+// useEffect(() => {
+//   audioRefs.current.forEach((audio, index) => {
+//     if (!audio) return;
+//     if (index === activeAudioIndex) {
+//       audio.play().catch(() => {});
+//     } else {
+//       audio.pause();
+//       audio.currentTime = 0;
+//     }
+//   });
+// }, [activeAudioIndex]);
+useEffect(() => {
+  audioRefs.current.forEach((audio, index) => {
+    if (!audio) return;
+    if (index !== activeAudioIndex) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  });
+}, [activeAudioIndex]);
+
+// ── Auto-play audio when scrolled into view, pause when out of view ──────────
+useEffect(() => {
+  const observers: IntersectionObserver[] = [];
+
+  const setupObserver = () => {
+    // Clean up old observers
+    observers.forEach(o => o.disconnect());
+    observers.length = 0;
+
+    audioRefs.current.forEach((audio, index) => {
+      if (!audio) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // This audio is now visible — stop all others, play this one
+              audioRefs.current.forEach((other, otherIndex) => {
+                if (other && otherIndex !== index) {
+                  other.pause();
+                  other.currentTime = 0;
+                }
+              });
+              setActiveAudioIndex(index);
+              audio.play().catch(() => {
+                // Autoplay blocked by browser — user interaction needed
+              });
+            } else {
+              // Out of view — pause
+              audio.pause();
+              if (activeAudioIndex === index) {
+                setActiveAudioIndex(null);
+              }
+            }
+          });
+        },
+        {
+          // Trigger when at least 60% of the audio player is visible
+          threshold: 0.6,
+          rootMargin: '0px',
+        }
+      );
+
+      observer.observe(audio);
+      observers.push(observer);
+    });
+  };
+
+  // Small delay to let new audio elements mount after infinite scroll loads
+  const timer = setTimeout(setupObserver, 300);
+
+  return () => {
+    clearTimeout(timer);
+    observers.forEach(o => o.disconnect());
+  };
+  // Re-run when news list changes (new items loaded via infinite scroll)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [newsItems.length]);
 useEffect(() => {
   const onScroll = () => {
     if (activeVideoIndex === null) return;
@@ -194,6 +290,7 @@ useEffect(() => {
   window.addEventListener("scroll", onScroll, { passive: true });
   return () => window.removeEventListener("scroll", onScroll);
 }, [activeVideoIndex]);
+// Audio out-of-view pause is handled by the IntersectionObserver above
   // SEO helpers
   const updateSEOMetadata = useCallback((newsItem: NewsItem) => {
     try {
@@ -248,7 +345,7 @@ useEffect(() => {
         if (!img.startsWith('http')) {
           img = img.startsWith('/') ? `${origin}${img}` : `${origin}/${img}`;
         }
-        setMeta('og:image', img);
+        setMeta('og:image', img+'ssss');
         setMeta('twitter:image', img, true);
       }
 
@@ -304,13 +401,16 @@ useEffect(() => {
      Your Existing Embed Replacements
   -------------------------------------------------- */
 
-  content = content.replace(YT_REGEX, (_, videoId) => `
+content = content.replace(YT_REGEX, (_, videoId) => `
 <!--SOCIAL_EMBED_START-->
 <div class="social-media-embed youtube-embed">
   <iframe
-    src="https://www.youtube.com/embed/${videoId}"
+    src="https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}"
     loading="lazy"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen
+    referrerpolicy="strict-origin-when-cross-origin"
     style="width:100%;aspect-ratio:16/9;border-radius:8px;">
   </iframe>
 </div>
@@ -490,48 +590,44 @@ useEffect(() => {
   }, [isClient]);
 
   // SocialEmbedContainer - sets innerHTML once and triggers widget parsing inside container
-  const SocialEmbedContainer: React.FC<{ html: string; uniqueId: string }> = ({ html, uniqueId }) => {
-    const ref = useRef<HTMLDivElement | null>(null);
+ const SocialEmbedContainer: React.FC<{ html: string }> = ({ html }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
 
-    useLayoutEffect(() => {
+  useEffect(() => {
+    if (!ref.current) return;
+
+    // 🔥 Reset DOM completely
+    ref.current.innerHTML = "";
+
+    const timeout = setTimeout(() => {
       if (!ref.current) return;
-      if (processedEmbedsRegistry.has(uniqueId)) return;
 
-      // Prevent double initialization
+      // Inject fresh HTML
       ref.current.innerHTML = html;
-      processedEmbedsRegistry.add(uniqueId);
 
-      // Trigger widget parsing for this container only
-      setTimeout(() => {
-        const container = ref.current;
-        if (!container) return;
+      // 🔥 FORCE Twitter re-render
+      if ((window as any).twttr?.widgets) {
+        (window as any).twttr.widgets.load(ref.current);
+      }
 
-        // Twitter
-        try {
-          if ((window as any).twttr && (window as any).twttr.widgets) {
-            (window as any).twttr.widgets.load(container);
-          }
-        } catch (e) { /* ignore */ }
+      // Instagram
+      if ((window as any).instgrm?.Embeds) {
+        (window as any).instgrm.Embeds.process();
+      }
 
-        // Instagram
-        try {
-          if ((window as any).instgrm && (window as any).instgrm.Embeds) {
-            (window as any).instgrm.Embeds.process();
-          }
-        } catch (e) { /* ignore */ }
+      // Facebook
+      if ((window as any).FB?.XFBML) {
+        (window as any).FB.XFBML.parse(ref.current);
+      }
 
-        // Facebook
-        try {
-          if ((window as any).FB && (window as any).FB.XFBML) {
-            (window as any).FB.XFBML.parse(container);
-          }
-        } catch (e) { /* ignore */ }
-      }, 150);
-    }, [html, uniqueId]);
+    }, 100);
 
-    return <div ref={ref} suppressHydrationWarning data-embed-container={uniqueId} />;
-  };
+    return () => clearTimeout(timeout);
 
+  }, [html]);
+
+  return <div ref={ref} suppressHydrationWarning />;
+};
   
   // Render parsed description: splits into safe paragraphs and renders SocialEmbedContainer where needed
 const renderDescription = useCallback(
@@ -544,17 +640,22 @@ const renderDescription = useCallback(
   return (
     <div className="blogs-main-section relatednewsdata" style={{ margin: "25px 0" }}>
       <div className="blogs-head-bar first">
-        <span className="blog-category">{RELATED_NEWS.ALSO_READ}</span>
+        <span className="blog-category">આ પણ વાંચો :</span>
       </div>
 
       <div className="row blog-content related-blog-content relatednews relatednews2">
         {newsItem.relatedNewsIddata.map((r: RelatedNewsItem, i: number) => {
-          const thumb =
-            r.featureImage
-              ? r.featureImage
-              : r.videoURL
-              ? r.videoURL.replace(/\.(mp4|webm|mov)$/i, "_video.webp")
-              : "/assets/images/gstv-logo-bg.png";
+          const thumbWebp = r.videoURL 
+            ? r.videoURL.replace(/\.(mp4|webm|mov)$/i, "_video.webp")
+            : null;
+          
+          const thumbGif = r.videoURL 
+            ? r.videoURL.replace(/\.(mp4|webm|mov)$/i, "_video.gif")
+            : null;
+
+          const thumb = r.featureImage
+            ? r.featureImage
+            : thumbWebp || "/assets/images/gstv-logo-bg.png";
 
           return (
             <div key={i} className="col-lg-6">
@@ -566,10 +667,15 @@ const renderDescription = useCallback(
                   <img
                     src={thumb}
                     loading="lazy"
-                    onError={(e) =>
-                      ((e.target as HTMLImageElement).src =
-                        "/assets/images/gstv-logo-bg.png")
-                    }
+                    onError={(e) => {
+                      const img = e.target as HTMLImageElement;
+                      if (!img.dataset.fallback && thumbGif) {
+                        img.dataset.fallback = 'gif';
+                        img.src = thumbGif;
+                      } else {
+                        img.src = "/assets/images/gstv-logo-bg.png";
+                      }
+                    }}
                   />
                 </div>
 
@@ -586,6 +692,11 @@ const renderDescription = useCallback(
 }
     if (!rawDescription) return null;
 
+    // Debug: Log the raw description
+    console.log('📹 Raw description length:', rawDescription.length);
+    console.log('📹 Has video tag:', rawDescription.includes('<video'));
+    console.log('📹 First 500 chars:', rawDescription.substring(0, 500));
+
     const processed = convertEmbedsInline(rawDescription);
 
     const parts = processed
@@ -601,20 +712,21 @@ const renderDescription = useCallback(
     return parts.map((part, partIndex) => {
       if (locked) return null;
 
+     
       /* ---------------- SOCIAL EMBED ---------------- */
-      if (part.startsWith("<!--SOCIAL_EMBED_START-->")) {
-        const innerHtml = part
-          .replace("<!--SOCIAL_EMBED_START-->", "")
-          .replace("<!--SOCIAL_EMBED_END-->", "");
+if (part.startsWith("<!--SOCIAL_EMBED_START-->")) {
+  const innerHtml = part
+    .replace("<!--SOCIAL_EMBED_START-->", "")
+    .replace("<!--SOCIAL_EMBED_END-->", "");
 
-        const uniqueId = `news-${newsIndex}-embed-${partIndex}-${hashString(innerHtml)}`;
+  const uniqueId = `news-${newsIndex}-embed-${partIndex}-${hashString(innerHtml)}`;
 
-        return (
-          <div key={uniqueId} style={{ margin: "10px 0" }}>
-            <SocialEmbedContainer html={innerHtml} uniqueId={uniqueId} />
-          </div>
-        );
-      }
+  return (
+    <div key={uniqueId + "-" + newsIndex + "-" + partIndex} style={{ margin: "10px 0" }}>
+      <SocialEmbedContainer html={innerHtml} />
+    </div>
+  );
+}
 
       /* ---------------- TEXT ---------------- */
       const html = part.trim();
@@ -622,7 +734,7 @@ const renderDescription = useCallback(
 
       const paragraphs: string[] = [];
       //const regex = /<p[^>]*>([\s\S]*?)<\/p>/gi;
-      const regex = /<(p|ul|ol|table|figure|div|h[1-6])[^>]*>[\s\S]*?<\/\1>/gi;
+      const regex = /<(p|ul|ol|table|figure|div|h[1-6]|video|iframe|audio)[^>]*>[\s\S]*?<\/\1>/gi;
       let match;
 
       // while ((match = regex.exec(html)) !== null) {
@@ -640,100 +752,119 @@ const renderDescription = useCallback(
           // Allow images or media
           const hasImage = /<img\b/i.test(block);
           const hasIframe = /<iframe\b/i.test(block);
+          const hasVideo = /<video\b/i.test(block);
 
-          if (cleanText.length > 0 || hasImage || hasIframe) {
+          if (cleanText.length > 0 || hasImage || hasIframe || hasVideo) {
             paragraphs.push(block);
+            if (hasVideo) {
+              console.log('📹 Found video block:', block.substring(0, 200));
+            }
           }
         }
 
+      console.log('📹 Total paragraphs found:', paragraphs.length);
+      console.log('📹 Paragraphs with video:', paragraphs.filter(p => p.includes('<video')).length);
+
       let modifiedHTML = "";
       let paraCount = 0;
-      let contentParaCount = 0;
+      let contentParaCount = 1;
 
       for (let i = 0; i < paragraphs.length; i++) {
-        modifiedHTML += paragraphs[i];
+        const currentParagraph = paragraphs[i];
+        const isHeading = /<h[1-6]\b/i.test(currentParagraph);
+        
+        modifiedHTML += currentParagraph;
         globalParaCount++;
-         paraCount++;
-        contentParaCount++;
+        paraCount++;
+        
+        // Only increment contentParaCount if it's NOT a heading
+        if (!isHeading) {
+          contentParaCount++;
+        }
+        
         if (pageLocked && globalParaCount === 1) {
           locked = true;
           break;
         }
         /* 🔥 APP PROMO AFTER FIRST PARA */
-        if (globalParaCount === 1 && !promoInserted && !newsItem?.live?.length) {
-          modifiedHTML += `
-            <div class="download-app" style="text-align:center;display:block;margin:20px 0;">
-              <h6 style="font-size:25px !important;font-family:'Hind Vadodara',sans-serif;color:#000;text-align:center;margin-bottom:10px;">
-                ${APP_DOWNLOAD.DOWNLOAD_APP}
-              </h6>
-              <div class="download-btn clearfix" style="display:inline-flex;gap:15px;align-items:center;justify-content:center;">
-                <a href="https://play.google.com/store/apps/details?id=com.tops.gstvapps" target="_blank" rel="noopener noreferrer">
-                  <img src="/assets/images/play-store.png" alt="Play Store" style="width:100%;height:auto;">
-                </a>
-                <a href="https://apps.apple.com/in/app/gstv-gujarat-samachar/id1609602449" target="_blank" rel="noopener noreferrer">
-                  <img src="/assets/images/appstore.png" alt="App Store" style="width:100%;height:auto;">
-                </a>
-              </div>
-            </div>
-            <div class="text-center pb-2">
-              <div id="gstvin_inarticle1-${newsItem.id}">
-                <script>
-                  googletag.cmd.push(function() { googletag.display('gstvin_inarticle1-${newsItem.id}'); });
-                </script>
-              </div>
-            </div>
-          `;
-          promoInserted = true;
-        }
+        // if (globalParaCount === 1 && !promoInserted && !newsItem?.live?.length) {
+        //   modifiedHTML += `
+        //     <div class="download-app" style="text-align:center;display:block;margin:20px 0;">
+        //       <h6 style="font-size:25px !important;font-family:'Hind Vadodara',sans-serif;color:#000;text-align:center;margin-bottom:10px;">
+        //         GSTVની એપ્લિકેશન ડાઉનલોડ કરો
+        //       </h6>
+        //       <div class="download-btn clearfix" style="display:inline-flex;gap:15px;align-items:center;justify-content:center;">
+        //         <a href="https://play.google.com/store/apps/details?id=com.tops.gstvapps" target="_blank" rel="noopener noreferrer">
+        //           <img src="/assets/images/play-store.png" alt="Play Store" style="width:100%;height:auto;">
+        //         </a>
+        //         <a href="https://apps.apple.com/in/app/gstv-gujarat-samachar/id1609602449" target="_blank" rel="noopener noreferrer">
+        //           <img src="/assets/images/appstore.png" alt="App Store" style="width:100%;height:auto;">
+        //         </a>
+        //       </div>
+        //     </div>
+        //     <div class="text-center pb-2">
+        //       <div id="gstvin_inarticle1-${newsItem.id}">
+        //         <script>
+        //           googletag.cmd.push(function() { googletag.display('gstvin_inarticle1-${newsItem.id}'); });
+        //         </script>
+        //       </div>
+        //     </div>
+        //   `;
+        //   promoInserted = true;
+        // }
 
         /* 🔥 RELATED AFTER 2 PARAS */
         // ✅ After every 2 paragraphs, insert dynamic “આ પણ વાંચો” section
         if (contentParaCount % 2 === 0 && newsItem?.relatedNewsIddata?.length > 0) {
-  const relatedToShow = newsItem.relatedNewsIddata.slice(relatedIndex, relatedIndex + 2);
-  relatedIndex += 2;
-if (relatedToShow.length > 0) {
-  const relatedHTML = `
-    <div class="blogs-main-section relatednewsdata" style="margin:25px 0;">
-      <div class="blogs-head-bar first">
-        <span class="blog-category">${RELATED_NEWS.ALSO_READ}</span>
-      </div>
-      <div class="row blog-content related-blog-content relatednews relatednews2">
-        ${relatedToShow
-          .map((r: RelatedNewsItem) => {
-            const thumb =
-              r.featureImage
-                ? r.featureImage
-                : r.videoURL
-                ? r.videoURL.replace(/\.(mp4|webm|mov)$/i, "_video.webp")
-                : "/assets/images/gstv-logo-bg.png";
+            const relatedToShow = newsItem.relatedNewsIddata.slice(relatedIndex, relatedIndex + 2);
+            relatedIndex += 2;
+          if (relatedToShow.length > 0) {
+            const relatedHTML = `
+              <div class="blogs-main-section relatednewsdata" style="margin:25px 0;">
+                <div class="blogs-head-bar first">
+                  <span class="blog-category">આ પણ વાંચો :</span>
+                </div>
+                <div class="row blog-content related-blog-content relatednews relatednews2">
+                  ${relatedToShow
+                    .map((r: RelatedNewsItem) => {
+                      const thumb =
+                        r.featureImage
+                          ? r.featureImage
+                          : r.videoURL
+                          ? r.videoURL.replace(/\.(mp4|webm|mov)$/i, "_video.webp")
+                          : "/assets/images/gstv-logo-bg.png";
+                      
+                      const thumbGif = r.videoURL 
+                        ? r.videoURL.replace(/\.(mp4|webm|mov)$/i, "_video.gif")
+                        : "";
 
-            return `
-              <div class="col-lg-6">
-                <a href="/news/${r.category_slugs || ""}/${r.slug}" class="custom-blog-title-link">
-                  <div class="img-container" style={{ textAlign: 'center' }}>
-                    <img
-                      src="${thumb}"
-                      alt="${r.title || ""}"
-                      loading="lazy"
-                      style="max-width:100%;display:block;margin:0 auto;"
-                      onerror="this.src='/assets/images/gstv-logo-bg.png';"
-                    />
-                  </div>
-                  <div class="text-container">
-                    <h4 class="custom-blog-title">${r.title || ""}</h4>
-                  </div>
-                </a>
+                      return `
+                        <div class="col-lg-6">
+                          <a href="/news/${r.category_slugs || ""}/${r.slug}" class="custom-blog-title-link">
+                            <div class="img-container" style={{ textAlign: 'center' }}>
+                              <img
+                                src="${thumb}"
+                                alt="${r.title || ""}"
+                                loading="lazy"
+                                style="max-width:100%;display:block;margin:0 auto;"
+                                onerror="if(!this.dataset.fallback && '${thumbGif}'){this.dataset.fallback='gif';this.src='${thumbGif}';}else{this.src='/assets/images/gstv-logo-bg.png';}"
+                              />
+                            </div>
+                            <div class="text-container">
+                              <h4 class="custom-blog-title">${r.title || ""}</h4>
+                            </div>
+                          </a>
+                        </div>
+                      `;
+                    })
+                    .join("")}
+                </div>
               </div>
             `;
-          })
-          .join("")}
-      </div>
-    </div>
-  `;
-  modifiedHTML += relatedHTML;
-}
+            modifiedHTML += relatedHTML;
+          }
 
-}
+        }
 
         /* 🔒 LOCK AFTER EVERYTHING */
         
@@ -884,7 +1015,10 @@ if (relatedToShow.length > 0) {
       }
 
       setNewsItems(newsArray);
-
+      const scrollPosition = window.scrollY;
+      setTimeout(() => {
+        window.scrollTo({ top: scrollPosition });
+      }, 50);
       // Set loaded slugs
       const slugs = newsArray.map(n => n.slug).filter(Boolean);
       setLoadedSlugs(slugs);
@@ -943,7 +1077,7 @@ const getNewsThumb = (news: any): string => {
     return news.featureImage;
   }
 
-  // 2️⃣ Feature image missing → try video GIF
+  // 2️⃣ Feature image missing → try video webp (gif fallback handled in onError)
   if (news.videoURL) {
     const ext = news.videoURL.split(".").pop()?.toLowerCase() || "";
     return news.videoURL.replace(`.${ext}`, `_video.webp`);
@@ -1201,7 +1335,8 @@ newPath += `/${candidateNews.slug}`;
 
 
 
-    if (newPath !== currentPath) {
+    //if (newPath !== currentPath) {
+    if (newPath !== currentPath && candidateNews.slug !== initialSlugRef.current) {
 
       window.history.replaceState(
 
@@ -1220,24 +1355,21 @@ newPath += `/${candidateNews.slug}`;
   };
 
 
+let scrollTimeout: any;
 
-  const onScroll = () => {
+const onScroll = () => {
+  clearTimeout(scrollTimeout);
 
+  scrollTimeout = setTimeout(() => {
     if (!ticking) {
-
       requestAnimationFrame(() => {
-
         updateVisibleArticle();
-
         ticking = false;
-
       });
-
       ticking = true;
-
     }
-
-  };
+  }, 120);
+};
 
 
 
@@ -1358,8 +1490,8 @@ newPath += `/${candidateNews.slug}`;
   let actualCategory = categorySlug;
   let actualSubcategory = subcategorySlug;
 
-  if (newsItem.category_name) {
-    const parts = newsItem.category_name.split(',').map(v => v.trim());
+  if (newsItem.category_name_guj) {
+    const parts = newsItem.category_name_guj.split(',').map(v => v.trim());
     if (parts.length >= 1) actualCategory = parts[0];
     if (parts.length >= 2) actualSubcategory = parts[1];
   }
@@ -1375,7 +1507,7 @@ newPath += `/${candidateNews.slug}`;
                     
       {/* 🔥 Correct Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <Link href="/">{NAVIGATION.HOME}</Link>
+        <Link href="/">હોમ</Link>
         <span> / </span>
 
         <Link href={`/category/${categorySlug}`}>
@@ -1423,7 +1555,7 @@ newPath += `/${candidateNews.slug}`;
         <h1>
             {newsItem.is_live_news === 1 && (
               <span className="liveNewsHeading">
-                <em>{SPECIAL_LABELS.LIVE}</em>
+                <em>લાઇવ</em>
               </span>
             )}{' '}
             {newsItem.title}
@@ -1431,7 +1563,7 @@ newPath += `/${candidateNews.slug}`;
         <div className={styles.newsMeta}>
           <div className="reading-time-blog">
             <img src="/assets/icons/clock.webp" alt="Time" />
-            <span>{DATE_TIME_LABELS.LAST_UPDATE} : {formatDate(newsItem.created_at)}</span>
+            <span>છેલ્લું અપડેટ : {formatDate(newsItem.created_at)}</span>
           </div>
 
           <div className={styles.newsActions}>
@@ -1440,7 +1572,7 @@ newPath += `/${candidateNews.slug}`;
               className={styles.liveTvLink}
               style={{ display: typeof window !== 'undefined' && window.innerWidth <= 768 ? 'none' : 'block' }}
             >
-              <img src="/assets/images/live-ico.svg" alt="Live TV" />
+              <img src="/assets/images/live-ico.svg" alt="લાઇવ ટીવી" />
             </Link>
 
             <Link
@@ -1526,9 +1658,37 @@ newPath += `/${candidateNews.slug}`;
         ) : null}
 
         {newsItem.img_credit_txt && (
-          <div className="news_credit_txt"><strong>{GENERAL_MESSAGES.SOURCE} :</strong> {newsItem.img_credit_txt}</div>
+          <div className="news_credit_txt"><strong>સોર્સ :</strong> {newsItem.img_credit_txt}</div>
         )}
 
+        {/* Audio Player */}
+        {/* {newsItem.audio_url && newsItem.audio_url.trim() !== '' && (
+          <div className="news-audio-player" style={{marginTop: '15px'}}>
+            <audio controls style={{width: '100%'}}>
+              <source src={newsItem.audio_url} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        )} */}
+        {newsItem.audio_path && newsItem.audio_path.trim() !== '' && (
+          <div className="news-audio-player" style={{ marginTop: '15px' }}>
+
+           <audio
+            ref={(el) => {
+              if (el) audioRefs.current[index] = el;
+            }}
+            controls
+            style={{ width: '100%' }}
+            onPlay={() => {
+              setActiveAudioIndex(index);
+            }}
+>
+              <source src={newsItem.audio_path} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+
+          </div>
+        )}
         {/* Description */}
         <div className="detail-page finalContent">
           {renderDescription(newsItem.description || '', newsItem, index)}
@@ -1572,11 +1732,8 @@ newPath += `/${candidateNews.slug}`;
                     </div>
                   )} */}
                   {liveItem.livedesc && (
-                    <div
-                      className="liveNewsDesc"
-                      dangerouslySetInnerHTML={{
-                        __html: convertEmbedsInline(liveItem.livedesc)
-                      }}
+                    <SocialEmbedContainer
+                      html={convertEmbedsInline(liveItem.livedesc)}
                     />
                   )}
                 </div>
@@ -1588,7 +1745,7 @@ newPath += `/${candidateNews.slug}`;
         {/* Tags */}
         {newsItem.tags && (
           <div className="tagsOuterblock">
-            <strong>{GENERAL_MESSAGES.TOPICS}:</strong>
+            <strong>ટોપિક્સ:</strong>
             {newsItem.tags.split(',').map((tag, tIdx) => (
               <span key={tIdx} className="tagscls">
                 <Link href={`/tags/${tag.trim().toLowerCase().replace(/\s+/g, '-')}`}>
@@ -1617,7 +1774,7 @@ newPath += `/${candidateNews.slug}`;
         {/* Next Story */}
         {index !== newsItems.length - 1 && (
           <div id={`next-story-${newsItems[index].id}`} className="next-story">
-            <span style={{ marginRight: 8 }}>{SPECIAL_LABELS.NEXT_STORY}</span>
+            <span style={{ marginRight: 8 }}>નેક્સ્ટ સ્ટોરી</span>
             <img
               src="/assets/images/next-arrow.gif"
               width="16"
@@ -1654,4 +1811,3 @@ newPath += `/${candidateNews.slug}`;
 };
 
 export default NewsDetailWithInfiniteScroll;
-

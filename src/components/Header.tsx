@@ -6,8 +6,8 @@ import { useSettings } from '@/hooks/useSettings';
 import dynamic from 'next/dynamic';
 import { useStockmarketSiteSetting } from '@/hooks/useStockmarketSiteSetting';
 import { MEDIA_BASE_URL, API_ENDPOINTS } from '@/constants/api';
-import { NAVIGATION, WEB_STORIES, PLACEHOLDERS, BUTTON_TEXT, LOADING_MESSAGES } from '@/constants/gujaratiStrings';
 import ProfileMenuItems from './ProfileMenuItems';
+// import GoogleTranslate from "@/components/GoogleTranslate";
 import Link from 'next/link';
 
 function resolveUrl(url?: string): string {
@@ -184,8 +184,30 @@ export default function Header() {
       <div className="container-fluid">
         <div className="row w-100 align-items-center">
           {/* Logo */}
-          <div className="col-lg-2 col-md-2 col-sm-6 col-6 p-0">
-            <Link href="/" className="navbar-brand">
+          <div className="col-lg-2 col-md-2 col-sm-6 col-6 p-0 d-flex align-items-center gap-2">
+            {/* Hamburger — mobile only, before logo */}
+            <button
+              className="hdr-hamburger d-lg-none"
+              aria-label="Open menu"
+              onClick={() => window.dispatchEvent(new CustomEvent('toggleMobileMenu'))}
+              style={{
+                background: 'none',
+                border: 'none',
+                outline: 'none',
+                boxShadow: 'none',
+                padding: '4px 6px',
+                cursor: 'pointer',
+                color: '#333',
+                fontSize: '22px',
+                lineHeight: 1,
+                flexShrink: 0,
+                WebkitAppearance: 'none',
+                MozAppearance: 'none',
+              } as React.CSSProperties}
+            >
+              <i className="fa-solid fa-bars"></i>
+            </button>
+            <Link href="/" className="navbar-brand mb-0">
               <Image
                 key={logoImage}
                 src={logoImage}
@@ -205,24 +227,24 @@ export default function Header() {
             <div className="navbar-collapse">
               <div className="navbar-nav">
                 <Link className="nav-item nav-link" href="/">
-                  <Image src="/assets/icons/header-home.svg" alt={NAVIGATION.HOME} width={25} height={25} />
-                  <p className="main-header-title custom-gujrati-font">{NAVIGATION.HOME}</p>
+                  <Image src="/assets/icons/header-home.svg" alt="હોમ" width={25} height={25} />
+                  <p className="main-header-title custom-gujrati-font">હોમ</p>
                 </Link>
                 <Link className="nav-item nav-link" href="/web-stories">
-                  <Image src="/assets/icons/header-webstorys.svg" alt={WEB_STORIES.TITLE} width={25} height={25} />
-                  <p className="main-header-title custom-gujrati-font">{WEB_STORIES.TITLE}</p>
+                  <Image src="/assets/icons/header-webstorys.svg" alt="વેબ સ્ટોરીઝ" width={25} height={25} />
+                  <p className="main-header-title custom-gujrati-font">વેબ સ્ટોરીઝ</p>
                 </Link>
                 <Link className="nav-item nav-link" href="/category/videos">
-                  <Image src="/assets/icons/header-video.svg" alt={NAVIGATION.VIDEOS} width={25} height={25} />
-                  <p className="main-header-title custom-gujrati-font">{NAVIGATION.VIDEOS}</p>
+                  <Image src="/assets/icons/header-video.svg" alt="વીડિયો" width={25} height={25} />
+                  <p className="main-header-title custom-gujrati-font">વીડિયો</p>
                 </Link>
                 <Link className="nav-item nav-link" href="/category/entertainment">
-                  <Image src="/assets/icons/header-entertainment.svg" alt={NAVIGATION.ENTERTAINMENT} width={25} height={25} />
-                  <p className="main-header-title custom-gujrati-font">{NAVIGATION.ENTERTAINMENT}</p>
+                  <Image src="/assets/icons/header-entertainment.svg" alt="એન્ટરટેઇનમેન્ટ" width={25} height={25} />
+                  <p className="main-header-title custom-gujrati-font">એન્ટરટેઇનમેન્ટ</p>
                 </Link>
                 <Link className="nav-item nav-link" href="/livetv">
-                  <Image src="/assets/icons/livetv.svg" alt={NAVIGATION.LIVE_TV} width={25} height={25} />
-                  <p className="main-header-title custom-gujrati-font">{NAVIGATION.LIVE_TV}</p>
+                  <Image src="/assets/icons/livetv.svg" alt="લાઇવ ટીવી" width={25} height={25} />
+                  <p className="main-header-title custom-gujrati-font">લાઇવ ટીવી</p>
                 </Link>
               </div>
             </div>
@@ -231,22 +253,28 @@ export default function Header() {
           {/* Right side icons and profile */}
           <div className="col-lg-3 col-md-3 col-sm-6 col-6 p-0">
             <div className="profile-icons custom-profile-icons">
+              {/* Google Translate Button */}
+              {/* <GoogleTranslate /> */}
+
+
               {PodcastEnabled && (
                  <Link href="/gstv-podcast" className="e-news-paper searchNews">
-                <Image src="/assets/images/ico_pod.svg" alt={NAVIGATION.PODCAST} width={21} height={21} />
-                <span className="hrader-title-text">{NAVIGATION.PODCAST}</span>
+                <Image src="/assets/images/ico_pod.svg" alt="પોડકાસ્ટ" width={21} height={21} />
+                <span className="hrader-title-text">પોડકાસ્ટ</span>
               </Link>
               )} 
 
               <Link href="/search" className="e-news-paper searchNews ">
                 <Image src="/assets/images/search_icon.svg" alt="Search" width={21} height={21} />
-                <span className="hrader-title-text">{NAVIGATION.SEARCH}</span>
+                <span className="hrader-title-text">સર્ચ</span>
               </Link>
 
               <Link href="/epaper" className="e-news-paper epapercls mobiledisplay">
                 <Image src="/assets/icons/e-news-paper.svg" alt="E-news-paper" width={21} height={21} />
-                <span className="hrader-title-text">{NAVIGATION.E_PAPER}</span>
+                <span className="hrader-title-text">ઈ-પેપર</span>
               </Link>
+
+              
 
               {isLoggedIn ? (
                 <>
@@ -290,7 +318,7 @@ export default function Header() {
                             <path d="M19 12H5M12 19l-7-7 7-7" />
                           </svg>
                         </button>
-                        <div className="title">{NAVIGATION.MY_PROFILE}</div>
+                        <div className="title">મારી પ્રોફાઇલ</div>
                       </div>
                       <div className="userNav">
                         <ProfileMenuItems onMenuClick={closeProfile} />
@@ -301,7 +329,7 @@ export default function Header() {
               ) : (
                 <Link href="/login" className="btnLogin">
                   <Image src="/assets/images/user-icon.svg" className='user-icon' alt="user-icon" width={35} height={35} />
-                  <span>{NAVIGATION.LOGIN}</span>
+                  <span>લોગિન</span>
                 </Link>
               )}
             </div>
@@ -357,7 +385,7 @@ export default function Header() {
                     fontFamily: "'Noto Sans Gujarati', sans-serif"
                   }}
                 >
-                  {PLACEHOLDERS.SELECT_CITY}
+                  શહેર પસંદ કરો
                 </h4>
               </div>
 
@@ -367,7 +395,7 @@ export default function Header() {
                   <input
                     type="text"
                     id="citySearch"
-                    placeholder={PLACEHOLDERS.SEARCH_CITY}
+                    placeholder="સર્ચ યોર સિટી"
                     style={{
                       width: '100%',
                       padding: '12px 45px 12px 20px',
@@ -437,7 +465,7 @@ export default function Header() {
             >
               <div className="cityList"></div>
               <div className="no-results" style={{display: 'none', textAlign: 'center', padding: '40px', color: '#666', fontSize: '18px', fontFamily: "'Noto Sans Gujarati', sans-serif"}}>
-                {LOADING_MESSAGES.NO_CITY_FOUND}
+                શહેર મળ્યું નથી
               </div>
             </div>
 
@@ -471,7 +499,7 @@ export default function Header() {
                   minWidth: '200px'
                 }}
               >
-                {BUTTON_TEXT.PROCEED}
+                આગળ વધો
               </button>
             </div>
           </form>
@@ -529,7 +557,7 @@ export default function Header() {
                     fontFamily: '"Hind Vadodara", sans-serif'
                   }}
                 >
-                  {PLACEHOLDERS.SELECT_CATEGORY}
+                  કેટેગરી પસંદ કરો
                 </h4>
 
                 <div style={{ flex: 1, maxWidth: '400px' }}>
@@ -537,7 +565,7 @@ export default function Header() {
                     <input
                       type="text"
                       id="categorySearch"
-                      placeholder={PLACEHOLDERS.SEARCH_CATEGORY}
+                      placeholder="સર્ચ યોર કેટેગરી"
                       style={{
                         width: '100%',
                         padding: '12px 45px 12px 20px',
@@ -624,7 +652,7 @@ export default function Header() {
                   fontFamily: '"Hind Vadodara", sans-serif'
                 }}
               >
-                {LOADING_MESSAGES.NOT_LOADING_CATEGORY}
+                કેટેગરી મળ્યું નથી
               </div>
               <div
                 className="loading-categories"
@@ -648,7 +676,7 @@ export default function Header() {
                     margin: '0 auto'
                   }}></div>
                 </div>
-                {LOADING_MESSAGES.LOADING_CATEGORIES}
+                કેટેગરી લોડ થઈ રહી છે...
               </div>
             </div>
 
@@ -683,13 +711,77 @@ export default function Header() {
                   minWidth: '150px'
                 }}
               >
-                {BUTTON_TEXT.PROCEED}
+                આગળ વધો
               </button>
             </div>
           </form>
         </div>
       </div>
     </div>
+     <style jsx global>{`
+/* Hide Google translate top bar */
+.goog-te-banner-frame, .VIpgJd-ZVi9od-ORHb-OEVmcd {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+iframe.goog-te-banner-frame {
+  display: none !important;
+}
+
+/* Prevent page shifting */
+body {
+  top: 0px !important;
+  position: static !important;
+}
+
+/* Hide google branding text */
+.goog-logo-link {
+  display: none !important;
+}
+
+.goog-te-gadget span {
+  display: none !important;
+}
+
+/* ── Mobile hamburger in header ── */
+.hdr-hamburger {
+  display: none;
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  padding: 4px 6px;
+  cursor: pointer;
+  color: #333;
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.hdr-hamburger:focus,
+.hdr-hamburger:focus-visible,
+.hdr-hamburger:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+@media (max-width: 991px) {
+  .hdr-hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Hide the old fixed-position hamburger from LeftSidebar */
+  .mobile-menu-btn {
+    display: none !important;
+  }
+}
+`}</style>
     </nav>
   );
 }

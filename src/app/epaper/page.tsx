@@ -20,7 +20,6 @@ import {
 import EpaperCalendar from '@/components/EpaperCalendar';
 import ProFooter from "@/components/ProFooter";
 import Link from 'next/link';
-import { CATEGORIES } from '@/constants';
 
 const EpaperPageContent: React.FC = () => {
 
@@ -261,12 +260,14 @@ const EpaperPageContent: React.FC = () => {
       <div className="epaperTopFixed">
         <div className="filterTAbEpaper">
           <Link className="tab-link active-link" href='/epaper'>
-           {CATEGORIES.NEWS_PAPER_GUJ}
+            ન્યૂઝ પેપર
           </Link>
           <Link className="tab-link" href='/magazine'>
-            {CATEGORIES.MAGAZINE}
+            મેગેઝિન
           </Link>
-
+          {/* <Link className="tab-link" href='/buddhiprakash'>
+            બુદ્ધિપ્રકાશ
+          </Link> */}
         </div>
         <EpaperCalendar
           currentDate={selectedDate}

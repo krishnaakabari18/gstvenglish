@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Contact Us - GSTV',
     description: 'Get in touch with GSTV. Contact us for any queries, feedback, or support.',
-    url: 'https://english.gstv.in/contact-us',
+    url: 'https://www.gstv.in/contact-us',
     siteName: 'GSTV',
     type: 'website',
   },

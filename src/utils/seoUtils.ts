@@ -366,7 +366,7 @@ function formatCategoryName(slug: string): string {
  */
 function getNewsImage(news: any): string {
   // 1️⃣ Video thumbnail has highest priority
-  if (news.videoURL && news.videoURL.includes('.mp4')) {
+  if (news.videoURL && news.videoURL.includes('.mp4') && (news.featureImage == '' || news.featureImage == null || news.featureImage == 'null')) {
     return news.videoURL.replace(/\.mp4$/i, '_video_small.jpg');
   }
 

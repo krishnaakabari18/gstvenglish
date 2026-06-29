@@ -16,7 +16,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   // Check if current page should hide sidebars
-  const shouldHideSidebars = pathname?.startsWith('/epaper') || pathname?.startsWith('/review') || pathname?.startsWith('/payment') || pathname?.startsWith('/magazine') || pathname?.startsWith('/videos/') || pathname === '/login' || pathname === '/profile' || pathname === '/bookmarklist' || pathname === '/userpoint' || pathname === '/addekasana' || pathname === '/addjournalist' || pathname === '/addcampuscorner' || pathname === '/addganapati' || pathname === '/getcampuscorner' || pathname === '/getganapati' || pathname === '/getjournalist' || pathname?.startsWith('/getekasana') || pathname === '/career';
+  const shouldHideSidebars = pathname?.startsWith('/epaper') || pathname?.startsWith('/review') || pathname?.startsWith('/payment') || pathname?.startsWith('/magazine') || pathname?.startsWith('/buddhiprakash') || pathname?.startsWith('/videos/') || pathname === '/login' || pathname === '/profile' || pathname === '/bookmarklist' || pathname === '/userpoint' || pathname === '/addekasana' || pathname === '/addjournalist' || pathname === '/addcampuscorner' || pathname === '/addganapati' || pathname === '/getcampuscorner' || pathname === '/getganapati' || pathname === '/getjournalist' || pathname?.startsWith('/getekasana') || pathname === '/career';
 
   // Extract the actual page content (last child)
   const childrenArray = React.Children.toArray(children);

@@ -16,7 +16,6 @@ import ProFooter from "@/components/ProFooter";
 import MagazineLogoStrip from "@/components/MagazineLogoStrip";
 import EpaperCalendar from "@/components/EpaperCalendar";
 import Link from "next/link";
-import { LOADING_MESSAGES, CATEGORIES, ERROR_MESSAGES, MAGAZINE_PAGE } from '@/constants/gujaratiStrings';
 
 const MagazineListBySlugPage: React.FC = () => {
   const params = useParams();
@@ -82,7 +81,7 @@ const MagazineListBySlugPage: React.FC = () => {
       }
     } catch (err) {
       console.error("Error loading magazines by slug:", err);
-      setError(ERROR_MESSAGES.MAGAZINE_LOAD_ERROR_GUJ);
+      setError("મેગેઝિન લોડ કરવામાં તકલીફ આવી. ફરી પ્રયાસ કરો.");
     } finally {
       setLoading(false);
       setLoadingMore(false);
@@ -163,7 +162,7 @@ const MagazineListBySlugPage: React.FC = () => {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <p>{LOADING_MESSAGES.LOADING_MAGAZINE_GUJ}</p>
+        <p>મેગેઝિન લોડ કરી રહ્યા છીએ...</p>
       </div>
     );
   }
@@ -172,8 +171,8 @@ const MagazineListBySlugPage: React.FC = () => {
     <div className="container-fluid epaper-page-container" data-page="magazine">
       <div className="epaperTopFixed">
         <div className="filterTAbEpaper">
-          <Link className="tab-link" href="/epaper">{CATEGORIES.NEWS_PAPER_GUJ}</Link>
-          <Link className="tab-link active-link" href="/magazine">{CATEGORIES.MAGAZINE_GUJ}</Link>
+          <Link className="tab-link" href="/epaper">ન્યૂઝ પેપર</Link>
+          <Link className="tab-link active-link" href="/magazine">મેગેઝિન</Link>
         </div>
         {/* <div style={{ padding: "10px 15px", fontWeight: 600 }}>
           {slug.charAt(0).toUpperCase() + slug.slice(1)}
@@ -198,7 +197,7 @@ const MagazineListBySlugPage: React.FC = () => {
                 items.map((m) => renderCard(m))
               ) : (
                 <div className="no-data">
-                  <p>{MAGAZINE_PAGE.NO_MAGAZINE_FOUND}</p>
+                  <p>કોઈ મેગેઝિન મળ્યાં નથી.</p>
                 </div>
               )}
             </div>
@@ -229,7 +228,7 @@ const MagazineListBySlugPage: React.FC = () => {
           {/* End of content indicator */}
           {!loading && !error && items.length > 0 && !hasMorePages && (
             <div style={{ textAlign: "center", padding: "20px", color: "#666", fontSize: "14px", fontFamily: "Noto Sans Gujarati, sans-serif" }}>
-              {MAGAZINE_PAGE.ALL_MAGAZINES_LOADED}
+              બધાં મેગેઝિન લોડ થઈ ગયા છે
             </div>
           )}
         </div>

@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ATHAITAP_PAGE } from '@/constants/gujaratiStrings';
 
 interface Entry {
   id: string;
@@ -109,7 +108,7 @@ const MyEntriesPage: React.FC = () => {
                             {entry.title}
                           </h5>
                           <span className={`badge ${entry.status === 'published' ? 'bg-success' : 'bg-warning'}`}>
-                            {entry.status === 'published' ? ATHAITAP_PAGE.STATUS_PUBLISHED : ATHAITAP_PAGE.STATUS_DRAFT}
+                            {entry.status === 'published' ? 'પ્રકાશિત' : 'ડ્રાફ્ટ'}
                           </span>
                         </div>
                         <p className="card-text text-muted small">

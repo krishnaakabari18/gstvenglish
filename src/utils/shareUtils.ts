@@ -2,8 +2,6 @@
  * Utility functions for social sharing and date formatting
  */
 
-import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '@/constants/gujaratiStrings';
-
 /**
  * Format date like Laravel Carbon (DD MMM YYYY)
  * @param dateString - ISO date string
@@ -50,16 +48,16 @@ export const shareOnSocial = (platform: string, url: string, title: string): voi
 /**
  * Copy link to clipboard
  * @param url - URL to copy
- * @param successMessage - Optional success message (default from constants)
+ * @param successMessage - Optional success message (default: 'લિંક કોપી થઈ ગઈ!')
  */
-export const copyLinkToClipboard = (url: string, successMessage: string = SUCCESS_MESSAGES.LINK_COPIED): void => {
+export const copyLinkToClipboard = (url: string, successMessage: string = 'લિંક કોપી થઈ ગઈ!'): void => {
   navigator.clipboard.writeText(url)
     .then(() => {
       alert(successMessage);
     })
     .catch((err) => {
       console.error('Failed to copy link:', err);
-      alert(ERROR_MESSAGES.LINK_COPY_FAILED);
+      alert('લિંક કોપી કરવામાં નિષ્ફળ!');
     });
 };
 

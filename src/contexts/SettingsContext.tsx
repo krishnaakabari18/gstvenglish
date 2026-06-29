@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { API_ENDPOINTS, MEDIA_BASE_URL, commonApiGet } from "@/constants/api";
-import { AGREEMENT_TEXT } from "@/constants/gujaratiStrings";
 
 // Types for settings returned by the category setting API
 export interface CategorySettings {
@@ -115,8 +114,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
           metatitle: "GSTV",
           metakeyword: "GSTV, Gujarat, News, Samachar, TV, Gujarati News",
           metadesc: "GSTV News Website",
-          gujrat_agree_text: AGREEMENT_TEXT.GUJRAT_AGREE,
-          campus_agree_text: AGREEMENT_TEXT.CAMPUS_AGREE,
+          gujrat_agree_text:
+            "હું સંમત છું કે મારા દ્વારા અપલોડ કરવામાં આવતી સામગ્રી સંપૂર્ણપણે સત્ય અને વાસ્તવિક છે. જો કોઈ પણ પ્રકારની ખોટી માહિતી મળશે તો તેની સંપૂર્ણ જવાબદારી મારી રહેશે.",
+          campus_agree_text:
+            "હું સહમત છું કે મારા દ્વારા અપલોડ કરવામાં આવતી સામગ્રી કોઈપણ પ્રકારની વાંધાજનક, અશ્લીલ, હિંસક કે ગેરકાયદેસર નથી. જો આવી કોઈ સામગ્રી મળશે તો તેની સંપૂર્ણ જવાબદારી મારી રહેશે.",
         });
       }
     } finally {

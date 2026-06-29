@@ -11,13 +11,13 @@ export const metadata = {
   keywords:
     "gstv journalist, citizen journalism, gujarat local news, upload news, journalist portal",
   alternates: {
-    canonical: "https://english.gstv.in/journalist",
+    canonical: "https://www.gstv.in/journalist",
   },
   openGraph: {
     title: "GSTV Journalist – Citizen Submitted News",
     description:
       "Explore latest reports shared by local citizen journalists from across Gujarat.",
-    url: "https://english.gstv.in/journalist",
+    url: "https://www.gstv.in/journalist",
     siteName: "GSTV",
     images: [
       {

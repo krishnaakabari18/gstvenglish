@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import ProFooter from '@/components/ProFooter';
 import { API_ENDPOINTS } from '@/constants/api';
 import Link from 'next/link';
-import { BOOKMARK_LIST } from '@/constants/gujaratiStrings';
 
 interface BookmarkItem {
   news_id: number;
@@ -198,8 +197,8 @@ export default function BookmarkListPage() {
   if (loading) {
     return (
       <div className="bookmark_list">
-        <h3>{BOOKMARK_LIST.TITLE}</h3>
-        <div className="text-center">{BOOKMARK_LIST.LOADING}</div>
+        <h3>બુકમાર્ક લિસ્ટ</h3>
+        <div className="text-center">લોડ થઈ રહ્યું છે...</div>
       </div>
     );
   }
@@ -210,7 +209,7 @@ export default function BookmarkListPage() {
   return (
     <>
       <div className="bookmark_list">
-        <h3>{BOOKMARK_LIST.TITLE}</h3>
+        <h3>બુકમાર્ક લિસ્ટ</h3>
 
         {flashMessage && (
           <div className={`flash-message ${flashType === 'error' ? 'error' : ''}`}>
@@ -222,7 +221,7 @@ export default function BookmarkListPage() {
           {error && <p className="text-center" style={{ color: 'red' }}>{error}</p>}
 
           {!error && bookmarks.length === 0 && (
-            <p className="text-center" style={{ color: 'red' }}>{BOOKMARK_LIST.NO_BOOKMARKS}</p>
+            <p className="text-center" style={{ color: 'red' }}>કોઈ બુકમાર્ક્સ ઉપલબ્ધ નથી.</p>
           )}
 
           {bookmarks.length > 0 && (
@@ -249,9 +248,9 @@ export default function BookmarkListPage() {
                       <div className="catDate">
                         {/* <span>કેટેગરી: {bookmark.bookmark_type || bookmark.catTitle}</span> */}
                         <span>
-                          {BOOKMARK_LIST.CATEGORY} {bookmark.bookmark_type === 'video' ? BOOKMARK_LIST.VIDEO_CATEGORY : BOOKMARK_LIST.NEWS_CATEGORY}
+                          કેટેગરી: {bookmark.bookmark_type === 'video' ? 'વિડીયો' : 'સમાચાર'}
                         </span>
-                        {BOOKMARK_LIST.DATE}{' '}
+                        તારીખ:{' '}
                         {new Date(bookmark.created_at || '').toLocaleDateString('en-GB', {
                           day: '2-digit',
                           month: 'short',
@@ -262,7 +261,7 @@ export default function BookmarkListPage() {
                           className="remove-bookmark"
                           onClick={() => removeBookmark(bookmark.news_id)}
                         >
-                          {BOOKMARK_LIST.DELETE}
+                          ડિલીટ
                         </button>
                       </div>
                     </li>
@@ -270,12 +269,12 @@ export default function BookmarkListPage() {
                 })}
               </ul>
 
-              {loadingMore && <div className="text-center">{BOOKMARK_LIST.LOADING}</div>}
+              {loadingMore && <div className="text-center">લોડ થઈ રહ્યું છે...</div>}
 
               {!loadingMore && hasMorePages && (
                 <div className="text-center mt-3">
                   <button className="btnloadmorecls" onClick={loadMoreBookmarks}>
-                    {BOOKMARK_LIST.LOAD_MORE}
+                    વધુ લોડ કરો
                   </button>
                 </div>
               )}

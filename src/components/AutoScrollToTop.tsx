@@ -31,6 +31,7 @@ export default function AutoScrollToTop() {
       '/news/', // News detail pages with infinite scroll
       '/journalistdetails/', // Journalist detail pages with infinite scroll
       '/campuscornerdetails/', // Campus corner pages with infinite scroll (if any)
+      '/shorts/', // Shorts detail page — manages its own scroll
     ];
 
     // Check if current pathname should skip auto-scroll

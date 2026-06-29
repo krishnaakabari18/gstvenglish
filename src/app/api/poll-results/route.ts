@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { commonApiGet } from '@/constants/api';
 
+export const dynamic = 'force-dynamic';
+
 interface VoteResult {
   selectedAnswer: string;
   answerCount: number;
@@ -23,9 +25,6 @@ interface PollResultsApiResponse {
 export async function GET(request: NextRequest) {
   try {
     console.log('Fetching poll results from external API');
-
-    // Generate a consistent device ID based on user agent (without timestamp)
-    const userAgent = request.headers.get('user-agent') || 'unknown';
     // Device ID generation for future use if needed
     // const deviceId = 'server_' + Buffer.from(userAgent).toString('base64').replace(/[^a-zA-Z0-9]/g, '').substring(0, 16);
 

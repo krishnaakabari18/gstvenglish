@@ -4,7 +4,6 @@
  */
 
 import { MEDIA_BASE_URL, API_V5_BASE_URL } from '@/constants/api';
-import { MISC_UI, BOOKMARK_MESSAGES, AUTH_MESSAGES } from '@/constants/gujaratiStrings';
 
 // Common interfaces
 export interface BaseItem {
@@ -41,11 +40,11 @@ export const formatDate = (dateString: string): string => {
     
     if (diffInHours < 1) {
       const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
-      return diffInMinutes <= 1 ? MISC_UI.JUST_NOW_GUJ : `${diffInMinutes} ${MISC_UI.MINUTES_AGO_GUJ}`;
+      return diffInMinutes <= 1 ? 'હમણાં જ' : `${diffInMinutes} મિનિટ પહેલાં`;
     } else if (diffInHours < 24) {
-      return `${diffInHours} ${MISC_UI.HOURS_AGO_GUJ}`;
+      return `${diffInHours} કલાક પહેલાં`;
     } else if (diffInHours < 48) {
-      return MISC_UI.YESTERDAY_GUJ;
+      return 'ગઈકાલે';
     } else {
       return date.toLocaleDateString('gu-IN', {
         year: 'numeric',
@@ -376,7 +375,7 @@ export const handleShare = async (shareData: ShareData): Promise<boolean> => {
     // Fallback: copy to clipboard
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
       await navigator.clipboard.writeText(shareData.url);
-      alert(MISC_UI.LINK_COPIED_GUJ);
+      alert('લિંક કોપી થઈ ગઈ છે!'); // Link copied!
       return true;
     }
     
@@ -395,12 +394,12 @@ export const handleShare = async (shareData: ShareData): Promise<boolean> => {
     try {
       if (typeof navigator !== 'undefined' && navigator.clipboard) {
         await navigator.clipboard.writeText(shareData.url);
-        alert(MISC_UI.LINK_COPIED_GUJ);
+        alert('લિંક કોપી થઈ ગઈ છે!'); // Link copied!
         return true;
       }
     } catch (clipboardError) {
       console.error('Clipboard fallback failed:', clipboardError);
-      alert(MISC_UI.SHARE_ERROR_GUJ);
+      alert('શેર કરવામાં ભૂલ થઈ!'); // Error sharing!
     }
     
     return false;

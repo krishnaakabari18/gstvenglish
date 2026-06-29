@@ -7,7 +7,6 @@ import ErrorMessage from './ErrorMessage';
 import SatrangHeaderWithDropdown from './SatrangHeaderWithDropdown';
 import { fetchSatrangCategory, SatrangAuthor } from '@/services/newsApi';
 import { LOADING_MESSAGES } from '@/utils/uiUtils';
-import { MISC_UI } from '@/constants/gujaratiStrings';
 
 interface GSTVShatrangLayoutProps {
   categorySlug: string;
@@ -146,4 +145,3 @@ export default function GSTVShatrangLayout({ categorySlug }: GSTVShatrangLayoutP
     </div>
   );
 }
-

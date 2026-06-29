@@ -4,6 +4,11 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
 
+  // Add experimental features to handle build issues
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
+
   images: {
     unoptimized: true,
     minimumCacheTTL: 60 * 60 * 24 * 30,
@@ -16,7 +21,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "english.gstv.in",
+        hostname: "www.gstv.in",
         pathname: "/**",
       },
       {

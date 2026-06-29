@@ -227,6 +227,26 @@ export default function RashiDetailPage() {
         </div>
       </div>
 
+      {/* ── App banner — centred, after all content ── */}
+      <div style={{ textAlign: 'center', margin: '20px 0' }}>
+        <a
+          href={
+            typeof navigator !== 'undefined' && /iPhone|iPad|iPod/i.test(navigator.userAgent)
+              ? 'https://apps.apple.com/in/app/gstv-gujarat-samachar/id1609602449'
+              : 'https://play.google.com/store/apps/details?id=com.tops.gstvapps'
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="/images/rashifal-middle.jpeg"
+            alt="GSTV App ડાઉનલોડ કરો"
+            style={{ maxWidth: '100%', height: 'auto', borderRadius: 8 }}
+            onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+          />
+        </a>
+      </div>
+
       <style jsx>{`
         .rashilistLink:hover {
           opacity: 0.8;

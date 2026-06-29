@@ -201,14 +201,14 @@ export default function CategoryNews({ categorySlug }: CategoryNewsProps) {
       {gujReady && categoryDetails && (
         shouldShowDropdown ? (
           <CategoryHeaderWithDropdown
-            categoryName={categoryDetails.category_name}
+            categoryName={categoryDetails.category_name_guj}
             categorySlug={categorySlug}
             categoryId={categoryDetails.id}
             showViewAll={false}
           />
         ) : (
           <CategoryHeader
-            categoryName={categoryDetails.category_name}
+            categoryName={categoryDetails.category_name_guj}
             categorySlug={categorySlug}
             showViewAll={false}
           />

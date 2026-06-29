@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import { API_ENDPOINTS } from '@/constants/api';
-import { MISC_UI,DATE_TIME_LABELS } from '@/constants/gujaratiStrings';
 
 interface NewsDetailProps {
   categorySlug: string;
@@ -282,9 +281,9 @@ const NewsDetailSingle: React.FC<NewsDetailProps> = ({ categorySlug, newsSlug })
     return (
       <div className="news-detail-loading" style={{ padding: '40px', textAlign: 'center' }}>
         <div className="spinner-border" role="status">
-          <span className="sr-only">{MISC_UI.LOADING_GUJ}</span>
+          <span className="sr-only">લોડ થઈ રહ્યું છે...</span>
         </div>
-        <p style={{ marginTop: '20px' }}>{MISC_UI.NEWS_LOADING_GUJ}</p>
+        <p style={{ marginTop: '20px' }}>સમાચાર લોડ થઈ રહ્યા છે...</p>
       </div>
     );
   }
@@ -411,11 +410,11 @@ const NewsDetailSingle: React.FC<NewsDetailProps> = ({ categorySlug, newsSlug })
                   color: '#666'
                 }}>
                   <img
-                    src="https://english.gstv.in/public/assets/icons/clock.webp"
+                    src="https://www.gstv.in/public/assets/icons/clock.webp"
                     alt="Clock"
                     style={{ width: '16px', height: '16px' }}
                   />
-                  <span>{DATE_TIME_LABELS.LAST_UPDATE} : {new Date(newsData.created_at).toLocaleDateString('en-GB', {
+                  <span>છેલ્લું અપડેટ : {new Date(newsData.created_at).toLocaleDateString('en-GB', {
                     day: '2-digit',
                     month: 'short',
                     year: 'numeric'
@@ -610,7 +609,7 @@ const NewsDetailSingle: React.FC<NewsDetailProps> = ({ categorySlug, newsSlug })
                     marginBottom: '25px',
                     textAlign: 'center'
                   }}>
-                    {MISC_UI.ALSO_READ_GUJ}
+                    આ પણ વાંચો :
                   </h3>
                   <div style={{
                     display: 'grid',

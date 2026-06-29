@@ -8,8 +8,6 @@ import { getOrCreateDeviceId } from "@/utils/deviceId";
 import { redirectToLogin } from "@/utils/authUtils";
 import { API_ENDPOINTS } from "@/constants/api";
 import LoginOtpModal from "@/components/LoginOtpModal";
-import { POLL_MESSAGES_GUJ } from "@/constants/gujaratiStrings";
-import { MISC_UI } from '@/constants/gujaratiStrings';
 
 interface PollData {
   id: number;
@@ -190,12 +188,12 @@ const PollPage: React.FC = () => {
 
       setMessages((m) => ({
         ...m,
-        [pollId]: data.message || (isUpdate ? POLL_MESSAGES_GUJ.VOTE_UPDATED : POLL_MESSAGES_GUJ.VOTE_RECORDED)
+        [pollId]: data.message || (isUpdate ? "તમારો મત અપડેટ થયો છે." : "આપનો મત નોંધાયો છે!")
       }));
 
       localStorage.setItem(voteKey(pollId), selected);
     } catch (e: any) {
-      setMessages((m) => ({ ...m, [pollId]: e.message || POLL_MESSAGES_GUJ.VOTE_ERROR }));
+      setMessages((m) => ({ ...m, [pollId]: e.message || "મત આપવામાં ભૂલ થઈ છે!" }));
     } finally {
       setSubmitting((s) => ({ ...s, [pollId]: false }));
       setTimeout(() => setMessages((m) => ({ ...m, [pollId]: "" })), 3000);
@@ -297,4 +295,3 @@ const PollPage: React.FC = () => {
 };
 
 export default PollPage;
-

@@ -22,9 +22,24 @@ const ElectionResults = dynamic(
   { ssr: false }
 );
 
+const ElectionModule = dynamic(
+  () => import('@/components/ElectionModule'),
+  { ssr: false }
+);
+
 const TopVideos = dynamic(
   () => import('@/components/TopVideos'),
   { loading: nullLoader }
+);
+
+const TopMenuBar = dynamic(
+  () => import('@/components/TopMenuBar'),
+  { ssr: false }
+);
+
+const TrendingBar = dynamic(
+  () => import('@/components/TrendingBar'),
+  { ssr: false }
 );
 
 const LiveNews = dynamic(
@@ -37,8 +52,13 @@ const WebStories = dynamic(
   { loading: nullLoader }
 );
 
-const GSTVSatrang = dynamic(
-  () => import('@/components/GSTVSatrang'),
+const HomeMenuSection = dynamic(
+  () => import('@/components/HomeMenuSection'),
+  { ssr: false }
+);
+
+const YoutubeShorts = dynamic(
+  () => import('@/components/YoutubeShorts'),
   { ssr: false }
 );
 
@@ -70,6 +90,9 @@ export default function Home() {
       {/* Dynamic SEO Meta Tags from API */}
       <DynamicSEO />
 
+      {/* Trending bar — below breaking news */}
+      <TrendingBar />
+
       {/* 🔥 1. Breaking News */}
       <BreakingNews />
 
@@ -78,8 +101,14 @@ export default function Home() {
       <div className='for-sm'>
         {StockMarketEnabled && <StockMarket />}
       </div>
-      {/* 🟡 3. Top Videos */}
+      {/* 🟡 3. Top Menu Bar */}
+      <TopMenuBar />
+
+      {/* 🟡 4. Top Videos */}
       <TopVideos />
+
+      {/* Election Module — after top videos */}
+      <ElectionModule />
        {/* {LiveNewsHomeEnabled && (
          <div style={{ float: 'left', width: '100%' }} className="mt-4"
           dangerouslySetInnerHTML={{ __html: LiveNewsHomeEnabled }}
@@ -107,6 +136,8 @@ export default function Home() {
       {liveScoreEnabled && <LiveMatchScore />}
       </div>
       {/* 🟡 6. Web Stories */}
+      <HomeMenuSection />
+      <YoutubeShorts />
       <WebStories />
       {/* 🟡 7. GSTV Satrang */}
       {/* <GSTVSatrang /> */}

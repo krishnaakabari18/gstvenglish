@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { API_ENDPOINTS } from '@/constants/api';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     console.log('API Route: Fetching top home category from tophomecategory endpoint');
 
     // Get pageNumber from query parameters
-    const { searchParams } = new URL(request.url);
-    const pageNumber = parseInt(searchParams.get('pageNumber') || '1');
+    const pageNumber = parseInt(request.nextUrl.searchParams.get('pageNumber') || '1');
 
     console.log('API Route: Requested page number:', pageNumber);
     

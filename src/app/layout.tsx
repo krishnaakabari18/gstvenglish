@@ -12,7 +12,9 @@ import '../styles/gstv-shatrang.css';
 import '../styles/category-dropdown.css';
 import '../styles/profile.css';
 import '../styles/election.css';
+import '../styles/ElectionModule.css';
 import '../../public/assets/css/athaitap.css';
+import '../../public/assets/css/google-translate.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Script from 'next/script';
@@ -31,6 +33,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { BookmarkProvider } from '@/contexts/BookmarkContext';
 import { SettingsProvider } from '@/contexts/SettingsContext';
 import { CategorySettingsProvider } from '@/contexts/CategorySettingsContext';
+import GoogleAnalyticsTracker from '@/components/GoogleAnalyticsTracker';
 
 import { API_ENDPOINTS } from '@/constants/api';
 
@@ -100,14 +103,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script src="https://cdn.izooto.com/scripts/3a920df9584e8422018d0726f191046ee24a934e.js" strategy="afterInteractive" />
 
         {/* Google Analytics */}
-        <Script src="https://www.googletagmanager.com/gtag/js?id=UA-45594949-1" strategy="afterInteractive" />
-        <Script id="ga-init" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'UA-45594949-1');
-          `}
+        {/* GA4 only */}
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-WNVDG9SXJ0" strategy="afterInteractive"/>
+
+        <Script id="ga4-init" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+
+          gtag('js', new Date());
+
+          // ✅ VERY IMPORTANT
+          gtag('config', 'G-WNVDG9SXJ0', {
+            send_page_view: false
+          });
+        `}
         </Script>
 
         {/* Google Publisher Tag */}
@@ -221,7 +232,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         });
         `}
         </Script>
-
+        <Script id="digiad-prebid" type="text/javascript">
+          {`
+            (function() {
+                var o = 'script',
+                    s = top.document,
+                    a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0],
+                    d = new Date(),
+                    timestamp = "" + d.getDate() + d.getMonth() + d.getHours();
+                a.async = 1;
+                a.src = "https://ads.digiadglobal.com/prebid_config_1815123388.min.js?t=" + timestamp;
+                m.parentNode.insertBefore(a, m);
+            })();
+          `}
+        </Script>
 
         {/* Inline CSS (unchanged) */}
         <style>{`
@@ -236,6 +261,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
 
       <body>
+        <GoogleAnalyticsTracker />
         <AuthProvider>
           <BookmarkProvider>
             <SettingsProvider>

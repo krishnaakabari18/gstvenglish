@@ -11,13 +11,13 @@ export const metadata = {
   keywords:
     "campus corner, school news, student journalism, Gujarat schools, campus events",
   alternates: {
-    canonical: "https://english.gstv.in/campuscorner",
+    canonical: "https://www.gstv.in/campuscorner",
   },
   openGraph: {
     title: "Campus Corner – School News & Student Stories",
     description:
       "Explore the latest uploads from students — campus activities, school events, competitions and more.",
-    url: "https://english.gstv.in/campuscorner",
+    url: "https://www.gstv.in/campuscorner",
     siteName: "GSTV",
     images: [
       {

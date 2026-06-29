@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { API_ENDPOINTS, getEkasanaImageUrl } from '@/constants/api';
-import { DATE_TIME_LABELS } from '@/constants/gujaratiStrings';
 
 // TypeScript interfaces for the API response
 interface AthaitapEntry {
@@ -164,7 +163,7 @@ const AthaitapDetailsPage: React.FC = () => {
             <div className="blog-featured-functions">
               <div className="reading-time-blog">
                 <img src="/assets/icons/clock.webp" alt="" />
-                {DATE_TIME_LABELS.LAST_UPDATE}: {isMounted ? (
+                છેલ્લું અપડેટ: {isMounted ? (
                   new Date(entry.created_at).toLocaleDateString('en-GB', {
                     day: '2-digit',
                     month: 'short',

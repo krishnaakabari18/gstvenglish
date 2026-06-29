@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { UPLOAD_PATHS } from '@/constants/api';
-import { POLICY_LINKS, MISC_UI, APP_MESSAGES } from '@/constants';
 import { useSiteSetting } from '@/hooks/useSiteSetting';
 import { useStockmarketSiteSetting } from '@/hooks/useStockmarketSiteSetting';
 // import StockMarket from '@/components/StockMarket';
@@ -19,6 +18,8 @@ const EpaperRightSidebar = dynamic(() => import('./EpaperRightSidebar'), { ssr: 
 const GstvMagazineBox = dynamic(() => import('./GstvMagazineBox'), { ssr: false });
 const GSTVSatrangBox = dynamic(() => import('./GSTVSatrangBox'), { ssr: false });
 const GstvFastTrack = dynamic(() => import('./GstvFastTrack'), { ssr: false });
+const RashifalSidebar = dynamic(() => import('./RashifalSidebar'), { ssr: false });
+const WhatsappJoinBanner = dynamic(() => import('./WhatsappJoinBanner'), { ssr: false });
 const LiveTvSection = dynamic(() => import('./LiveTvSection'), { ssr: false });
 const WebStoriesSidebar = dynamic(() => import('./WebStoriesSidebar'), { ssr: false });
 const LiveMatchScore = dynamic(() => import('./LiveMatchScore'), { ssr: false });
@@ -66,13 +67,17 @@ const RightSidebar = () => {
       <div className='for-lg'>
         {liveScoreEnabled && <LiveMatchScore />}
       </div>
+      
       <EpaperRightSidebar />
 
       {/* ----------------- HEAVY SECTIONS (DELAYED ONCE) ----------------- */}
       {showHeavySections && (
         <>
+          <WhatsappJoinBanner />
+          <RashifalSidebar />
           <GstvFastTrack className="mb-4" />
           <GstvMagazineBox className="mb-4" />
+          
           <GSTVSatrangBox />
 
           {isVideoPage && <WebStoriesSidebar />}
@@ -91,7 +96,7 @@ const RightSidebar = () => {
             marginBottom: '10px'
           }}
         >
-          {APP_MESSAGES.DOWNLOAD_APP_GUJ}
+          GSTVની એપ્લિકેશન ડાઉનલોડ કરો
         </h6>
 
         <div className="download-btn clearfix" style={{ display: 'inline-flex', gap: '10px' }}>
@@ -125,18 +130,18 @@ const RightSidebar = () => {
       <div className="address">
         <h6>
           <ul className="custom-address-list">
-            <li><Link href="/career">{POLICY_LINKS.CAREER}</Link></li><span>|</span>
-            <li><Link href="/contact-us">{POLICY_LINKS.CONTACT_US}</Link></li><span>|</span>
-            <li><Link href="/cookie-policy">{POLICY_LINKS.COOKIE_POLICY}</Link></li><span>|</span>
-            <li><Link href="/privacy-policy">{POLICY_LINKS.PRIVACY_POLICY}</Link></li><span>|</span>
-            <li><Link href="/refund-policy">{POLICY_LINKS.REFUND_POLICY}</Link></li><span>|</span>
-            <li><Link href="/terms-condition">{POLICY_LINKS.TERMS_CONDITIONS}</Link></li>
+            <li><Link href="/career">Career</Link></li><span>|</span>
+            <li><Link href="/contact-us">Contact us</Link></li><span>|</span>
+            <li><Link href="/cookie-policy">Cookie policy</Link></li><span>|</span>
+            <li><Link href="/privacy-policy">Privacy policy</Link></li><span>|</span>
+            <li><Link href="/refund-policy">Refund policy</Link></li><span>|</span>
+            <li><Link href="/terms-condition">Terms & condition</Link></li>
           </ul>
         </h6>
 
         <h6 className="custom-text">
           <div>
-            {MISC_UI.DESIGN_DEVELOPED_BY} <span className="highlight-text">GSTV</span>
+            Design & developed by <span className="highlight-text">GSTV</span>
           </div>
           <br />
           © Copyright {new Date().getFullYear()} | GSTV. All rights reserved.

@@ -8,7 +8,6 @@ import ErrorMessage from '@/components/ErrorMessage';
 import { GridContainer } from '@/components/common/GridComponents';
 import { getVideoThumbnail, formatDate } from '@/utils/newsUtils';
 import { API_ENDPOINTS, commonApiGet, commonApiPost, DEFAULT_API_PARAMS, COMMON_API_BASE_URL, API_V5_BASE_URL } from '@/constants/api';
-import { DATE_TIME_LABELS } from '@/constants/gujaratiStrings';
 
 
 interface VideoItem {
@@ -297,7 +296,7 @@ function VideoGridItem({ video }: VideoGridItemProps) {
         </Link>
 
         <span className="last-update-blog for-lg">
-          {DATE_TIME_LABELS.LAST_UPDATE} : {formatDate(video.created_at)}
+          છેલ્લું અપડેટ : {formatDate(video.created_at)}
         </span>
 
         {/* Video Category Tags */}

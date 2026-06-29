@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Cookie Policy - GSTV',
     description: 'Learn about how GSTV uses cookies and similar technologies on our website.',
-    url: 'https://english.gstv.in/cookie-policy',
+    url: 'https://www.gstv.in/cookie-policy',
     siteName: 'GSTV',
     type: 'website',
   },

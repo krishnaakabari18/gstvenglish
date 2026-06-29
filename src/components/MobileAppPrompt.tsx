@@ -7,21 +7,22 @@ const MobileAppPrompt = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Check if device is mobile
     const checkMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+      const userAgent = navigator.userAgent || navigator.vendor || '';
+
+      const isMobileDevice =
+        /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+          userAgent.toLowerCase()
+        );
+
       const isSmallScreen = window.innerWidth <= 768;
 
       return isMobileDevice || isSmallScreen;
     };
 
-    // Check if user has already seen the prompt
-    const hasSeenPrompt = localStorage.getItem('hasSeenAppPrompt');
-
-    if (checkMobile() && !hasSeenPrompt) {
+    if (checkMobile()) {
       setIsMobile(true);
-      // Show prompt after 2 seconds
+
       const timer = setTimeout(() => {
         setShowPrompt(true);
       }, 2000);
@@ -31,36 +32,28 @@ const MobileAppPrompt = () => {
   }, []);
 
   const handleAppOpen = () => {
-  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+    const userAgent = navigator.userAgent || navigator.vendor || '';
 
-  // Convert current page URL to app scheme
-  const newUrl = window.location.href.replace(/^https:/, 'gstvapp:');
+    const newUrl = window.location.href.replace(/^https:/, 'gstvapp:');
 
-  // Mark as seen
-  localStorage.setItem('hasSeenAppPrompt', 'true');
+    if (/android/i.test(userAgent)) {
+      window.location.href = newUrl;
 
-  if (/android/i.test(userAgent)) {
-    window.location.href = newUrl;
+      setTimeout(() => {
+        window.location.href = 'https://onelink.to/43bgxx';
+      }, 500);
+    } else if (/iPad|iPhone|iPod/.test(userAgent)) {
+      window.location.href = newUrl;
 
-    setTimeout(() => {
-      window.location.href = 'https://onelink.to/43bgxx';
-    }, 500);
+      setTimeout(() => {
+        window.location.href = 'https://onelink.to/43bgxx';
+      }, 500);
+    }
 
-  } else if (/iPad|iPhone|iPod/.test(userAgent)) {
-    window.location.href = newUrl;
-
-    setTimeout(() => {
-      window.location.href = 'https://onelink.to/43bgxx';
-    }, 500);
-  }
-
-  setShowPrompt(false);
-};
-
+    setShowPrompt(false);
+  };
 
   const handleContinueInBrowser = () => {
-    // Mark as seen and close prompt
-    localStorage.setItem('hasSeenAppPrompt', 'true');
     setShowPrompt(false);
   };
 
@@ -72,13 +65,11 @@ const MobileAppPrompt = () => {
 
   return (
     <>
-      {/* Backdrop */}
       <div
         className={`app-prompt-backdrop ${showPrompt ? 'show' : ''}`}
         onClick={handleBackdropClick}
       />
 
-      {/* Mobile App Prompt - Exact UI Match */}
       <div className={`mobile-app-prompt ${showPrompt ? 'show' : ''}`}>
         <div className="app-prompt-content">
           <div className="app-prompt-header">
@@ -99,7 +90,10 @@ const MobileAppPrompt = () => {
               <div className="app-info">
                 <span className="app-name">Chrome Browser</span>
               </div>
-              <button className="app-button continue-btn" onClick={handleContinueInBrowser}>
+              <button
+                className="app-button continue-btn"
+                onClick={handleContinueInBrowser}
+              >
                 Continue
               </button>
             </div>

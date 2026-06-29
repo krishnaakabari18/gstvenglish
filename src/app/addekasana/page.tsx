@@ -7,7 +7,6 @@ import { API_ENDPOINTS } from '@/constants/api';
 import ProFooter from '@/components/ProFooter';
 import { useUserSession, getUserId } from '@/hooks/useUserSession';
 import { redirectToLogin } from '@/utils/authUtils';
-import { EKASANA_FORM } from '@/constants/gujaratiStrings';
 
 interface FormData {
   name: string;
@@ -190,7 +189,7 @@ const AddEkasanaPage: React.FC = () => {
         fetchEditData();
       } else {
         // Show error message if user is not authenticated in edit mode
-        setErrorMessage(EKASANA_FORM.LOGIN_REQUIRED_EDIT);
+        setErrorMessage('તમારે એકાસન એડિટ કરવા માટે લોગિન કરવું આવશ્યક છે. કૃપા કરીને લોગિન કરો.');
         // Redirect to login page after 3 seconds
         setTimeout(() => {
           router.push('/login?returnUrl=' + encodeURIComponent(window.location.pathname + window.location.search));
@@ -221,7 +220,7 @@ const AddEkasanaPage: React.FC = () => {
 
     // Validate file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
-      setImageLimitMsg(EKASANA_FORM.IMAGE_SIZE_ERROR);
+      setImageLimitMsg('છબીનું કદ 5MB કરતા ઓછું હોવું જોઈએ.');
       return;
     }
 
@@ -326,7 +325,7 @@ const AddEkasanaPage: React.FC = () => {
         console.log('🔧 Using default user ID:', defaultUserId);
         // Continue with the submission using default user ID
       } else {
-        setErrorMessage(EKASANA_FORM.LOGIN_REQUIRED_SUBMIT);
+        setErrorMessage('તમારે એકાસન સબમિટ કરવા માટે લોગિન કરવું આવશ્યક છે. કૃપા કરીને લોગિન કરો અને ફરીથી પ્રયાસ કરો.');
         redirectToLogin('/addekasana', router);
         return;
       }
@@ -384,8 +383,8 @@ const AddEkasanaPage: React.FC = () => {
 
       if (response.ok && result.success) {
         const successMessage = isEditMode
-          ? EKASANA_FORM.UPDATED_SUCCESS
-          : EKASANA_FORM.ADDED_SUCCESS;
+          ? 'તમારું એકાસન સફળતાપૂર્વક અપડેટ થયું છે!'
+          : 'તમારું એકાસન સફળતાપૂર્વક સબમિટ થયું છે!';
         setSubmitMessage(successMessage);
 
         if (!isEditMode) {
@@ -481,7 +480,7 @@ const AddEkasanaPage: React.FC = () => {
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            placeholder={EKASANA_FORM.NAME_PLACEHOLDER}
+                            placeholder="તમારું નામ દાખલ કરો"
                             required
                           />
                         </div>
@@ -505,7 +504,7 @@ const AddEkasanaPage: React.FC = () => {
                               target.value = target.value.replace(/[^0-9]/g, '').slice(0, 10);
                               handleInputChange(e as any);
                             }}
-                            placeholder={EKASANA_FORM.DAYS_PLACEHOLDER}
+                            placeholder="તમારા દિવસો દાખલ કરો"
                             required
                           />
                         </div>
@@ -592,7 +591,7 @@ const AddEkasanaPage: React.FC = () => {
                               target.value = target.value.replace(/[^0-9]/g, '').slice(0, 10);
                               handleInputChange(e as any);
                             }}
-                            placeholder={EKASANA_FORM.MOBILE_PLACEHOLDER}
+                            placeholder="તમારો મોબાઈલ દાખલ કરો"
                             required
                           />
                         </div>
@@ -611,7 +610,7 @@ const AddEkasanaPage: React.FC = () => {
                             name="address"
                             value={formData.address}
                             onChange={handleInputChange}
-                            placeholder={EKASANA_FORM.ADDRESS_PLACEHOLDER}
+                            placeholder="તમારું એડ્રૈસ દાખલ કરો"
                             required
                           />
                         </div>

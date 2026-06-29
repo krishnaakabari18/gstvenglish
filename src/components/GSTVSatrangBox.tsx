@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
@@ -6,7 +6,6 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import '@/styles/WebStories.css';
 import { API_ENDPOINTS } from '@/constants/api';
-import { ACTION_BUTTONS, CATEGORIES, LOADING_MESSAGES, MISC_UI } from '@/constants';
 
 interface SatrangCategory {
   id: number;
@@ -27,6 +26,12 @@ export default function GSTVSatrangBox() {
 
   const sliderRef = useRef<HTMLDivElement>(null);
   const autoRotateRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Mouse drag refs
+  const mouseStartX = useRef(0);
+  const mouseEndX = useRef(0);
+  const isDragging = useRef(false);
+  const dragStartSlide = useRef(0);
 
   /* ================= Fetch API (optimized) ================= */
   useEffect(() => {
@@ -121,6 +126,51 @@ export default function GSTVSatrangBox() {
     };
   }, [isAutoRotating, categories.length, itemsPerView]);
 
+  /* =========================
+     Mouse Drag (Desktop Touch-like)
+  ========================= */
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDragging.current = false;
+    mouseStartX.current = e.clientX;
+    mouseEndX.current = e.clientX;
+    dragStartSlide.current = currentSlide;
+    setIsAutoRotating(false);
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (mouseStartX.current === 0) return;
+    
+    const diff = Math.abs(e.clientX - mouseStartX.current);
+    if (diff > 5) {
+      isDragging.current = true;
+    }
+    
+    if (!isDragging.current) return;
+    
+    mouseEndX.current = e.clientX;
+    const dragDiff = mouseStartX.current - mouseEndX.current;
+    const maxSlides = Math.max(0, categories.length - itemsPerView);
+    const slidesMoved = Math.round(dragDiff / (itemWidth || 1));
+    const newSlide = Math.max(0, Math.min(maxSlides, dragStartSlide.current + slidesMoved));
+    
+    setCurrentSlide(newSlide);
+  };
+
+  const handleMouseUp = () => {
+    mouseStartX.current = 0;
+    setTimeout(() => {
+      isDragging.current = false;
+    }, 50);
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging.current) {
+      isDragging.current = false;
+    }
+    mouseStartX.current = 0;
+  };
+
   const nextSlide = () => {
     const max = Math.max(0, categories.length - itemsPerView);
     setCurrentSlide(prev => (prev >= max ? 0 : prev + 1));
@@ -138,7 +188,7 @@ export default function GSTVSatrangBox() {
     return (
       <div className="custom-carousel clearfix">
         <LoadingSpinner
-          message={MISC_UI.GSTV_SATRANG_LOADING}
+          message="GSTV શતરંગ લોડ થઈ રહ્યું છે..."
           size="large"
           type="dots"
           color="#850E00"
@@ -162,11 +212,11 @@ export default function GSTVSatrangBox() {
     <div className="satrang-section mb-4">
       <div className="storySectionNav blogs-head-bar first">
         <div className="storySectionNav-left">
-          <span className="blog-category">{MISC_UI.GSTV_SATRANG}</span>
+          <span className="blog-category">GSTV શતરંગ</span>
         </div>
         <div className="storySectionNav-right rightstory">
           <Link href="/category/satrang" className="custom-link-btn">
-            {ACTION_BUTTONS.READ_MORE} <i className="fas fa-chevron-right"></i>
+            વધુ વાંચો <i className="fas fa-chevron-right"></i>
           </Link>
         </div>
       </div>
@@ -174,7 +224,11 @@ export default function GSTVSatrangBox() {
       <div
         className="custom-carousel clearfix"
         onMouseEnter={() => setIsAutoRotating(false)}
-        onMouseLeave={() => setIsAutoRotating(true)}
+        onMouseLeave={handleMouseLeave}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        style={{ cursor: isDragging.current ? 'grabbing' : 'grab' }}
       >
         <div className="MultiCarousel">
           <div
@@ -189,7 +243,14 @@ export default function GSTVSatrangBox() {
           >
             {categories.map(cat => (
               <div key={cat.id} style={{ width: itemWidth, flex: 'none' }}>
-                <Link href={`/category/satrang/${cat.slug}`}>
+                <Link 
+                  href={`/category/satrang/${cat.slug}`}
+                  onClick={(e) => {
+                    if (isDragging.current) {
+                      e.preventDefault();
+                    }
+                  }}
+                >
                   <div className="card custom-card text-center">
                     <div className="img-wrappers">
                       <img

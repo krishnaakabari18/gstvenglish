@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { API_ENDPOINTS, getEkasanaImageUrl } from '@/constants/api';
-import { DATE_TIME_LABELS } from '@/constants/gujaratiStrings';
 
 // ✅ IMPORT YOUR EXISTING LOADER HELPERS
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -152,7 +151,7 @@ const AthaitapDetailsPage: React.FC = () => {
             <div className="blog-featured-functions">
               <div className="reading-time-blog">
                 <img src="/assets/icons/clock.webp" alt="" />
-                {DATE_TIME_LABELS.LAST_UPDATE}:{' '}
+                છેલ્લું અપડેટ:{' '}
                 {isMounted ? (
                   new Date(entry.created_at).toLocaleDateString('en-GB', {
                     day: '2-digit',

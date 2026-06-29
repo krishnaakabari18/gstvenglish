@@ -37,7 +37,7 @@ export default function StockMarket() {
 
         <div className={`col-6 colbox borderbox ${sensexCls}`}>
           <b>Sensex</b>
-          <span className="stimeSpan">{sensex.time}</span>
+          {/* <span className="stimeSpan">{sensex.time}</span> */}
           <div className="flexMarket">
             <span>{sensex.price}</span>
             <span className={`stockmarket_highlight ${sensexCol}`}>
@@ -48,7 +48,7 @@ export default function StockMarket() {
 
         <div className={`col-6 colbox ${niftyCls}`}>
           <b>Nifty 50</b>
-          <span className="stimeSpan">{nifty.time}</span>
+          {/* <span className="stimeSpan">{nifty.time}</span> */}
           <div className="flexMarket">
             <span>{nifty.price}</span>
             <span className={`stockmarket_highlight ${niftyCol}`}>

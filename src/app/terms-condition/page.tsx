@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Terms & Conditions - GSTV',
     description: 'Read the terms and conditions for using GSTV website and services.',
-    url: 'https://english.gstv.in/terms-condition',
+    url: 'https://www.gstv.in/terms-condition',
     siteName: 'GSTV',
     type: 'website',
   },

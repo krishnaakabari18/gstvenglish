@@ -19,7 +19,7 @@ const ConditionalLayout: React.FC<ConditionalLayoutProps> = ({ children }) => {
   }, []);
 
   // Check if current page should hide header and footer (full-screen pages)
-  const shouldHideHeaderFooter = pathname?.startsWith('/videos/') || pathname === '/login';
+  const shouldHideHeaderFooter = pathname?.startsWith('/videos/') || pathname?.startsWith('/shorts/') || pathname === '/login';
 
   // During SSR and initial hydration, always render the default layout
   // This prevents hydration mismatch

@@ -6,7 +6,6 @@ import Head from 'next/head';
 import { commonApiPost, COMMON_API_BASE_URL } from '@/constants/api';
 import { getOrCreateDeviceId } from '@/utils/deviceId';
 import VideoActionButtons from '@/components/VideoActionButtons';
-import { MISC_UI } from '@/constants/gujaratiStrings';
 
 
 interface Video {
@@ -870,8 +869,8 @@ useEffect(() => {
         // Success - UI is already updated optimistically
 
         const message = newStatus === 1
-          ? MISC_UI.VIDEO_BOOKMARKED // Video bookmarked
-          : MISC_UI.VIDEO_UNBOOKMARKED; // Video removed from bookmarks
+          ? 'વીડિયો બુકમાર્ક કરવામાં આવ્યો' // Video bookmarked
+          : 'વીડિયો બુકમાર્કમાંથી દૂર કરવામાં આવ્યો'; // Video removed from bookmarks
 
         console.log(`✅ ${message}`);
 
@@ -1080,7 +1079,7 @@ useEffect(() => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '98vh',
+        height: '100vh',
         backgroundColor: '#000',
         color: '#fff'
       }}>
@@ -1095,7 +1094,7 @@ useEffect(() => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '98vh',
+        height: '100vh',
         backgroundColor: '#000',
         color: '#fff',
         flexDirection: 'column'
@@ -1126,7 +1125,7 @@ useEffect(() => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '98vh',
+        height: '100vh',
         backgroundColor: '#000',
         color: '#fff'
       }}>
@@ -1295,7 +1294,7 @@ useEffect(() => {
       <div
         className="video-container video-container-wrapper"
         style={{
-          height: '98vh',
+          height: '100vh',
           overflow: 'hidden',
           position: 'relative',
           width: '100%'
@@ -1435,7 +1434,7 @@ useEffect(() => {
                   svg.style.stroke = "#850e00";
                 }
             }}
-            title={MISC_UI.NEXT_VIDEO}
+            title="આગળનો વીડિયો"
           >
             {/* 🔽 Red DOWN Arrow SVG */}
             <svg
@@ -1484,7 +1483,7 @@ useEffect(() => {
             borderRadius: '50%',
             animation: 'spin 1s linear infinite'
           }}></div>
-          {MISC_UI.NEXT_VIDEO_COMING} {/* Next video coming... */}
+          આગળનો વીડિયો આવી રહ્યો છે... {/* Next video coming... */}
         </div>
       )}
 <div className="sliderOuter videoOuter">

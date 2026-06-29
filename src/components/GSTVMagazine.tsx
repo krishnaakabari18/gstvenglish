@@ -13,7 +13,6 @@ import {
   MagazineCategory,
   filterMagazinesByType
 } from '@/services/magazineApi';
-import { BUTTON_TEXT, CATEGORIES, LOADING_MESSAGES } from '@/constants/gujaratiStrings';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import '@/styles/GSTVMagazine.css';
@@ -36,6 +35,12 @@ export default function GSTVMagazine() {
   // ✅ TOUCH REFS (ADDED)
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+
+  // Mouse drag refs
+  const mouseStartX = useRef(0);
+  const mouseEndX = useRef(0);
+  const isDragging = useRef(false);
+  const dragStartSlide = useRef(0);
 
   const loadMagazines = useCallback(async () => {
     try {
@@ -107,11 +112,11 @@ export default function GSTVMagazine() {
   );
 
   const nextSlide = useCallback(() => {
-    setCurrentSlide(prev => (prev >= maxSlides ? 0 : prev + 1));
+    setCurrentSlide(prev => Math.min(prev + 1, maxSlides));
   }, [maxSlides]);
 
   const prevSlide = useCallback(() => {
-    setCurrentSlide(prev => (prev <= 0 ? maxSlides : prev - 1));
+    setCurrentSlide(prev => Math.max(prev - 1, 0));
   }, [maxSlides]);
 
   // ✅ TOUCH HANDLERS (ADDED)
@@ -131,13 +136,56 @@ export default function GSTVMagazine() {
     }
   };
 
+  /* =========================
+     Mouse Drag (Desktop Touch-like)
+  ========================= */
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDragging.current = false;
+    mouseStartX.current = e.clientX;
+    mouseEndX.current = e.clientX;
+    dragStartSlide.current = currentSlide;
+    setIsAutoRotating(false);
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (mouseStartX.current === 0) return;
+    
+    const diff = Math.abs(e.clientX - mouseStartX.current);
+    if (diff > 5) {
+      isDragging.current = true;
+    }
+    
+    if (!isDragging.current) return;
+    
+    mouseEndX.current = e.clientX;
+    const dragDiff = mouseStartX.current - mouseEndX.current;
+    const slidesMoved = Math.round(dragDiff / (itemWidth || 1));
+    const newSlide = Math.max(0, Math.min(maxSlides, dragStartSlide.current + slidesMoved));
+    
+    setCurrentSlide(newSlide);
+  };
+
+  const handleMouseUp = () => {
+    mouseStartX.current = 0;
+    setTimeout(() => {
+      isDragging.current = false;
+    }, 50);
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging.current) {
+      isDragging.current = false;
+    }
+    mouseStartX.current = 0;
+  };
+
   useEffect(() => {
     if (!isAutoRotating || magazines.length <= itemsPerView) return;
 
     autoRotateRef.current = setInterval(() => {
       setCurrentSlide(prev => (prev >= maxSlides ? 0 : prev + 1));
     }, 5000);
-
     return () => {
       if (autoRotateRef.current) {
         clearInterval(autoRotateRef.current);
@@ -155,7 +203,7 @@ export default function GSTVMagazine() {
       <div className="carousel-inner-top custom-carousel clearfix">
         <div style={{ padding: 40, textAlign: 'center' }}>
           <LoadingSpinner
-            message={LOADING_MESSAGES.LOADING_MAGAZINE_GUJ}
+            message="GSTV મેગેઝિન લોડ થઈ રહ્યા છે..."
             size="large"
             type="dots"
             color="#850E00"
@@ -169,7 +217,7 @@ export default function GSTVMagazine() {
     return (
       <div className="carousel-inner-top custom-carousel clearfix">
         <div className="section-header">
-          <h2 className="section-title">{CATEGORIES.GSTV_MAGAZINE_GUJ}</h2>
+          <h2 className="section-title">GSTV મેગેઝિન</h2>
         </div>
         <ErrorMessage error={error} onRetry={retryFetch} />
       </div>
@@ -192,12 +240,12 @@ export default function GSTVMagazine() {
         <div className="storySectionNav-left">
           <Link href="/magazine">
             <img src="/assets/icons/e-paper-1.svg" alt="GSTV Magazine" />
-            <span>{CATEGORIES.GSTV_MAGAZINE_GUJ}</span>
+            <span>GSTV મેગેઝિન</span>
           </Link>
         </div>
         <div className="storySectionNav-right">
-          <Link href="/magazine" className="custom-link-btn">
-            {BUTTON_TEXT.READ_MORE} <i className="fas fa-chevron-right"></i>
+          <Link href="/magazine" className="custom-link-btn ws-more-link">
+            વધુ વાંચો &nbsp;<span className="ws-more-btn"><i className="fas fa-chevron-right"></i></span>
           </Link>
         </div>
       </div>
@@ -209,62 +257,99 @@ export default function GSTVMagazine() {
           data-slide="1"
           data-interval="1000"
           onMouseEnter={() => setIsAutoRotating(false)}
-          onMouseLeave={() => setIsAutoRotating(true)}
-
-          // ✅ TOUCH EVENTS ADDED
+          onMouseLeave={handleMouseLeave}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          style={{ cursor: isDragging.current ? 'grabbing' : 'grab' }}
         >
-          <div
-            className="MultiCarousel-inner topwebstory"
-            ref={sliderRef}
-            style={{
-              transform: `translateX(-${currentSlide * itemWidth}px)`,
-              transition: 'transform 0.3s ease',
-              display: 'flex',
-              width: itemWidth * magazines.length
-            }}
-          >
-            {magazines.map(magazine => (
-              <div
-                key={magazine.id}
-                style={{ width: itemWidth, flex: 'none' }}
-              >
-                <Link href={`/magazine/${magazine.slug}`}>
-                  <div className="card custom-card">
-                    <div className="img-wrappers custom-webstory-image magazine-image custom-epaper-cat">
-                      <img
-                        src={magazine.featureImage}
-                        className="video-thumbnail-img"
-                        alt={magazine.title}
-                        onError={e =>
-                          (e.currentTarget.src =
-                            magazine.icon || '/images/magazine-default.png')
-                        }
-                      />
+          {/* ws-clip-wrap clips sliding cards; arrows are siblings so they overflow freely */}
+          <div className="ws-clip-wrap">
+            <div
+              className="MultiCarousel-inner topwebstory"
+              ref={sliderRef}
+              style={{
+                transform: `translateX(-${currentSlide * itemWidth}px)`,
+                transition: 'transform 0.3s ease',
+                display: 'flex',
+                width: itemWidth * magazines.length
+              }}
+            >
+              {magazines.map(magazine => (
+                <div
+                  key={magazine.id}
+                  style={{ width: itemWidth, flex: 'none' }}
+                >
+                  <Link
+                    href={`/magazine/${magazine.slug}`}
+                    onClick={(e) => { if (isDragging.current) e.preventDefault(); }}
+                  >
+                    <div className="card1 custom-card1">
+                      <div className="img-wrappers custom-webstory-image magazine-image custom-epaper-cat">
+                        <img
+                          src={magazine.featureImage}
+                          className="video-thumbnail-img"
+                          alt={magazine.title}
+                          onError={e =>
+                            (e.currentTarget.src = magazine.icon || '/images/magazine-default.png')
+                          }
+                        />
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>{/* end ws-clip-wrap */}
 
-          <button
-            className={`btn btn-primary leftLst ${currentSlide === 0 ? 'over' : ''}`}
-            onClick={prevSlide}
-            disabled={currentSlide === 0}
-          >
-            <i className="fa fa-chevron-left"></i>
-          </button>
+          {/* Left arrow — disabled = non-interactive span, enabled = button */}
+          {currentSlide === 0 ? (
+            <span
+              className="btn btn-primary leftLst over disabled-arrow"
+              aria-hidden="true"
+              onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}
+              onMouseDown={(e) => { e.stopPropagation(); e.preventDefault(); }}
+              onMouseUp={(e) => { e.stopPropagation(); e.preventDefault(); }}
+            >
+              <i className="fa fa-chevron-left"></i>
+            </span>
+          ) : (
+            <button
+              className="btn btn-primary leftLst"
+              type="button"
+              onClick={(e) => { e.stopPropagation(); e.preventDefault(); prevSlide(); }}
+              onMouseDown={(e) => e.stopPropagation()}
+              aria-label="Previous"
+            >
+              <i className="fa fa-chevron-left"></i>
+            </button>
+          )}
 
-          <button
-            className={`btn btn-primary rightLst ${currentSlide >= maxSlides ? 'over' : ''}`}
-            onClick={nextSlide}
-            disabled={currentSlide >= maxSlides}
-          >
-            <i className="fa fa-chevron-right"></i>
-          </button>
+          {/* Right arrow — disabled = non-interactive span, enabled = button */}
+          {currentSlide >= maxSlides ? (
+            <span
+              className="btn btn-primary rightLst over disabled-arrow"
+              aria-hidden="true"
+              onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}
+              onMouseDown={(e) => { e.stopPropagation(); e.preventDefault(); }}
+              onMouseUp={(e) => { e.stopPropagation(); e.preventDefault(); }}
+            >
+              <i className="fa fa-chevron-right"></i>
+            </span>
+          ) : (
+            <button
+              className="btn btn-primary rightLst"
+              type="button"
+              onClick={(e) => { e.stopPropagation(); e.preventDefault(); nextSlide(); }}
+              onMouseDown={(e) => e.stopPropagation()}
+              aria-label="Next"
+            >
+              <i className="fa fa-chevron-right"></i>
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -4,7 +4,6 @@
  */
 
 import { API_ENDPOINTS } from '@/constants/api';
-import { SEARCH_MESSAGES_GUJ } from '@/constants/gujaratiStrings';
 
 export interface SearchItem {
   id: number;
@@ -90,16 +89,16 @@ export async function performSearch(searchParams: SearchRequest): Promise<Search
  */
 export function getSearchSuggestions() {
   return [
-    { term: 'Gujarat', label: 'Gujarat', category: 'location' },
-    { term: 'Rajkot', label: 'Rajkot', category: 'location' },
-    { term: 'Ahmedabad', label: 'Ahmedabad', category: 'location' },
-    { term: 'Surat', label: 'Surat', category: 'location' },
-    { term: 'Vadodara', label: 'Vadodara', category: 'location' },
-    { term: 'Rajkaran', label: 'Rajkaran', category: 'topic' },
-    { term: 'Business', label: 'Business', category: 'topic' },
-    { term: 'Sports', label: 'Sports', category: 'topic' },
-    { term: 'Entertainment', label: 'Entertainment', category: 'topic' },
-    { term: 'Health', label: 'Health', category: 'topic' }
+    { term: 'ગુજરાત', label: 'ગુજરાત', category: 'location' },
+    { term: 'રાજકોટ', label: 'રાજકોટ', category: 'location' },
+    { term: 'અમદાવાદ', label: 'અમદાવાદ', category: 'location' },
+    { term: 'સુરત', label: 'સુરત', category: 'location' },
+    { term: 'વડોદરા', label: 'વડોદરા', category: 'location' },
+    { term: 'રાજકારણ', label: 'રાજકારણ', category: 'topic' },
+    { term: 'વ્યવસાય', label: 'વ્યવસાય', category: 'topic' },
+    { term: 'રમતગમત', label: 'રમતગમત', category: 'topic' },
+    { term: 'મનોરંજન', label: 'મનોરંજન', category: 'topic' },
+    { term: 'આરોગ્ય', label: 'આરોગ્ય', category: 'topic' }
   ];
 }
 
@@ -121,15 +120,15 @@ export function validateSearchQuery(query: string): { isValid: boolean; error?: 
   const trimmedQuery = query.trim();
   
   if (!trimmedQuery) {
-    return { isValid: false, error: SEARCH_MESSAGES_GUJ.ENTER_SEARCH };
+    return { isValid: false, error: 'કૃપા કરીને શોધ શબ્દ દાખલ કરો' };
   }
   
   if (trimmedQuery.length < 2) {
-    return { isValid: false, error: SEARCH_MESSAGES_GUJ.MIN_LENGTH };
+    return { isValid: false, error: 'શોધ શબ્દ ઓછામાં ઓછા 2 અક્ષરનો હોવો જોઈએ' };
   }
   
   if (trimmedQuery.length > 100) {
-    return { isValid: false, error: SEARCH_MESSAGES_GUJ.MAX_LENGTH };
+    return { isValid: false, error: 'શોધ શબ્દ 100 અક્ષરથી વધુ લાંબો હોઈ શકતો નથી' };
   }
   
   return { isValid: true };
@@ -147,15 +146,15 @@ export function getSearchStats(response: SearchResponse) {
       currentPage: 1,
       totalPages: 1,
       hasMore: false,
-      resultsText: SEARCH_MESSAGES_GUJ.NO_RESULTS
+      resultsText: 'કોઈ પરિણામો મળ્યા નથી'
     };
   }
 
   const { data } = response;
   const hasMore = !!data.next_page_url;
   const resultsText = data.total > 0 
-    ? SEARCH_MESSAGES_GUJ.TOTAL_RESULTS.replace('{count}', data.total.toString())
-    : SEARCH_MESSAGES_GUJ.NO_RESULTS;
+    ? `કુલ ${data.total} પરિણામો મળ્યા`
+    : 'કોઈ પરિણામો મળ્યા નથી';
 
   return {
     total: data.total,
@@ -217,13 +216,13 @@ export function getCategoryName(item: SearchItem): string {
   // Fallback based on catID
   if (item.catID) {
     const categoryIds = item.catID.split(',').map(id => parseInt(id.trim()));
-    if (categoryIds.includes(9)) return SEARCH_MESSAGES_GUJ.VIDEO_CATEGORY;
-    if (categoryIds.includes(1)) return SEARCH_MESSAGES_GUJ.GUJARAT_CATEGORY;
-    if (categoryIds.includes(2)) return SEARCH_MESSAGES_GUJ.INDIA_CATEGORY;
-    if (categoryIds.includes(3)) return SEARCH_MESSAGES_GUJ.WORLD_CATEGORY;
+    if (categoryIds.includes(9)) return 'વિડિયો';
+    if (categoryIds.includes(1)) return 'ગુજરાત';
+    if (categoryIds.includes(2)) return 'ભારત';
+    if (categoryIds.includes(3)) return 'વિશ્વ';
   }
   
-  return SEARCH_MESSAGES_GUJ.NEWS_CATEGORY;
+  return 'સમાચાર';
 }
 
 /**

@@ -340,7 +340,7 @@ a {
   display: flex;
 }
 .Center-main-div .storySectionNav-left img {
-  margin-left: 10px !important;
+  /* margin-left: 10px !important; */
 }
 .story-title {
   background: linear-gradient(
@@ -428,6 +428,14 @@ border-bottom-right-radius: 20px;
   position: absolute;
   width: 100%;
   bottom: 0;
+  z-index: 10;
+  pointer-events: none; /* container doesn't block clicks */
+}
+
+/* The actual link inside card-bodys IS clickable */
+.card-bodys a,
+.card-bodys span {
+  pointer-events: auto;
 }
 
 .card-body-1 {
@@ -439,25 +447,25 @@ border-bottom-right-radius: 20px;
 .card-bodys span {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth transition */
-  padding: 50% 10px 10px 10px;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 30% 10px 10px 10px;
   left: 0px;
   right: 0px;
   color: var(--white-color);
-  border-radius: 0px 0px 10px 10px;
+  /* border-radius: 0px 0px 10px 10px; */
   position: absolute;
   bottom: 0px;
-  text-align: start;
+  text-align: center;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.8) 70%, black 100%);
-  display: flex;
   align-items: end;
-  pointer-events: none;
-  font-size: 14px;
+  pointer-events: auto; /* allow clicks on title */
+  font-size: 18px;
   margin: 0px;
   line-height: 1.4em;
   font-family: "Hind Vadodara", sans-serif;
+  cursor: pointer;
 }
-.item:hover .card-bodys span {
+.item .card-bodys span {
   opacity: 1;
   visibility: visible;
 }
@@ -827,9 +835,14 @@ img.innerpage.lazyautosizes.lazyloaded {
   margin-top: -5px;
 }
 .hometopnews h4{
- font-size: clamp(16px, 3vw, 22px) !important;
+ /* font-size: clamp(16px, 3vw, 17px) !important;
  line-height: 1.3 !important;
- min-height: 60px !important;
+ min-height: 50px !important; */
+font-size: clamp(16px, 3vw, 17px) !important;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+overflow: hidden;
 }
 .bgvideonews{
   background-color: #f1eade !important;
@@ -2467,6 +2480,18 @@ body.modal-open {
   text-align: justify;
   font-size: 16px !important;
 }
+@media (min-width: 1531px) {
+  .custom-blog-details .detail-page,
+  .custom-blog-details .detail-page p {
+    text-align: justify;
+    font-size: 20px !important;
+    letter-spacing: 0.7px;
+  }
+  .finalContent h4, .finalContent strong{
+     font-size: 20px;
+    letter-spacing: 0.6px;
+  }
+}
 .whatsappgroupcls, .whatsappgroupcls p {
   text-align: left !important;
 }
@@ -3360,49 +3385,106 @@ span.userName{
 }
 
 /* footer css start */
-.custom-footer{
-  background: var(--dark-color);
+.custom-footer {
   display: none;
-  height: 60px;
   position: fixed;
-  bottom: -1px;
-  border-radius: 10px 10px 0px 0px;
+  bottom: -7px;
+  left: 0;
   width: 100%;
-  z-index: 2;
+  z-index: 9999;
+  padding: 0 12px 8px;
+  background: transparent;
+  pointer-events: none;
 }
-.custom-footer ul{
-  list-style-type: none;
-    display: flex;
-    margin: 0;
-    bottom: 0;
-    z-index: 1;
-    padding: 0;
-    justify-content: space-around;
-    padding: 5px 0px;
+
+.footer-menu {
+  pointer-events: all;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-around;
+  background: #fff;
+  border-radius: 30px;
+  box-shadow: 0 -2px 20px rgba(0,0,0,0.12);
+  padding: 6px 8px;
+  position: relative;
+  height: 62px;
+  border: 1px solid #f0f0f0;
 }
-.custom-footer .footer-menu{
-  padding: 5px 20px;
+
+/* Each nav item */
+.custom-footer .footer-menu > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 2px;
 }
-.custom-footer p{
-  padding: 0px;
-  margin: 5px 0px 0px 0px;
-  text-align: center;
+
+/* All links */
+.custom-footer .footer-menu a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-decoration: none !important;
 }
-.footer-link{
-  font-size: 12px;
-  color: var(--white-color);
-  font-weight:600;
-}
-.footer-image{
+
+.footer-image {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
-.custom-footer ul li a:hover .footer-link{
-  color: #b1974f;
+
+/* Icon tint — inactive */
+.custom-footer .footer-menu a:not(.active) .footer-image img,
+.custom-footer .footer-menu a:not(.active) .footer-image svg {
+  filter: grayscale(1) opacity(0.5);
 }
-.custom-footer .footer-menu .active .footer-link{
-  color: #d9bb63;
+
+/* Label */
+.footer-link {
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  text-align: center;
+  /* line-height: 1; */
 }
+
+/* Active state */
+.custom-footer .footer-menu .active .footer-link {
+  color: #850E00;
+}
+.custom-footer .footer-menu .active .footer-image img,
+.custom-footer .footer-menu .active .footer-image svg {
+  filter: none;
+}
+
+/* Center LIVE button — red circle, elevated */
+.custom-footer .footer-menu .col-4 {
+  margin-top: -22px;
+  flex: none;
+  width: 70px;
+}
+
+.custom-footer .footer-menu .col-4 a {
+  background: #850E00;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(133,14,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #fff;
+}
+
+.custom-footer .footer-menu .col-4 .footer-image img {
+  filter: none !important;
+  /* width: 44px !important; */
+  /* height: 44px !important; */
+}
+
 /* footer css end */
 
 
@@ -4285,7 +4367,7 @@ span.userName{
     padding: 15px;
   }
   .contents-main-div {
-    padding-top: 90px;
+    padding-top: 60px;
   }
   .blog-read-content h4 {
     font-size: 18px;
@@ -4539,8 +4621,20 @@ a.poleres:hover{
 
 .MultiCarousel .leftLst:hover, .MultiCarousel .rightLst:hover, .MultiCarousel .leftLst:active, .MultiCarousel .rightLst:active { background:#fff; border: 1px solid #fff; }
 .MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over {
-  opacity: 0.5;
-    cursor: default;
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: all !important;  /* absorb clicks — do NOT pass through to cards */
+  z-index: 20;
+}
+
+/* disabled-arrow: span replacing button at boundary — catches clicks, does nothing */
+.disabled-arrow {
+  pointer-events: all !important;  /* keep events ON so clicks are absorbed, not passed through */
+  cursor: not-allowed !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  opacity: 0.4;
+  z-index: 20;  /* sit above cards so the click never reaches the Link beneath */
 }
 .fa-circle-play:before, .fa-play-circle:before
 {
@@ -7256,12 +7350,12 @@ text-align: center;
     }
   }
   .custom-footer {
-    background: #5C0400;
-    height: 70px;
-    border-radius: 20px 20px 0px 0px;
+    background: transparent;
+    height: auto;
+    border-radius: 0;
   }
   .custom-footer .footer-menu {
-    padding: 10px 20px;
+    padding: 6px 8px;
   }
   .liveNewsHblock h4 {
     height: inherit;
@@ -9200,3 +9294,276 @@ div#newsCarousel {
  {
   z-index: 9 !important;
  }
+
+/* ── TopMenuBar ─────────────────────────────────────────────── */
+.tmb-wrap {
+  width: 100%;
+  float: left;
+  clear: both;
+  padding: 8px 15px;
+  background: #fff;
+  display: none;
+  visibility: visible !important;
+}
+
+.tmb-scroll {
+  display: flex !important;
+  flex-direction: row;
+  gap: 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+
+.tmb-scroll::-webkit-scrollbar { display: none; }
+
+.tmb-card {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none !important;
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  padding: 10px 14px 8px;
+  min-width: 80px;
+  transition: box-shadow 0.2s, transform 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+.tmb-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  transform: translateY(-1px);
+}
+
+.tmb-icon-box {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tmb-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.tmb-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #222;
+  text-align: center;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+@media (max-width:746px) {
+  .tmb-wrap { padding: 6px 0px;display: block; }
+  .tmb-card { min-width: 70px; padding: 8px 10px 6px; }
+  .tmb-icon-box { width: 30px; height: 30px; }
+  .tmb-title { font-size: 11px; }
+}
+
+/* ── TrendingBar ──────────────────────────────────────────────── */
+.trb-wrap {
+  width: 100%;
+  float: left;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 8px 0px 10px;
+  background: #fff;
+  border-bottom: 0px solid #f0f0f0;
+  position: relative;
+}
+
+/* "ટ્રેન્ડિંગ" label */
+.trb-label {
+  flex-shrink: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #850E00;
+  white-space: nowrap;
+}
+
+/* Scrollable pills row */
+.trb-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  flex: 1;
+  padding: 2px 0;
+  scroll-behavior: smooth;
+}
+
+.trb-scroll::-webkit-scrollbar { display: none; }
+
+/* Each pill */
+.trb-pill {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border: 1.5px solid #d0d0d0;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333 !important;
+  background: #fff;
+  white-space: nowrap;
+  text-decoration: none !important;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.trb-pill:hover {
+  border-color: #850E00;
+  color: #850E00 !important;
+  background: #fff5f5;
+}
+
+/* Right arrow button */
+.trb-arrow {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 0px solid #d0d0d0;
+  background: #fff;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 17px;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.trb-arrow:hover {
+  border-color: #850E00;
+  color: #850E00;
+}
+
+@media (max-width: 575px) {
+  .trb-wrap { padding: 6px 0px; }
+  .trb-label { font-size: 13px; }
+  .trb-pill  { font-size: 12px; padding: 4px 11px; }
+  /* On mobile — no arrow, just scroll naturally */
+  .trb-arrow { display: none; }
+}
+
+/* ── BreakingNews ──────────────────────────────────────────────── */
+.bn-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  float: left;
+  background: #fef2f2;
+  border: 1px solid #fcd5d5;
+  border-radius: 6px;
+  padding: 0;
+  margin-bottom: 10px;
+  overflow: hidden;
+  position: relative;
+  min-height: 40px;
+}
+
+/* Red pill label */
+.bn-label {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: #850E00;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 12px;
+  white-space: nowrap;
+  min-height: 40px;
+  border-radius: 4px 0 0 4px;
+}
+
+/* Vertical divider */
+.bn-divider {
+  width: 1px;
+  background: #e8c0c0;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+/* News title */
+.bn-title {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+  text-decoration: none !important;
+  padding: 8px 10px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: bn-slide 0.4s ease;
+}
+
+.bn-title:hover { color: #850E00; }
+
+@keyframes bn-slide {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Timestamp */
+.bn-time {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #888;
+  padding: 0 10px 0 4px;
+  white-space: nowrap;
+}
+
+/* Close button */
+.bn-close {
+  flex-shrink: 0;
+  background: rgba(133,14,0,0.12);
+  border: none;
+  color: #850E00;
+  font-size: 13px;
+  font-weight: 700;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.bn-close:hover { background: rgba(133,14,0,0.22); }
+
+/* Closing animation */
+.bn-closing {
+  animation: bn-fade 0.4s ease forwards;
+}
+
+@keyframes bn-fade {
+  to { opacity: 0; transform: translateY(-6px); height: 0; padding: 0; margin: 0; }
+}
+
+/* Mobile */
+@media (max-width: 575px) {
+  .bn-wrap { border-radius: 4px; }
+  .bn-label { font-size: 12px; padding: 7px 9px; }
+  .bn-title { font-size: 13px; padding: 7px 8px; }
+  .bn-time  { font-size: 11px; padding: 0 6px 0 2px; }
+}

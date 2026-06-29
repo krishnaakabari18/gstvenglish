@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Refund Policy - GSTV',
     description: 'Learn about GSTV refund and cancellation policy for subscriptions and services.',
-    url: 'https://english.gstv.in/refund-policy',
+    url: 'https://www.gstv.in/refund-policy',
     siteName: 'GSTV',
     type: 'website',
   },

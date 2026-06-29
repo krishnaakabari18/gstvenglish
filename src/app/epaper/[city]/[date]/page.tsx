@@ -10,7 +10,7 @@ type Props = {
 };
 
 /* ---------------- Base URL ---------------- */
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://english.gstv.in";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.gstv.in";
 
 /* ---------------- Dynamic Metadata ---------------- */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

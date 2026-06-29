@@ -9,7 +9,7 @@ import Script from 'next/script';
 import ProFooter from '@/components/ProFooter';
 import { useUserSession, getUserId } from '@/hooks/useUserSession';
 import { redirectToLogin } from '@/utils/authUtils';
-import { CAMPUS_CORNER_FORM, MISC_UI, AGREEMENT_TEXT } from '@/constants/gujaratiStrings';
+
 import { useSettings } from '@/hooks/useSettings';
 
 interface FormData {
@@ -72,7 +72,7 @@ const AddCampusCornerPage: React.FC = () => {
 
   // Agreement text from Category Settings (dynamic), with fallback
   const { settings } = useSettings();
-  const agreeText = settings?.campus_agree_text || AGREEMENT_TEXT.CAMPUS_AGREE;
+  const agreeText = settings?.campus_agree_text || "હું સહમત છું કે મારા દ્વારા અપલોડ કરવામાં આવતી સામગ્રી કોઈપણ પ્રકારની વાંધાજનક, અશ્લીલ, હિંસક કે ગેરકાયદેસર નથી. જો આવી કોઈ સામગ્રી મળશે તો તેની સંપૂર્ણ જવાબદારી મારી રહેશે.";
 
   // Authentication check - wait for auth state to be properly loaded
   useEffect(() => {
@@ -173,7 +173,7 @@ const AddCampusCornerPage: React.FC = () => {
       }
     } catch (error) {
       
-      setErrorMessage(CAMPUS_CORNER_FORM.LOAD_FAILED);
+      setErrorMessage('કેમ્પસ કોર્નર ડેટા લોડ કરવામાં નિષ્ફળ.');
     } finally {
       setLoading(false);
     }
@@ -204,7 +204,7 @@ const AddCampusCornerPage: React.FC = () => {
     setImageLimitMsg('');
 
     if (imageArray.length + files.length > maxImages) {
-      setImageLimitMsg(CAMPUS_CORNER_FORM.MAX_IMAGES);
+      setImageLimitMsg('તમે વધુમાં વધુ 5 છબીઓ અપલોડ કરી શકો છો.');
       return;
     }
 
@@ -232,7 +232,7 @@ const AddCampusCornerPage: React.FC = () => {
     }
 
     if (!['video/mp4', 'video/quicktime'].includes(file.type)) {
-      setVideoLimitMsg(CAMPUS_CORNER_FORM.VIDEO_FORMAT_ERROR);
+      setVideoLimitMsg('ફક્ત MP4 અથવા MOV ને જ મંજૂરી છે.');
       if (videoInputRef.current) {
         videoInputRef.current.value = '';
       }
@@ -241,7 +241,7 @@ const AddCampusCornerPage: React.FC = () => {
     }
 
     if (file.size > 100 * 1024 * 1024) {
-      setVideoLimitMsg(CAMPUS_CORNER_FORM.VIDEO_SIZE_ERROR);
+      setVideoLimitMsg('વિડીયો 100MB થી વધુ ન હોવો જોઈએ.');
       if (videoInputRef.current) {
         videoInputRef.current.value = '';
       }
@@ -311,46 +311,46 @@ const AddCampusCornerPage: React.FC = () => {
 
     if (shouldValidateAllFields) {
       if (!formData.name.trim()) {
-        setError(CAMPUS_CORNER_FORM.ENTER_NAME);
+        setError('તમારું નામ દાખલ કરો.');
         return false;
       }
 
       if (!formData.title.trim()) {
-        setError(CAMPUS_CORNER_FORM.ENTER_TITLE);
+        setError('કૃપા કરીને ટાઇટલ દાખલ કરો.');
         return false;
       }
 
       if (!formData.school.trim()) {
-        setError(CAMPUS_CORNER_FORM.ENTER_SCHOOL);
+        setError('કૃપા કરીને તમારી શાળાનું નામ દાખલ કરો.');
         return false;
       }
 
       if (!formData.city.trim()) {
-        setError(CAMPUS_CORNER_FORM.ENTER_CITY);
+        setError('કૃપા કરીને તમારું શહેર દાખલ કરો.');
         return false;
       }
 
       if (!formData.description.trim()) {
-        setError(CAMPUS_CORNER_FORM.ENTER_DESCRIPTION);
+        setError('કૃપા કરીને વર્ણન દાખલ કરો.');
         return false;
       }
     }
 
     // Agreement is always required
     if (!formData.agree_status) {
-      setError(CAMPUS_CORNER_FORM.AGREE_TERMS);
+      setError('કૃપા કરીને નિયમો અને શરતો સાથે સંમત થાઓ.');
       return false;
     }
 
     // Media validation: at least one image or video is required
     if (!hasAnyMedia) {
-      setError(CAMPUS_CORNER_FORM.UPLOAD_MEDIA);
+      setError('કૃપા કરીને ઓછામાં ઓછી એક છબી અથવા વિડીયો અપલોડ કરો.');
       return false;
     }
 
     // For new submissions, ensure we have new media (not just existing)
     if (!isEditMode && imageArray.length === 0 && !videoFile) {
-      setError(CAMPUS_CORNER_FORM.UPLOAD_NEW_MEDIA);
+      setError('કૃપા કરીને નવી સબમિશન માટે ઓછામાં ઓછી એક છબી અથવા વિડીયો અપલોડ કરો.');
       return false;
     }
 
@@ -374,7 +374,7 @@ const AddCampusCornerPage: React.FC = () => {
    
 
     if (!isActuallyLoggedIn || !actualUserId) {
-      setErrorMessage(CAMPUS_CORNER_FORM.LOGIN_REQUIRED);
+      setErrorMessage('કેમ્પસ કોર્નર એન્ટ્રી સબમિટ કરવા માટે તમારે લોગ ઇન થયેલ હોવું આવશ્યક છે. કૃપા કરીને લોગ ઇન કરો અને ફરી પ્રયાસ કરો.');
       const currentPath = `/addcampuscorner${editId ? `?id=${editId}` : ''}`;
       redirectToLogin(currentPath, router);
       return;
@@ -480,7 +480,7 @@ const AddCampusCornerPage: React.FC = () => {
      
       if (result.success) {
         
-        setSubmitMessage(isEditMode ? CAMPUS_CORNER_FORM.UPDATED_SUCCESS : CAMPUS_CORNER_FORM.ADDED_SUCCESS);
+        setSubmitMessage(isEditMode ? 'કેમ્પસ કોર્નર સફળતાપૂર્વક અપડેટ થયું છે!' : 'કેમ્પસ કોર્નર સફળતાપૂર્વક ઉમેર્યું છે!');
 
         if (!isEditMode) {
           // Reset form only for add mode
@@ -544,9 +544,9 @@ const AddCampusCornerPage: React.FC = () => {
           style={{ width: '3rem', height: '3rem' }}
           role="status"
         >
-          <span className="sr-only">{MISC_UI.LOADING_GUJ}</span>
+          <span className="sr-only">લોડ થઈ રહ્યું છે...</span>
         </div>
-        <p style={{ marginTop: '10px' }}>{MISC_UI.LOADING_GUJ}</p>
+        <p style={{ marginTop: '10px' }}>લોડ થઈ રહ્યું છે...</p>
       </div>
     );
   }
@@ -560,7 +560,7 @@ const AddCampusCornerPage: React.FC = () => {
               <form className="formBox" id="news-form" encType="multipart/form-data" onSubmit={handleSubmit}>
                 <div className="pNewsBox">
                   <div className="title">
-                    <h2>{isEditMode ? CAMPUS_CORNER_FORM.EDIT_TITLE : CAMPUS_CORNER_FORM.ADD_TITLE}</h2>
+                    <h2>{isEditMode ? 'એડિટ કરો' : 'એડ કરો'}</h2>
                   </div>
 
                   <div className="pnewsContent">
@@ -581,7 +581,7 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* Name and Title Fields */}
                 <div className="row">
                   <div className="col-lg-6 mb-4">
-                    <div className="lable">{CAMPUS_CORNER_FORM.NAME_LABEL}</div>
+                    <div className="lable">નામ</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -590,13 +590,13 @@ const AddCampusCornerPage: React.FC = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        placeholder={CAMPUS_CORNER_FORM.NAME_PLACEHOLDER}
+                        placeholder="તમારું નામ દાખલ કરો"
                         required
                       />
                     </div>
                   </div>
                   <div className="col-lg-6 mb-4">
-                    <div className="lable">{CAMPUS_CORNER_FORM.TITLE_LABEL}</div>
+                    <div className="lable">સમાચાર ટાઇટલ</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -605,7 +605,7 @@ const AddCampusCornerPage: React.FC = () => {
                         name="title"
                         value={formData.title}
                         onChange={handleInputChange}
-                        placeholder={CAMPUS_CORNER_FORM.TITLE_PLACEHOLDER}
+                        placeholder="તમારું ટાઇટલ દાખલ કરો"
                         required
                       />
                     </div>
@@ -615,7 +615,7 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* School and City Fields */}
                 <div className="row">
                   <div className="col-lg-6 mb-4">
-                    <div className="lable">{CAMPUS_CORNER_FORM.SCHOOL_LABEL}</div>
+                    <div className="lable">શાળા</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -624,13 +624,13 @@ const AddCampusCornerPage: React.FC = () => {
                         name="school"
                         value={formData.school}
                         onChange={handleInputChange}
-                        placeholder={CAMPUS_CORNER_FORM.SCHOOL_PLACEHOLDER}
+                        placeholder="તમારી શાળાનું નામ દાખલ કરો"
                         required
                       />
                     </div>
                   </div>
                   <div className="col-lg-6 mb-4">
-                    <div className="lable">{CAMPUS_CORNER_FORM.CITY_LABEL}</div>
+                    <div className="lable">શહેર</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -639,7 +639,7 @@ const AddCampusCornerPage: React.FC = () => {
                         name="city"
                         value={formData.city}
                         onChange={handleInputChange}
-                        placeholder={CAMPUS_CORNER_FORM.CITY_PLACEHOLDER}
+                        placeholder="તમારું શહેર દાખલ કરો"
                         required
                       />
                     </div>
@@ -649,7 +649,7 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* Description Field */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">{CAMPUS_CORNER_FORM.DESCRIPTION_LABEL}</div>
+                    <div className="lable">ડિસ્ક્રીપ્શન</div>
                     <div className="inputOuter">
                         <Editor
                         tinymceScriptSrc="/assets/vendor/tinymce/tinymce.min.js"
@@ -674,7 +674,7 @@ const AddCampusCornerPage: React.FC = () => {
                             'alignright alignjustify | bullist numlist outdent indent | ' +
                             'image media | removeformat | help',
                           branding: false,
-                          placeholder: CAMPUS_CORNER_FORM.DESCRIPTION_PLACEHOLDER,
+                          placeholder: 'વર્ણન દાખલ કરો',
 
                           /* ⭐ Enables image upload */
                           images_upload_url: '/api/upload/tinymce',
@@ -717,13 +717,13 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* Images Upload */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">{CAMPUS_CORNER_FORM.IMAGES_LABEL}</div>
+                    <div className="lable">તસવીરો (ઓછામાં ઓછી ૧, મહત્તમ ૫ છબી અપલોડ)</div>
                     <div className="inputOuter">
 
                       {/* Existing Images Display */}
                       {isEditMode && existingImages.length > 0 && (
                         <div className="mb-3">
-                          <label className="form-label">{CAMPUS_CORNER_FORM.EXISTING_IMAGES}</label>
+                          <label className="form-label">હાલની છબીઓ:</label>
                           <div className="row">
                             {existingImages.map((imageUrl, index) => (
                               <div key={`existing-${index}`} className="col-6 col-md-3 col-lg-2 thumbOuter">
@@ -796,13 +796,13 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* Video Upload */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">{CAMPUS_CORNER_FORM.VIDEO_LABEL}</div>
+                    <div className="lable">વીડિયો (વૈકલ્પિક, ફક્ત mp4/mov, ≤ 100MB)</div>
                     <div className="inputOuter">
 
                       {/* Existing Video Display */}
                       {isEditMode && existingVideo && !removeVideoFlag && (
                         <div className="mb-3">
-                          <label className="form-label">{CAMPUS_CORNER_FORM.EXISTING_VIDEO}</label>
+                          <label className="form-label">હાલના વિડીયો:</label>
                           <div className="row">
                             <div className="col-12 col-md-4 thumbOuter">
                               <video
@@ -889,7 +889,7 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* Submit Button */}
                 <div className="profileBtn">
                   <button type="submit" className="btn-gstv" disabled={loading}>
-                    {loading ? CAMPUS_CORNER_FORM.UPLOADING : CAMPUS_CORNER_FORM.UPLOAD_BUTTON}
+                    {loading ? 'અપલોડ થઈ રહ્યું છે...' : 'અપલોડ'}
                   </button>
                 </div>
               </div>
@@ -931,9 +931,9 @@ const AddCampusCornerPage: React.FC = () => {
               style={{ width: '3rem', height: '3rem' }}
               role="status"
             >
-              <span className="sr-only">{MISC_UI.LOADING_GUJ}</span>
+              <span className="sr-only">લોડ થઈ રહ્યું છે...</span>
             </div>
-            <p style={{ marginTop: '10px' }}>{CAMPUS_CORNER_FORM.PLEASE_WAIT}</p>
+            <p style={{ marginTop: '10px' }}>મહેરબાની કરીને રાહ જુઓ...</p>
           </div>
         </div>
       )}

@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { API_ENDPOINTS } from '@/constants/api';
-import { MISC_UI } from '@/constants/gujaratiStrings';
 
 interface LiveMatchData {
   series_id: string;
@@ -97,4 +96,3 @@ const LiveMatchScore = () => {
 };
 
 export default LiveMatchScore;
-

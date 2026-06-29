@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import { LOADING_MESSAGES as GUJARATI_LOADING_MESSAGES, BUTTON_TEXT, SUCCESS_MESSAGES, ERROR_MESSAGES, BOOKMARK_MESSAGES } from '@/constants/gujaratiStrings';
 
 // Loading States
 export interface LoadingState {
@@ -61,13 +60,18 @@ export interface NewsGridProps {
 
 /**
  * Common Loading Messages in Gujarati
- * @deprecated Use GUJARATI_LOADING_MESSAGES from '@/constants/gujaratiStrings' instead
- * This is kept for backward compatibility
  */
 export const LOADING_MESSAGES = {
-  ...GUJARATI_LOADING_MESSAGES,
-  RETRY: BUTTON_TEXT.RETRY,
-  SOMETHING_WENT_WRONG: ERROR_MESSAGES.SOMETHING_WENT_WRONG
+  LOADING: 'લોડ થઈ રહ્યું છે...',
+  LOADING_MORE: 'વધુ લોડ થઈ રહ્યું છે...',
+  LOADING_NEWS: 'સમાચાર લોડ થઈ રહ્યા છે...',
+  LOADING_MORE_NEWS: 'વધુ સમાચાર લોડ થઈ રહ્યા છે...',
+  LOADING_VIDEOS: 'વીડિયો લોડ થઈ રહ્યા છે...',
+  LOADING_CATEGORIES: 'કેટેગરી લોડ થઈ રહ્યા છે...',
+  NO_MORE_DATA: '',
+  END_OF_NEWS: 'તમે સમાચારના અંત સુધી પહોંચી ગયા છો.',
+  RETRY: 'ફરી પ્રયાસ કરો',
+  SOMETHING_WENT_WRONG: 'કંઈક ખોટું થયું છે'
 } as const;
 
 /**
@@ -170,7 +174,7 @@ export const generateCategoryHeader = (
 ): string => {
   const viewAllLink = showViewAll ? `
     <Link href="/category/${categorySlug}" class="${COMMON_CLASSES.CATEGORY_LINK}">
-      ${BUTTON_TEXT.READ_MORE}
+      વધુ વાંચો
       <i class="fas fa-chevron-right"></i>
     </Link>
   ` : '';
@@ -279,7 +283,7 @@ export const shareNews = (news: any): void => {
   } else {
     // Fallback: copy to clipboard
     navigator.clipboard.writeText(shareData.url).then(() => {
-      alert(SUCCESS_MESSAGES.LINK_COPIED);
+      alert('લિંક કોપી થઈ ગઈ છે!'); // Link copied!
     }).catch(() => {
       // Fallback: open in new window
       window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.title)}&url=${encodeURIComponent(shareData.url)}`, '_blank');
@@ -301,7 +305,7 @@ export const bookmarkNews = (news: any): void => {
     // Remove bookmark
     const updatedBookmarks = existingBookmarks.filter((bookmark: any) => bookmark.id !== news.id);
     localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
-    alert(BOOKMARK_MESSAGES.BOOKMARK_REMOVED);
+    alert('બુકમાર્ક દૂર કરવામાં આવ્યું!'); // Bookmark removed!
   } else {
     // Add bookmark
     existingBookmarks.push({
@@ -312,7 +316,7 @@ export const bookmarkNews = (news: any): void => {
       created_at: news.created_at
     });
     localStorage.setItem('bookmarks', JSON.stringify(existingBookmarks));
-    alert(BOOKMARK_MESSAGES.BOOKMARK_ADDED);
+    alert('બુકમાર્ક ઉમેરવામાં આવ્યું!'); // Bookmark added!
   }
 };
 

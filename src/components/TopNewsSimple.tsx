@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { API_V5_BASE_URL, MEDIA_BASE_URL } from '@/constants/api';
-import { MISC_UI } from '@/constants/gujaratiStrings';
 
 interface NewsItem {
   id: number;
@@ -72,9 +71,9 @@ export default function TopNewsSimple() {
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
     
     if (diffInHours < 1) {
-      return MISC_UI.JUST_NOW_SHORT_GUJ;
+      return 'હમણાં જ';
     } else if (diffInHours < 24) {
-      return `${diffInHours} ${MISC_UI.HOURS_AGO_TEXT_GUJ}`;
+      return `${diffInHours} કલાક પહેલાં`;
     } else {
       const diffInDays = Math.floor(diffInHours / 24);
       return `${diffInDays} દિવસ પહેલાં`;

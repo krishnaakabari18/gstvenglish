@@ -1,323 +1,133 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
-import { MEDIA_BASE_URL } from '@/constants/api';
 import '@/styles/TopVideos.css';
 
-const AUTO_SLIDE_INTERVAL = 5000;
-const AUTO_TAB_INTERVAL   = 10000;
-const PER_PAGE            = 6;   // matches API per_page
+const PER_PAGE = 6;
 
 interface VideoItem {
   id: number;
   title: string;
+  englishTitle?: string;
   slug: string;
   videoURL?: string;
   video_webp?: string;
   featureImage?: string | null;
+  imageURL?: string;
   category_names?: string;
   category_slugs?: string;
+  is_video_horizontal?: number;
   [key: string]: any;
 }
 
-interface CategoryTab {
-  category_id: number;
-  category_name: string;
-  category_slug: string;
+/* ── category URL: "gujarat,kheda" → "/category/gujarat/kheda" ── */
+function getCategoryUrl(slugs?: string): string {
+  if (!slugs?.trim()) return '#';
+  const parts = slugs.split(',').map(s => s.trim()).filter(Boolean);
+  return `/category/${parts.join('/')}`;
 }
 
+/* ── best thumbnail ── */
 function getThumb(v: VideoItem): string {
-  if (v.video_webp?.trim()) return v.video_webp;
-  if (v.featureImage?.trim())
-    return v.featureImage.startsWith('http')
-      ? v.featureImage
-      : `${MEDIA_BASE_URL}${v.featureImage}`;
-  const raw = v.videoURL || '';
-  if (!raw) return '/images/video-default.png';
-  const dot  = raw.lastIndexOf('.');
-  const base = dot > 0 ? raw.slice(0, dot) : raw;
-  return base.startsWith('/') ? `${MEDIA_BASE_URL}${base}_video.webp` : `${base}_video.webp`;
+  if (v.video_webp?.trim()) return v.video_webp.trim();
+  if (v.featureImage?.trim()) return v.featureImage.trim();
+  if (v.imageURL?.trim()) return v.imageURL.trim();
+  return '/images/video-default.png';
 }
 
 export default function TopVideos() {
-  /* ── state ── */
-  const [tabs,        setTabs]        = useState<CategoryTab[]>([]);
-  const [videos,      setVideos]      = useState<VideoItem[]>([]);
-  const [tabLoading,  setTabLoading]  = useState(false);
+  const [allVideos,   setAllVideos]   = useState<VideoItem[]>([]);
+  const [loading,     setLoading]     = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [initialLoad, setInitialLoad] = useState(true);
-  const [activeIdx,   setActiveIdx]   = useState(0);
-  const [slide,       setSlide]       = useState(0);
-  const [itemWidth,   setItemWidth]   = useState(0);
-  const [perView,     setPerView]     = useState(6);
-  const [autoSlide,   setAutoSlide]   = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage,    setLastPage]    = useState(1);
 
-  /* ── refs (always fresh, no stale closures) ── */
-  const nextPageRef    = useRef(2);
-  const hasMoreRef     = useRef(false);  // driven by pagination.has_more from API
-  const fetchingRef    = useRef(false);
-  const tabFetchingRef = useRef(false);
+  const [slide,     setSlide]     = useState(0);
+  const [itemWidth, setItemWidth] = useState(0);
+  const [perView,   setPerView]   = useState(6);
 
-  const videosRef    = useRef<VideoItem[]>([]);
+  const sliderRef    = useRef<HTMLDivElement>(null);
+  const tabsBarRef   = useRef<HTMLDivElement>(null);
+  const resizeTimer  = useRef<NodeJS.Timeout | null>(null);
+  const fetchingRef  = useRef(false);
+  const isDragging   = useRef(false);
+  const mouseStartX  = useRef(0);
+  const dragStartSlide = useRef(0);
+  const touchStart   = useRef(0);
+  const touchEnd     = useRef(0);
+
+  /* mirror refs — always fresh values in callbacks */
   const slideRef     = useRef(0);
   const perViewRef   = useRef(6);
-  const tabsRef      = useRef<CategoryTab[]>([]);
-  const activeIdxRef = useRef(0);
   const itemWidthRef = useRef(0);
+  const allVideosRef = useRef<VideoItem[]>([]);
 
-  const sliderRef      = useRef<HTMLDivElement>(null);
-  const tabsBarRef     = useRef<HTMLDivElement>(null);   // category tab scrollable bar
-  const autoSlideTimer = useRef<NodeJS.Timeout | null>(null);
-  const autoTabTimer   = useRef<NodeJS.Timeout | null>(null);
-  const resizeTimer    = useRef<NodeJS.Timeout | null>(null);
-  const isDragging     = useRef(false);
-  const mouseStartX    = useRef(0);
-  const dragStartSlide = useRef(0);
-  const touchStart     = useRef(0);
-  const touchEnd       = useRef(0);
-
-  /* keep mirrors in sync with state */
-  useEffect(() => { videosRef.current    = videos;    }, [videos]);
   useEffect(() => { slideRef.current     = slide;     }, [slide]);
   useEffect(() => { perViewRef.current   = perView;   }, [perView]);
-  useEffect(() => { tabsRef.current      = tabs;      }, [tabs]);
-  useEffect(() => { activeIdxRef.current = activeIdx; }, [activeIdx]);
   useEffect(() => { itemWidthRef.current = itemWidth; }, [itemWidth]);
+  useEffect(() => { allVideosRef.current = allVideos; }, [allVideos]);
 
-  /* ─────────────────────────────────────────────────────────────────────────
-   * fetchMore — appends next page to current video list
-   * Uses /api/topVideosBySlug (local Next.js proxy) — NOT the external URL
-   * Reads pagination.has_more from the response to know if more pages exist
-   * ───────────────────────────────────────────────────────────────────────── */
-  const fetchMore = useCallback(async (slug: string, page: number) => {
-    if (fetchingRef.current)    return;  // already in-flight
-    if (!hasMoreRef.current)    return;  // API told us no more pages
-
+  /* ── fetch a page from TOP_VIDEOS ── */
+  const fetchPage = useCallback(async (page: number, append: boolean) => {
+    if (fetchingRef.current) return;
     fetchingRef.current = true;
-    setLoadingMore(true);
+    if (append) setLoadingMore(true); else setLoading(true);
 
     try {
-      const res  = await fetch('/api/topVideosBySlug', {
+      const res  = await fetch('/api/topVideos', {
         method: 'POST',
         cache:  'no-store',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, page, per_page: PER_PAGE }),
+        body: JSON.stringify({ page, per_page: PER_PAGE }),
       });
       const data = await res.json();
-      const items: VideoItem[] = Array.isArray(data?.videos) ? data.videos : [];
 
-      // ← KEY FIX: use pagination.has_more, not items.length
-      hasMoreRef.current  = data?.pagination?.has_more === true;
-      nextPageRef.current = (data?.pagination?.current_page ?? page) + 1;
+      // Response: { current_page, data: [...], last_page }
+      const items: VideoItem[] = Array.isArray(data?.data) ? data.data : [];
+      setLastPage(data?.last_page ?? 1);
+      setCurrentPage(data?.current_page ?? page);
 
-      setVideos(prev => {
-        const merged = [...prev, ...items];
-        videosRef.current = merged;
-        return merged;
-      });
+      if (append) {
+        setAllVideos(prev => {
+          const merged = [...prev, ...items];
+          allVideosRef.current = merged;
+          return merged;
+        });
+      } else {
+        setAllVideos(items);
+        allVideosRef.current = items;
+      }
     } catch (err) {
-      console.error('fetchMore failed', err);
-      hasMoreRef.current = false;
+      console.error('TopVideos fetchPage failed', err);
     } finally {
       fetchingRef.current = false;
-      setLoadingMore(false);
+      if (append) setLoadingMore(false); else setLoading(false);
     }
   }, []);
 
-  /* ─────────────────────────────────────────────────────────────────────────
-   * loadTab — replaces video list when switching category tabs
-   * ───────────────────────────────────────────────────────────────────────── */
-  const loadTab = useCallback(async (slug: string) => {
-    fetchingRef.current    = false;  // cancel any in-flight guard
-    tabFetchingRef.current = true;
-    hasMoreRef.current     = false;
-    nextPageRef.current    = 1;
+  /* ── initial load ── */
+  useEffect(() => { fetchPage(1, false); }, [fetchPage]);
 
-    setTabLoading(true);
-    setLoadingMore(false);
-    setSlide(0);
-    slideRef.current = 0;
-    setAutoSlide(true);
-
-    try {
-      const res  = await fetch('/api/topVideosBySlug', {
-        method: 'POST',
-        cache:  'no-store',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug, page: 1, per_page: PER_PAGE }),
-      });
-      const data = await res.json();
-      const items: VideoItem[] = Array.isArray(data?.videos) ? data.videos : [];
-
-      // ← KEY FIX: use pagination.has_more
-      hasMoreRef.current  = data?.pagination?.has_more === true;
-      nextPageRef.current = 2;
-
-      setVideos(items);
-      videosRef.current = items;
-    } catch (err) {
-      console.error('loadTab failed', err);
-      setVideos([]);
-      videosRef.current  = [];
-      hasMoreRef.current = false;
-    } finally {
-      tabFetchingRef.current = false;
-      setTabLoading(false);
-    }
-  }, []);
-
-  /* ── initial load: grouped topVideos API ── */
-  useEffect(() => {
-    (async () => {
-      try {
-        const res  = await fetch('/api/topVideos', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ page: 1, per_page: PER_PAGE }),
-          cache: 'no-store',
-        });
-        const data = await res.json();
-
-        if (data?.status === true && Array.isArray(data?.data)) {
-          const allTabs: CategoryTab[] = data.data.map((g: any) => ({
-            category_id:   g.category_id,
-            category_name: g.category_name,
-            category_slug: g.category_slug,
-          }));
-          setTabs(allTabs);
-          tabsRef.current = allTabs;
-
-          const first = data.data[0];
-          if (Array.isArray(first?.videos) && first.videos.length > 0) {
-            const items = first.videos as VideoItem[];
-            setVideos(items);
-            videosRef.current = items;
-            // grouped API may not return pagination — fall back to slug fetch to get proper has_more
-            // load first tab via slug so we get pagination info
-            if (allTabs[0]) {
-              await loadTab(allTabs[0].category_slug);
-            }
-          } else if (allTabs.length > 0) {
-            await loadTab(allTabs[0].category_slug);
-          }
-        }
-      } catch (e) {
-        console.error('TopVideos initial load failed', e);
-      } finally {
-        setInitialLoad(false);
+  /* ── unique category tabs — navigation only, no filtering ── */
+  const tabs = useMemo(() => {
+    const seen = new Set<string>();
+    const list: { name: string; slugs: string }[] = [];
+    allVideos.forEach(v => {
+      // Use first slug only as the unique key (e.g. "gujarat" from "gujarat,kheda")
+      const firstSlug = (v.category_slugs || '').split(',')[0].trim();
+      const name      = (v.category_names  || '').split(',')[0].trim();
+      const key       = firstSlug || name;
+      if (key && !seen.has(key)) {
+        seen.add(key);
+        list.push({ name: name || key, slugs: v.category_slugs || key });
       }
-    })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    });
+    return list;
+  }, [allVideos]);
 
-  /* ── tab switch ── */
-  const switchTab = useCallback((idx: number) => {
-    if (idx === activeIdxRef.current) return;
-    setActiveIdx(idx);
-    activeIdxRef.current = idx;
-    const slug = tabsRef.current[idx]?.category_slug;
-    if (slug) loadTab(slug);
-  }, [loadTab]);
-
-  /* ── restart auto-tab from a given index (used on manual click) ── */
-  const restartAutoTab = useCallback((fromIdx: number) => {
-    if (autoTabTimer.current) clearInterval(autoTabTimer.current);
-    if (tabsRef.current.length <= 1) return;
-    autoTabTimer.current = setInterval(() => {
-      const next = (activeIdxRef.current + 1) % tabsRef.current.length;
-      setActiveIdx(next);
-      activeIdxRef.current = next;
-      const slug = tabsRef.current[next]?.category_slug;
-      if (slug) loadTab(slug);
-      // scroll only the tab bar horizontally — never the page
-      const bar = tabsBarRef.current;
-      if (bar) {
-        const btn = bar.children[next] as HTMLElement | undefined;
-        if (btn) {
-          bar.scrollLeft = btn.offsetLeft - bar.offsetWidth / 2 + btn.offsetWidth / 2;
-        }
-      }
-    }, AUTO_TAB_INTERVAL);
-  }, [loadTab]);
-
-  /* ── auto-tab ── */
-  useEffect(() => {
-    if (autoTabTimer.current) clearInterval(autoTabTimer.current);
-    if (!initialLoad && tabs.length > 1) {
-      autoTabTimer.current = setInterval(() => {
-        const next = (activeIdxRef.current + 1) % tabsRef.current.length;
-        setActiveIdx(next);
-        activeIdxRef.current = next;
-        const slug = tabsRef.current[next]?.category_slug;
-        if (slug) loadTab(slug);
-        // scroll only the tab bar horizontally — never the page
-        const bar = tabsBarRef.current;
-        if (bar) {
-          const btn = bar.children[next] as HTMLElement | undefined;
-          if (btn) {
-            bar.scrollLeft = btn.offsetLeft - bar.offsetWidth / 2 + btn.offsetWidth / 2;
-          }
-        }
-      }, AUTO_TAB_INTERVAL);
-    }
-    return () => { if (autoTabTimer.current) clearInterval(autoTabTimer.current); };
-  }, [initialLoad, tabs.length, loadTab]);
-
-  /* ── mouse drag-scroll + wheel scroll on tab bar ── */
-  useEffect(() => {
-    const bar = tabsBarRef.current;
-    if (!bar) return;
-
-    // wheel: vertical scroll → horizontal pan
-    const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-      e.preventDefault();
-      bar.scrollLeft += e.deltaY * 0.8;
-    };
-
-    // mouse drag
-    let isDown = false;
-    let startX = 0;
-    let scrollLeft = 0;
-    const onDown = (e: MouseEvent) => {
-      isDown = true;
-      bar.style.cursor = 'grabbing';
-      startX     = e.pageX - bar.offsetLeft;
-      scrollLeft = bar.scrollLeft;
-    };
-    const onUp = () => { isDown = false; bar.style.cursor = 'grab'; };
-    const onMove = (e: MouseEvent) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const walk = (e.pageX - bar.offsetLeft - startX) * 1.2;
-      bar.scrollLeft = scrollLeft - walk;
-    };
-
-    bar.addEventListener('wheel',      onWheel, { passive: false });
-    bar.addEventListener('mousedown',  onDown);
-    bar.addEventListener('mouseup',    onUp);
-    bar.addEventListener('mouseleave', onUp);
-    bar.addEventListener('mousemove',  onMove);
-    return () => {
-      bar.removeEventListener('wheel',      onWheel);
-      bar.removeEventListener('mousedown',  onDown);
-      bar.removeEventListener('mouseup',    onUp);
-      bar.removeEventListener('mouseleave', onUp);
-      bar.removeEventListener('mousemove',  onMove);
-    };
-  }, [tabs]);
-
-  /* ── scroll active tab into view when activeIdx changes ── */
-  useEffect(() => {
-    const bar = tabsBarRef.current;
-    if (!bar) return;
-    const btn = bar.children[activeIdx] as HTMLElement | undefined;
-    if (btn) {
-      // scroll only the tab bar — never the page
-      bar.scrollLeft = btn.offsetLeft - bar.offsetWidth / 2 + btn.offsetWidth / 2;
-    }
-  }, [activeIdx]);
+  /* ── all videos show regardless of tab ── */
+  const videos = allVideos;
 
   /* ── layout measurement ── */
   const measure = useCallback(() => {
@@ -338,100 +148,43 @@ export default function TopVideos() {
       resizeTimer.current = setTimeout(measure, 120);
     };
     window.addEventListener('resize', onResize);
-    return () => { window.removeEventListener('resize', onResize); };
+    return () => window.removeEventListener('resize', onResize);
   }, [measure]);
 
-  useEffect(() => {
-    if (videos.length > 0) requestAnimationFrame(measure);
-  }, [videos.length, measure]);
-
-  /* ─────────────────────────────────────────────────────────────────────────
-   * triggerFetchIfNeeded
-   * Called after every slide move. Loads next page when the user reaches
-   * the last visible position in the currently loaded set.
-   *
-   * Example: 6 videos, perView=6 → maxSlide=0
-   *   slide(0) >= maxSlide(0) → fetch page 2
-   *   page 2 arrives (12 videos) → maxSlide=6
-   *   slide(0)..slide(5): normal scroll
-   *   slide(6) >= maxSlide(6) → fetch page 3 …
-   * ───────────────────────────────────────────────────────────────────────── */
+  /* ── fetch more when reaching end ── */
   const triggerFetchIfNeeded = useCallback(() => {
-    if (!hasMoreRef.current)            return;
-    if (fetchingRef.current)            return;
-    if (tabFetchingRef.current)         return;
-    if (videosRef.current.length === 0) return;
-
-    const cur    = slideRef.current;
-    const total  = videosRef.current.length;
-    const pv     = perViewRef.current;
-    const curMax = Math.max(0, total - pv);
-
-    if (cur >= curMax) {
-      const slug = tabsRef.current[activeIdxRef.current]?.category_slug;
-      if (slug) fetchMore(slug, nextPageRef.current);
+    if (fetchingRef.current) return;
+    if (currentPage >= lastPage) return;
+    const cur   = slideRef.current;
+    const total = allVideosRef.current.length;
+    const pv    = perViewRef.current;
+    if (cur >= Math.max(0, total - pv)) {
+      fetchPage(currentPage + 1, true);
     }
-  }, [fetchMore]);
+  }, [currentPage, lastPage, fetchPage]);
 
   /* ── derived ── */
   const maxSlide = Math.max(0, videos.length - perView);
 
   /* ── navigation ── */
   const goTo = useCallback((n: number) => {
-    const total  = videosRef.current.length;
-    const pv     = perViewRef.current;
-    const curMax = Math.max(0, total - pv);
+    const curMax = Math.max(0, videos.length - perViewRef.current);
     const next   = Math.max(0, Math.min(n, curMax));
-
-    setAutoSlide(false);
     setSlide(next);
     slideRef.current = next;
-    triggerFetchIfNeeded();
-  }, [triggerFetchIfNeeded]);
+    setTimeout(triggerFetchIfNeeded, 0);
+  }, [videos.length, triggerFetchIfNeeded]);
 
   const nextSlide = useCallback(() => goTo(slideRef.current + 1), [goTo]);
   const prevSlide = useCallback(() => goTo(slideRef.current - 1), [goTo]);
 
-  /* ── auto-slide ── */
-  useEffect(() => {
-    if (autoSlideTimer.current) clearInterval(autoSlideTimer.current);
-    if (autoSlide && videos.length > 0) {
-      autoSlideTimer.current = setInterval(() => {
-        const total  = videosRef.current.length;
-        const pv     = perViewRef.current;
-        const curMax = Math.max(0, total - pv);
-        const cur    = slideRef.current;
-
-        let next: number;
-        if (cur >= curMax) {
-          if (hasMoreRef.current) {
-            next = curMax;             // hold position while next page loads
-            setTimeout(triggerFetchIfNeeded, 0);
-          } else {
-            next = 0;                  // loop back — no more data
-          }
-        } else {
-          next = cur + 1;
-        }
-
-        if (next !== cur) {
-          setSlide(next);
-          slideRef.current = next;
-        }
-        setTimeout(triggerFetchIfNeeded, 0);
-      }, AUTO_SLIDE_INTERVAL);
-    }
-    return () => { if (autoSlideTimer.current) clearInterval(autoSlideTimer.current); };
-  }, [autoSlide, videos.length, triggerFetchIfNeeded]);
-
   /* ── touch ── */
   const onTouchStart = (e: React.TouchEvent) => {
-    setAutoSlide(false);
     touchStart.current = e.touches[0].clientX;
     touchEnd.current   = e.touches[0].clientX;
   };
-  const onTouchMove = (e: React.TouchEvent) => { touchEnd.current = e.touches[0].clientX; };
-  const onTouchEnd  = () => {
+  const onTouchMove  = (e: React.TouchEvent) => { touchEnd.current = e.touches[0].clientX; };
+  const onTouchEnd   = () => {
     const d = touchStart.current - touchEnd.current;
     if (Math.abs(d) > 50) d > 0 ? nextSlide() : prevSlide();
   };
@@ -441,7 +194,6 @@ export default function TopVideos() {
     isDragging.current     = false;
     mouseStartX.current    = e.clientX;
     dragStartSlide.current = slideRef.current;
-    setAutoSlide(false);
     e.preventDefault();
   };
   const onMouseMove = useCallback((e: React.MouseEvent) => {
@@ -450,9 +202,7 @@ export default function TopVideos() {
     if (!isDragging.current) return;
     const w      = itemWidthRef.current || 1;
     const moved  = Math.round((mouseStartX.current - e.clientX) / w);
-    const total  = videosRef.current.length;
-    const pv     = perViewRef.current;
-    const curMax = Math.max(0, total - pv);
+    const curMax = Math.max(0, allVideosRef.current.length - perViewRef.current);
     const next   = Math.max(0, Math.min(curMax, dragStartSlide.current + moved));
     setSlide(next);
     slideRef.current = next;
@@ -461,11 +211,22 @@ export default function TopVideos() {
   const onMouseUp    = () => { mouseStartX.current = 0; setTimeout(() => { isDragging.current = false; }, 50); };
   const onMouseLeave = () => { isDragging.current = false; mouseStartX.current = 0; };
 
-  if (tabs.length === 0) return null;
+  /* ── re-measure after data loads so itemWidth is correct ── */
+  useEffect(() => {
+    if (!loading && videos.length > 0) {
+      requestAnimationFrame(measure);
+    }
+  }, [loading, videos.length, measure]);
+
+  if (loading) return null;
+  if (videos.length === 0 && !loading) return null;
 
   const leftDisabled  = slide === 0;
-  // Disabled only when at the visual end AND the API confirmed no more pages
-  const rightDisabled = slide >= maxSlide && !hasMoreRef.current;
+  const rightDisabled = slide >= maxSlide && currentPage >= lastPage;
+
+  /* track width covers all videos + optional loading placeholders */
+  const trackItems = videos.length + (loadingMore ? perView : 0);
+  const trackWidth = itemWidth * Math.max(trackItems, perView);
 
   return (
     <div className="tv-wrap">
@@ -474,7 +235,6 @@ export default function TopVideos() {
         {/* ── carousel ── */}
         <div
           className="MultiCarousel tv-carousel"
-          onMouseEnter={() => setAutoSlide(false)}
           onMouseLeave={onMouseLeave}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
@@ -490,128 +250,126 @@ export default function TopVideos() {
             style={{
               display:    'flex',
               transform:  itemWidth ? `translateX(-${slide * itemWidth}px)` : 'none',
-              transition: tabLoading ? 'none' : 'transform 0.3s ease',
-              width: `${itemWidth * perView}px`,
+              transition: 'transform 0.3s ease',
+              width:      `${trackWidth}px`,
             }}
           >
-            {tabLoading ? (
-              /* ── placeholder cards during tab switch — identical DOM to real cards, no layout jump ── */
-              Array.from({ length: perView }).map((_, i) => (
-                <div key={`ph-${i}`} className="item loaded tv-item" style={{ width: `${itemWidth}px`, flex: 'none', padding: '4px' }}>
+            {/* real video cards */}
+            {videos.map(video => (
+              <div
+                key={video.id}
+                className="item loaded tv-item"
+                style={{ width: `${itemWidth}px`, flex: 'none', padding: '4px' }}
+              >
+                <div className="tv-card">
+                  <Link
+                    href={`/videos/${video.slug}`}
+                    className="tv-thumb-link"
+                    onClick={e => { if (isDragging.current) e.preventDefault(); }}
+                  >
+                    <div className="tv-thumb1">
+                      <img
+                        src={getThumb(video)}
+                        alt={video.title || ''}
+                        loading="lazy"
+                        onError={e => {
+                          const img = e.currentTarget;
+                          if (!img.dataset.fb) { img.dataset.fb = '1'; img.src = '/images/video-default.png'; }
+                        }}
+                      />
+                      {/* <div className="tv-overlay">
+                        <span className="tv-overlay-title custom-gujrati-font">{video.title}</span>
+                      </div> */}
+                      <span className="tv-play"><i className="fa fa-play-circle" /></span>
+                    </div>
+                  </Link>
+
+                  {/* category title below video */}
+                  {video.category_names && (
+                    <Link
+                      href={getCategoryUrl(video.category_slugs)}
+                      className="tv-cat-label custom-gujrati-font"
+                      onClick={e => { if (isDragging.current) e.preventDefault(); }}
+                    >
+                      {video.title}
+                    </Link>
+                  )}
+                </div>
+              </div>
+            ))}
+
+            {/* loading placeholders while next page loads */}
+            {loadingMore && Array.from({ length: perView }).map((_, i) => (
+              <div key={`sk-${i}`} className="tv-item" style={{ width: `${itemWidth}px`, flex: 'none', padding: '4px' }}>
+                <div className="tv-card">
+                  <div className="tv-thumb1">
+                    <img src="/images/video-default.png" alt="" style={{ opacity: 0.4 }} />
+                    <div className="shimmer" style={{ position: 'absolute', inset: 0, opacity: 0.5 }} />
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* spacers when fewer videos than one view */}
+            {!loadingMore && videos.length > 0 && videos.length < perView &&
+              Array.from({ length: perView - videos.length }).map((_, i) => (
+                <div key={`sp-${i}`} className="tv-item" style={{ width: `${itemWidth}px`, flex: 'none', padding: '4px' }}>
                   <div className="tv-card">
-                    <div className="tv-thumb-link" style={{ display: 'block', flex: 1 }}>
-                      <div className="tv-thumb1">
-                        <img
-                          src="/images/video-default.png"
-                          alt=""
-                          style={{ opacity: 0.4 }}
-                        />
-                        <div className="shimmer" style={{ position: 'absolute', inset: 0, opacity: 0.5 }} />
-                      </div>
+                    <div className="tv-thumb1">
+                      <img src="/images/video-default.png" alt="" style={{ opacity: 0.15 }} />
                     </div>
                   </div>
                 </div>
               ))
-            ) : (
-              <>
-                {videos.map((video) => (
-                  <div
-                    key={video.id}
-                    className="item loaded tv-item"
-                    style={{ width: `${itemWidth}px`, flex: 'none', padding: '4px' }}
-                  >
-                    <div className="tv-card">
-                      <Link
-                        href={`/videos/${video.slug}`}
-                        className="tv-thumb-link"
-                        onClick={e => { if (isDragging.current) e.preventDefault(); }}
-                      >
-                        <div className="tv-thumb1">
-                          <img
-                            src={getThumb(video)}
-                            alt={video.title || ''}
-                            loading="lazy"
-                            onError={e => {
-                              const img = e.currentTarget;
-                              if (!img.dataset.fb) {
-                                img.dataset.fb = '1';
-                                img.src = '/images/video-default.png';
-                              }
-                            }}
-                          />
-                          <div className="tv-overlay" style={{ display: 'none' }}>
-                            <span className="tv-overlay-title custom-gujrati-font">{video.title}</span>
-                          </div>
-                          <span className="tv-play"><i className="fa fa-play-circle" /></span>
-                        </div>
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-
-                {/* default image placeholders while next page loads */}
-                {loadingMore && Array.from({ length: perView }).map((_, i) => (
-                  <div key={`sk-${i}`} className="tv-item" style={{ width: `${itemWidth}px`, flex: 'none', padding: '4px' }}>
-                    <div className="tv-card">
-                      <div className="tv-thumb1">
-                        <img
-                          src="/images/video-default.png"
-                          alt=""
-                          style={{ opacity: 0.4 }}
-                        />
-                        <div className="shimmer" style={{ position: 'absolute', inset: 0, opacity: 0.5 }} />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-
-                {/* spacers when fewer videos than one view */}
-                {!loadingMore && videos.length > 0 && videos.length < perView &&
-                  Array.from({ length: perView - videos.length }).map((_, i) => (
-                    <div key={`sp-${i}`} className="tv-item" style={{ width: `${itemWidth}px`, flex: 'none', padding: '4px' }}>
-                      <div className="tv-card">
-                        <div className="tv-thumb1">
-                          <img src="/images/video-default.png" alt=""  />
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                }
-              </>
-            )}
+            }
           </div>
 
-          <button
-            className={`btn btn-primary leftLst${leftDisabled ? ' over' : ''}`}
-            onClick={prevSlide}
-            disabled={leftDisabled}
-          >
-            <i className="fa fa-chevron-left" />
-          </button>
-          <button
-            className={`btn btn-primary rightLst${rightDisabled ? ' over' : ''}`}
-            onClick={nextSlide}
-            disabled={rightDisabled}
-          >
-            <i className="fa fa-chevron-right" />
-          </button>
+          {/* ── arrows ── */}
+          {leftDisabled ? (
+            <span className="btn btn-primary leftLst over disabled-arrow" aria-hidden="true"
+              onClick={e => { e.stopPropagation(); e.preventDefault(); }}
+              onMouseDown={e => { e.stopPropagation(); e.preventDefault(); }}
+              onMouseUp={e => { e.stopPropagation(); e.preventDefault(); }}>
+              <i className="fa fa-chevron-left" />
+            </span>
+          ) : (
+            <button className="btn btn-primary leftLst" type="button"
+              onClick={e => { e.stopPropagation(); e.preventDefault(); prevSlide(); }}
+              onMouseDown={e => e.stopPropagation()}>
+              <i className="fa fa-chevron-left" />
+            </button>
+          )}
+
+          {rightDisabled ? (
+            <span className="btn btn-primary rightLst over disabled-arrow" aria-hidden="true"
+              onClick={e => { e.stopPropagation(); e.preventDefault(); }}
+              onMouseDown={e => { e.stopPropagation(); e.preventDefault(); }}
+              onMouseUp={e => { e.stopPropagation(); e.preventDefault(); }}>
+              <i className="fa fa-chevron-right" />
+            </span>
+          ) : (
+            <button className="btn btn-primary rightLst" type="button"
+              onClick={e => { e.stopPropagation(); e.preventDefault(); nextSlide(); }}
+              onMouseDown={e => e.stopPropagation()}>
+              <i className="fa fa-chevron-right" />
+            </button>
+          )}
         </div>
 
-        {/* ── category tabs ── */}
-        <div className="tv-tabs" ref={tabsBarRef}>
-          {tabs.map((tab, idx) => (
-            <button
-              key={tab.category_id}
-              className={`tv-tab custom-gujrati-font${idx === activeIdx ? ' active' : ''}`}
-              onClick={() => {
-                switchTab(idx);
-                restartAutoTab(idx); // restart timer from this tab
-              }}
-            >
-              {tab.category_name}
-            </button>
-          ))}
-        </div>
+        {/* ── category tabs — pure navigation links ── */}
+        {/* {tabs.length > 0 && (
+          <div className="tv-tabs" ref={tabsBarRef}>
+            {tabs.map((tab) => (
+              <Link
+                key={tab.slugs}
+                href={getCategoryUrl(tab.slugs)}
+                className="tv-tab custom-gujrati-font"
+              >
+                {tab.name}
+              </Link>
+            ))}
+          </div>
+        )} */}
 
       </div>
     </div>

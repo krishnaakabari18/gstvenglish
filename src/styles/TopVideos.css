@@ -1056,3 +1056,50 @@
   .tv-play i { font-size: 26px; }
   .tv-overlay-title { font-size: 10px; }
 }
+
+/* ── Video title / category link below thumbnail ── */
+.tv-title-link {
+  display: block;
+  padding: 5px 6px 6px;
+  background: #850E00;
+  text-decoration: none !important;
+  transition: background 0.2s;
+}
+.tv-title-link:hover {
+  background: #6a0b00;
+}
+.tv-cat-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: #fff !important;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* ── Category label below each video card ── */
+.tv-cat-label {
+  display: block;
+  width: 100%;
+  padding: 6px 10px;
+  background: #fff;
+  color: #333;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.2s, color 0.2s;
+  border-top: 1px solid rgba(133,14,0,0.15);
+}
+.tv-cat-label:hover {
+  background: #850E00;
+  color: #fff !important;
+}
+@media (max-width: 575px) {
+  .tv-cat-label { font-size: 16px; padding: 5px 6px; }
+}

@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { COMMON_API_BASE_URL, MEDIA_BASE_URL } from '@/constants/api';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface PodcastAuthor {
   id: number;
@@ -25,6 +26,7 @@ interface PodcastApiResponse {
 }
 
 const PodcastPage: React.FC = () => {
+  const { t, lang } = useLanguage();
   const [podcasts, setPodcasts] = useState<PodcastAuthor[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -124,11 +126,11 @@ const PodcastPage: React.FC = () => {
     return (
       <div className="blogs-main-section">
         <div className="blogs-head-bar first">
-          <span className="blog-category">GSTV પોડકાસ્ટ</span>
+          <span className="blog-category">{t('GSTV_PODCAST')}</span>
         </div>
         <div style={{ padding: '40px', textAlign: 'center', color: '#666' }}>
           <i className="fa-solid fa-spinner fa-spin"></i>
-          <span style={{ marginLeft: '8px' }}>પોડકાસ્ટ લોડ કરી રહ્યું છે...</span>
+          <span style={{ marginLeft: '8px' }}>{t('PODCAST_LOADING')}</span>
         </div>
       </div>
     );
@@ -138,7 +140,7 @@ const PodcastPage: React.FC = () => {
     return (
       <div className="blogs-main-section">
         <div className="blogs-head-bar first">
-          <span className="blog-category">GSTV પોડકાસ્ટ</span>
+          <span className="blog-category">{t('GSTV_PODCAST')}</span>
         </div>
         <div style={{ padding: '40px', textAlign: 'center', color: '#e74c3c' }}>
           <i className="fa-solid fa-exclamation-triangle"></i>
@@ -151,7 +153,7 @@ const PodcastPage: React.FC = () => {
   return (
     <div className="blogs-main-section">
         <div className="blogs-head-bar first">
-          <span className="blog-category">GSTV પોડકાસ્ટ</span>
+          <span className="blog-category">{t('GSTV_PODCAST')}</span>
         </div>
 
       <div className="infinite-scroll-component__outerdiv">
@@ -197,10 +199,10 @@ const PodcastPage: React.FC = () => {
             {loadingMore ? (
               <>
                 <i className="fa-solid fa-spinner fa-spin"></i>
-                <span style={{ marginLeft: '8px' }}>લોડ કરી રહ્યું છે...</span>
+                <span style={{ marginLeft: '8px' }}>{t('LOADING')}</span>
               </>
             ) : (
-              'વધુ લોડ કરો'
+              t('LOAD_MORE')
             )}
           </button>
         </div>

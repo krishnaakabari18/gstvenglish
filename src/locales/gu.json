@@ -38,6 +38,7 @@
   "VIDEO": "વીડિયો",
   "VIDEOS": "વીડિયોઝ",
   "SEARCH": "શોધો",
+  "ALL": "ઓલ",
   "E_PAPER": "ઈ-પેપર",
   "ENTERTAINMENT": "મનોરંજન",
   "PODCAST": "પૉડકાસ્ટ",
@@ -309,5 +310,14 @@
   "FAILED_FETCH_WEB_STORIES":"વેબ સ્ટોરીઝ મેળવવામાં નિષ્ફળ",
   "NO_WEB_STORIES":"હાલમાં કોઈ વેબ સ્ટોરી ઉપલબ્ધ નથી.",
   "GSTV_MAGAZINE_LOADING": "GSTV મેગેઝિન લોડ થઈ રહ્યા છે...",
-  "NO_MAGAZINES_AVAILABLE": "હાલમાં કોઈ મેગેઝિન ઉપલબ્ધ નથી."
+  "NO_MAGAZINES_AVAILABLE": "હાલમાં કોઈ મેગેઝિન ઉપલબ્ધ નથી.",
+  "FOLLOW_US": "ફોલવર્સ માટે",
+  "ERROR_LOADING_CATEGORIES": "કેટેગરી લોડ કરવામાં ભૂલ આવી.",
+  "SELECT_YOUR_CITY":"તમારું શહેર પસંદ કરો",
+  "SELECT":"પસંદ કરો",
+  "GSTV_PODCAST":"GSTV પોડકાસ્ટ",
+  "PODCAST_LOADING":"પોડકાસ્ટ લોડ કરી રહ્યું છે...",
+  "SEARCH_PLACEHOLDER":"સમાચાર, વિડિયો અને વધુ શોધો...",
+  "TOTAL_RESULTS":"પરિણામો મળ્યા",
+  "TRY_DIFFERENT_KEYWORDS":"કૃપા કરીને અલગ કીવર્ડ્સ સાથે ફરીથી પ્રયાસ કરો"
 }

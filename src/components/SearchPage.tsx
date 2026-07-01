@@ -6,6 +6,7 @@ import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import { GridContainer, BlogGridItem } from '@/components/common/GridComponents';
+import { useLanguage } from '@/contexts/LanguageContext';
 import {
   performSearch,
   getSearchSuggestions,
@@ -23,6 +24,7 @@ import Link from 'next/link';
 // Using SearchItem and SearchResponse from searchApi service
 
 export default function SearchPage() {
+  const { t, lang } = useLanguage();
   const [searchResults, setSearchResults] = useState<SearchItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -101,7 +103,7 @@ export default function SearchPage() {
         }
 
         // Show user-friendly error message
-        const errorMessage = result.message || 'શોધ પરિણામો મેળવવામાં નિષ્ફળ';
+        const errorMessage = result.message || t('SEARCH_FAILED');
         throw new Error(errorMessage);
       }
     } catch (err) {
@@ -157,7 +159,7 @@ export default function SearchPage() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="સમાચાર, વિડિયો અને વધુ શોધો..."
+                  placeholder={t('SEARCH_PLACEHOLDER')}
                 />
                 <button type="submit" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0px', margin: '-2px 0 0 0px' }}>
                   <img 
@@ -184,7 +186,7 @@ export default function SearchPage() {
            <>             
               {totalResults > 0 && (
                 <p className="results-count" style={{ textAlign: 'right', color: '#666', fontSize: '14px' }}>
-                  કુલ {totalResults} પરિણામો મળ્યા
+                   {totalResults} {t('TOTAL_RESULTS')}
                 </p>
               )}
             </>
@@ -224,8 +226,8 @@ export default function SearchPage() {
           {/* No results */}
           {!loading && hasSearched && searchResults.length === 0 && !error && (
             <div className="no-results">
-              <h3>કોઈ પરિણામો મળ્યા નથી</h3>
-              <p>કૃપા કરીને અલગ કીવર્ડ્સ સાથે ફરીથી પ્રયાસ કરો</p>
+              <h3>{t('NO_RESULTS')}</h3>
+              <p>{t('TRY_DIFFERENT_KEYWORDS')}</p>
             </div>
           )}
 
@@ -248,7 +250,7 @@ export default function SearchPage() {
           )}
           {loadingMore && (
                   <LoadingSpinner
-                    message="વધુ પરિણામો લોડ કરી રહ્યા છીએ..."
+                    message={t('LOADING_MORE')}
                     size="small"
                     color="#850E00"
                     compact={true}
@@ -259,7 +261,7 @@ export default function SearchPage() {
           {/* End of Data Indicator */}
           {!hasMoreData && searchResults.length > 0 && (
             <div className="end-of-results">
-              <p>તમે બધા પરિણામો જોઈ લીધા છે.</p>
+              <p>{t('ALL_RESULTS_VIEWED')}</p>
             </div>
           )}
         </div>

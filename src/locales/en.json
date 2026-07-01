@@ -38,6 +38,7 @@
   "VIDEO": "Video",
   "VIDEOS": "Videos",
   "SEARCH": "Search",
+  "ALL": "All",
   "E_PAPER": "E-paper",
   "ENTERTAINMENT": "Entertainment",
   "PODCAST": "Podcast",
@@ -309,5 +310,14 @@
   "FAILED_FETCH_WEB_STORIES":"Failed to fetch web stories",
   "NO_WEB_STORIES":"No web stories available at the moment.",
   "GSTV_MAGAZINE_LOADING": "Loading GSTV Magazine...",
-  "NO_MAGAZINES_AVAILABLE": "No magazines available at the moment."
+  "NO_MAGAZINES_AVAILABLE": "No magazines available at the moment.",
+  "FOLLOW_US": "Follow Us",
+  "ERROR_LOADING_CATEGORIES": "Error loading categories..",
+  "SELECT_YOUR_CITY":"Select Yout city",
+  "SELECT":"Select",
+  "GSTV_PODCAST":"GSTV Podcast",
+  "PODCAST_LOADING":"Loading Podcast...",
+  "SEARCH_PLACEHOLDER":"Search news, videos and more...",
+  "TOTAL_RESULTS":"Results Found",
+  "TRY_DIFFERENT_KEYWORDS":"Please try again with different keywords."
 }

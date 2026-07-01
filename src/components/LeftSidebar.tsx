@@ -10,6 +10,7 @@ import { CategorySettingsItem } from '@/services/newsApi';
 import { API_ENDPOINTS, MEDIA_BASE_URL } from '@/constants/api';
 import { useUserSession } from '@/hooks/useUserSession';
 import '@/styles/sidebar.css';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface UserCategoryPreferences {
   category: number[];
@@ -20,6 +21,7 @@ export default function LeftSidebar() {
   const { categories, loading, error } = useCategorySettings();
   const { isLoggedIn, user_id } = useUserSession();
   const pathname = usePathname();
+  const { t ,lang } = useLanguage();
 
   const [openSubmenu, setOpenSubmenu] = useState<number | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -259,23 +261,23 @@ export default function LeftSidebar() {
             <ul className="sidebar-menu">
               <li className=" allcatshow catMobileshow">
                 <Link href="/category/gstv-satrang" className="">
-                  <img src="/assets/icons/gstv_satrang.svg" alt="GSTV શતરંગ"/>
-                  <span>GSTV શતરંગ</span>
+                  <img src="/assets/icons/gstv_satrang.svg" alt={t('GSTV_SATRANG')}/>
+                  <span>{t('GSTV_SATRANG')}</span>
                 </Link>
               </li>
               {RashiEnabled && (
               <li className=" allcatshow catMobileshow">
                 <Link href="/rashifal" className="">
-                  <img src={`${MEDIA_BASE_URL}/backend/public/uploads/category/icon/rashifal.svg`} alt="રાશિફળ"/>
-                  <span>રાશિફળ</span>
+                  <img src={`${MEDIA_BASE_URL}/backend/public/uploads/category/icon/rashifal.svg`} alt={t('RASHIFAL')}/>
+                  <span>{t('RASHIFAL')}</span>
                 </Link>
               </li>
              )}
 
               <li className="allcatshow catMobileshow">
                 <Link href="/livetv" className="">
-                  <img src={`${MEDIA_BASE_URL}/public/assets/icons/icon-live.svg`} alt="લાઇવ ટીવી"/>
-                  <span>લાઇવ ટીવી</span>
+                  <img src={`${MEDIA_BASE_URL}/public/assets/icons/icon-live.svg`} alt={t('LIVE_TV')}/>
+                  <span>{t('LIVE_TV')}</span>
                 </Link>
               </li>
             </ul>
@@ -287,19 +289,19 @@ export default function LeftSidebar() {
             {/* Show categories */}
             {!isMounted && (
               <li className="allcatshow">
-                <div style={{ padding: 10, textAlign: 'center', color: '#666' }}>કેટેગરી લોડ થઈ રહી છે...</div>
+                <div style={{ padding: 10, textAlign: 'center', color: '#666' }}>{t('CATEGORY_LOADING')}</div>
               </li>
             )}
 
             {isMounted && loading && (
               <li className="allcatshow">
-                <div style={{ padding: 10, textAlign: 'center', color: '#666' }}>કેટેગરી લોડ થઈ રહી છે...</div>
+                <div style={{ padding: 10, textAlign: 'center', color: '#666' }}>{t('CATEGORY_LOADING')}</div>
               </li>
             )}
 
             {isMounted && error && (
               <li className="allcatshow">
-                <div style={{ padding: 10, textAlign: 'center', color: '#dc3545' }}>Error loading categories</div>
+                <div style={{ padding: 10, textAlign: 'center', color: '#dc3545' }}>{t('ERROR_LOADING_CATEGORIES')}</div>
               </li>
             )}
 
@@ -316,7 +318,11 @@ export default function LeftSidebar() {
                         className={`category-link ${isActiveCategory(category.slug, category.id) ? 'active' : ''}`}
                       >
                         {renderCategoryIcon(category)}
-                        <span>{category.category_name_guj}</span>
+                        <span>
+                          {lang  === 'gu'
+                            ? category.category_name_guj
+                            : category.category_name}
+                        </span>
                       </Link>
 
                       {hasSub && (
@@ -335,7 +341,11 @@ export default function LeftSidebar() {
                               className={`subcategory-link ${isActiveSubcategory(category.slug, sub.slug) ? 'active' : ''}`}
                             >
                               {renderCategoryIcon(sub)}
-                              <span>{sub.category_name_guj}</span>
+                              <span>
+                                {lang === 'gu'
+                                  ? sub.category_name_guj
+                                  : sub.category_name}
+                              </span>
                             </Link>
                           </li>
                         ))}
@@ -349,7 +359,7 @@ export default function LeftSidebar() {
           {/* Download Apps & Social */}
           <div className="download-app" style={{ padding: '0 15px', marginTop: '0px' }}>
             <h6 style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '0px', color: '#977e34' }}>
-              GSTVની એપ્લિકેશન ડાઉનલોડ કરો
+              {t('DOWNLOAD_GSTV_APP')}
             </h6>
             <div className="download-btn clearfix" style={{ marginBottom: '0px', gap: '0px' }}>
               <Link href="https://play.google.com/store/apps/details?id=com.tops.gstvapps" target="_blank" rel="noopener noreferrer">
@@ -361,7 +371,7 @@ export default function LeftSidebar() {
               </Link>
             </div>
             <h6 style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '10px', marginTop: '0px', color: '#977e34' }}>
-              ફોલવર્સ માટે
+              {t('FOLLOW_US')}
             </h6>
             <div className="socila-media" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               <Link href="https://www.facebook.com/GSTV.NEWS" target="_blank" rel="noopener noreferrer">
@@ -391,7 +401,7 @@ export default function LeftSidebar() {
           <button className="back-arrow-btn" onClick={() => setIsMobileMenuOpen(false)}>
             <img src="/images/arrow-backProfile.svg" alt="Back" className="back-arrow" />
           </button>
-          <span className="menu-title">All Categories</span>
+          <span className="menu-title">{t('ALL_CATEGORIES')}</span>
         </div>
 
         <div className="mobile-menu-content">
@@ -399,7 +409,7 @@ export default function LeftSidebar() {
             {!isMounted && (
               <li className="mobile-menu-item">
                 <div style={{ padding: '15px', textAlign: 'center', color: '#666' }}>
-                  કેટેગરી લોડ થઈ રહી છે...
+                  {t('CATEGORY_LOADING')}
                 </div>
               </li>
             )}
@@ -407,7 +417,7 @@ export default function LeftSidebar() {
             {isMounted && loading && (
               <li className="mobile-menu-item">
                 <div style={{ padding: '15px', textAlign: 'center', color: '#666' }}>
-                  કેટેગરી લોડ થઈ રહી છે...
+                  {t('CATEGORY_LOADING')}
                 </div>
               </li>
             )}
@@ -415,7 +425,7 @@ export default function LeftSidebar() {
             {isMounted && error && (
               <li className="mobile-menu-item">
                 <div style={{ padding: '15px', color: '#dc3545', fontSize: '14px' }}>
-                  Error loading categories
+                  {t('ERROR_LOADING_CATEGORIES')}
                 </div>
               </li>
             )}
@@ -432,7 +442,11 @@ export default function LeftSidebar() {
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {renderCategoryIcon(category)}
-                        <span>{category.category_name_guj}</span>
+                        <span>
+                          {lang === 'gu'
+                            ? category.category_name_guj
+                            : category.category_name}
+                        </span>
                       </Link>
 
                       {hasSub && (
@@ -452,7 +466,11 @@ export default function LeftSidebar() {
                               onClick={() => setIsMobileMenuOpen(false)}
                             >
                               {renderCategoryIcon(sub)}
-                              <span>{sub.category_name_guj}</span>
+                              <span>
+                                {lang === 'gu'
+                                  ? sub.category_name_guj
+                                  : sub.category_name}
+                              </span>
                             </Link>
                           </li>
                         ))}

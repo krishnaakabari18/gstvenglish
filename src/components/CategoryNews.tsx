@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { NewsGrid, CategoryHeader } from '@/components/common/NewsComponents';
 import { COMMON_CLASSES } from '@/utils/uiUtils';
 import GSTVShatrangLayout from './GSTVShatrangLayout';
@@ -12,12 +13,17 @@ interface CategoryNewsProps {
 }
 
 export default function CategoryNews({ categorySlug }: CategoryNewsProps) {
+  const { lang } = useLanguage();
+  
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [categoryInfo, setCategoryInfo] = useState<any>(null);
   const [categoryDetails, setCategoryDetails] = useState<CategorySettingItem | null>(null);
   const [shouldShowDropdown, setShouldShowDropdown] = useState(false);
   const [gujReady, setGujReady] = useState(false);
-
+  const categoryName =
+  lang === 'gu'
+    ? categoryDetails?.category_name_guj
+    : categoryDetails?.category_name;
   const [newsData, setNewsData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -201,14 +207,14 @@ export default function CategoryNews({ categorySlug }: CategoryNewsProps) {
       {gujReady && categoryDetails && (
         shouldShowDropdown ? (
           <CategoryHeaderWithDropdown
-            categoryName={categoryDetails.category_name_guj}
+            categoryName={categoryName}
             categorySlug={categorySlug}
             categoryId={categoryDetails.id}
             showViewAll={false}
           />
         ) : (
           <CategoryHeader
-            categoryName={categoryDetails.category_name_guj}
+            categoryName={categoryName}
             categorySlug={categorySlug}
             showViewAll={false}
           />

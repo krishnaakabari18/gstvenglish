@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const LiveTvPage: React.FC = () => {
+  const { t } = useLanguage();
   useEffect(() => {
     // Load IMA SDK
     const imaScript = document.createElement('script');
@@ -29,7 +31,7 @@ const LiveTvPage: React.FC = () => {
   return (
     <div className="blogs-main-section">
       <div className="blogs-head-bar first">
-        <span className="blog-category">લાઇવ ટીવી</span>
+        <span className="blog-category">{t('LIVE_TV')}</span>
       </div>
       <div className="row blog-content">
         <div className="col-lg-12 p-2 detail-page custom-content-page">

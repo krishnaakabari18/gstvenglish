@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import '@/styles/TopVideos.css';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const PER_PAGE = 6;
 
@@ -38,6 +39,7 @@ function getThumb(v: VideoItem): string {
 
 export default function TopVideos() {
   const [allVideos,   setAllVideos]   = useState<VideoItem[]>([]);
+  const { t, lang } = useLanguage();
   const [loading,     setLoading]     = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -270,7 +272,11 @@ export default function TopVideos() {
                     <div className="tv-thumb1">
                       <img
                         src={getThumb(video)}
-                        alt={video.title || ''}
+                        alt={
+                          lang === 'gu'
+                            ? (video.title || '')
+                            : (video.englishTitle || video.title || '')
+                        }
                         loading="lazy"
                         onError={e => {
                           const img = e.currentTarget;
@@ -291,7 +297,9 @@ export default function TopVideos() {
                       className="tv-cat-label custom-gujrati-font"
                       onClick={e => { if (isDragging.current) e.preventDefault(); }}
                     >
-                      {video.title}
+                      {lang === 'gu'
+                        ? video.title
+                        : (video.title_eng || video.title)}
                     </Link>
                   )}
                 </div>

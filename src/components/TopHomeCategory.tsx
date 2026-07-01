@@ -6,6 +6,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import { GridContainer, BlogGridItem } from '@/components/common/GridComponents';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface TopHomeCategoryProps {
   className?: string;
@@ -13,7 +14,7 @@ interface TopHomeCategoryProps {
 
 export default function TopHomeCategory({ className = '' }: TopHomeCategoryProps) {
   console.log('🔥 TopHomeCategory component rendering! [FAST VERSION]');
-
+  const { t ,lang } = useLanguage();
   const [newsData, setNewsData] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
@@ -141,9 +142,15 @@ export default function TopHomeCategory({ className = '' }: TopHomeCategoryProps
     <div className={`top-home-category ${className}`}>
       {Object.entries(groupedNews).map(([categorySlug, categoryNews]) => {
         const categoryName =
-          categoryNews[0]?.category_name_guj ||
-          categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1);
-
+        lang === 'gu'
+          ? (
+              categoryNews[0]?.category_name_guj ||
+              categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1)
+            )
+          : (
+              categoryNews[0]?.category ||
+              categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1)
+            );
         return (
           <div key={categorySlug} className="blogs-main-section">
             <div className="blogs-head-bar first">
@@ -151,7 +158,7 @@ export default function TopHomeCategory({ className = '' }: TopHomeCategoryProps
                 {categoryName}
               </Link>
               <Link className="custom-link-btn" href={`/category/${categorySlug}`}>
-                વધુ વાંચો <i className="fas fa-chevron-right"></i>
+                {t('READ_MORE')} <i className="fas fa-chevron-right"></i>
               </Link>
             </div>
 

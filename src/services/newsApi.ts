@@ -18,6 +18,7 @@ export interface NewsItem {
   category_slugs: string;
   tags: string;
   category_name_guj?: string;
+  category?: string;
 }
 
 export interface TopNewsResponse {

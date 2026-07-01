@@ -6,6 +6,7 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import '@/styles/WebStories.css';
 import { API_ENDPOINTS } from '@/constants/api';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface SatrangCategory {
   id: number;
@@ -16,6 +17,7 @@ interface SatrangCategory {
 }
 
 export default function GSTVSatrangBox() {
+  const { t } = useLanguage();
   const [categories, setCategories] = useState<SatrangCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -58,7 +60,7 @@ export default function GSTVSatrangBox() {
         }
       } catch (err) {
         if ((err as any).name !== 'AbortError') {
-          setError(err instanceof Error ? err.message : 'Failed to load Satrang');
+          setError(err instanceof Error ? err.message : t('FAILED_TO_LOAD_SATRANG'));
         }
       } finally {
         setLoading(false);
@@ -68,7 +70,7 @@ export default function GSTVSatrangBox() {
     fetchSatrang();
 
     return () => controller.abort();
-  }, []);
+  }, [t]);
 
   /* ================= Responsive items (optimized) ================= */
   useEffect(() => {
@@ -188,7 +190,7 @@ export default function GSTVSatrangBox() {
     return (
       <div className="custom-carousel clearfix">
         <LoadingSpinner
-          message="GSTV શતરંગ લોડ થઈ રહ્યું છે..."
+          message={t('GSTV_SATRANG_LOADING')}
           size="large"
           type="dots"
           color="#850E00"
@@ -212,11 +214,11 @@ export default function GSTVSatrangBox() {
     <div className="satrang-section mb-4">
       <div className="storySectionNav blogs-head-bar first">
         <div className="storySectionNav-left">
-          <span className="blog-category">GSTV શતરંગ</span>
+          <span className="blog-category">{t('GSTV_SATRANG')}</span>
         </div>
         <div className="storySectionNav-right rightstory">
           <Link href="/category/satrang" className="custom-link-btn">
-            વધુ વાંચો <i className="fas fa-chevron-right"></i>
+            {t('READ_MORE')} <i className="fas fa-chevron-right"></i>
           </Link>
         </div>
       </div>

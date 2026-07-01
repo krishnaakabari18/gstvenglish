@@ -6,8 +6,10 @@ import { fetchTopWebStories, WebStory } from '@/services/newsApi';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import '@/styles/WebStories.css';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function WebStories() {
+  const { t } = useLanguage();
   const [webStories, setWebStories] = useState<WebStory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -114,7 +116,7 @@ export default function WebStories() {
       <div className="carousel-inner-top custom-carousel clearfix">
         <div style={{ textAlign: 'center', padding: '40px' }}>
           <LoadingSpinner
-            message="વેબ સ્ટોરીઝ લોડ થઈ રહ્યા છે..."
+            message={t('WEB_STORIES_LOADING')}
             size="large"
             type="dots"
             color="#850E00"
@@ -129,7 +131,7 @@ export default function WebStories() {
     return (
       <div className="carousel-inner-top custom-carousel clearfix">
         <div className="section-header">
-          <h2 className="section-title">વેબ સ્ટોરીઝ</h2>
+          <h2 className="section-title">{t('WEB_STORIES')}</h2>
         </div>
         <ErrorMessage error={error} onRetry={() => location.reload()} />
       </div>
@@ -143,11 +145,11 @@ export default function WebStories() {
       {/* Header */}
       <div className="storySectionNav blogs-head-bar first">
         <div className="storySectionNav-left">
-          <span className="blog-category">વેબ સ્ટોરીઝ</span>
+          <span className="blog-category">{t('WEB_STORIES')}</span>
         </div>
         <div className="storySectionNav-right rightstory">
           <Link href="/web-stories" className="custom-link-btn">
-            વધુ વાંચો <i className="fas fa-chevron-right"></i>
+             {t('READ_MORE')} <i className="fas fa-chevron-right"></i>
           </Link>
         </div>
       </div>

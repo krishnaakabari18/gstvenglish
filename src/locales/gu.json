@@ -299,5 +299,13 @@
   "TODAY_READ_MAGAZINE":"વાંચો આજનું મેગેઝિન",
   "WHATSAPP_JOIN_TEXT": "<strong>GSTV</strong>ની <strong>WhatsApp</strong> ચેનલમાં જોડાવા માટે આ લિંક પર ક્લિક કરો",
   "WHATSAPP": "વોટ્સએપ",
-  "GSTV_FAST_TRACK_LOAD_ERROR": "GSTV ફાસ્ટ ટ્રેક લોડ કરવામાં ભૂલ"
+  "GSTV_FAST_TRACK_LOAD_ERROR": "GSTV ફાસ્ટ ટ્રેક લોડ કરવામાં ભૂલ",
+  "GSTV_SATRANG_LOADING": "GSTV શતરંગ લોડ થઈ રહ્યું છે...",
+  "FAILED_TO_LOAD_SATRANG": "શતરંગ લોડ કરવામાં નિષ્ફળ",
+  "GSTV_LIVE_TV": "GSTV લાઇવ ટીવી",
+  "GSTV_SHORTS": "GSTV શોર્ટ્સ",
+  "VIEW_MORE": "વધુ જુઓ",
+  "WEB_STORIES_LOADING": "વેબ સ્ટોરીઝ લોડ થઈ રહ્યા છે...",
+  "FAILED_FETCH_WEB_STORIES":"વેબ સ્ટોરીઝ મેળવવામાં નિષ્ફળ",
+  "NO_WEB_STORIES":"હાલમાં કોઈ વેબ સ્ટોરી ઉપલબ્ધ નથી."
 }

@@ -299,5 +299,13 @@
   "TODAY_READ_MAGAZINE":"Today's Magazine",
   "WHATSAPP_JOIN_TEXT": "Click this link to join the <strong>GSTV</strong> <strong>WhatsApp</strong> channel",
   "WHATSAPP": "WhatsApp",
-  "GSTV_FAST_TRACK_LOAD_ERROR": "Failed to load GSTV Fast Track"
+  "GSTV_FAST_TRACK_LOAD_ERROR": "Failed to load GSTV Fast Track",
+  "GSTV_SATRANG_LOADING": "Loading GSTV Satrang...",
+  "FAILED_TO_LOAD_SATRANG": "Failed to load Satrang",
+  "GSTV_LIVE_TV": "GSTV Live TV",
+  "GSTV_SHORTS": "GSTV Shorts",
+  "VIEW_MORE": "View More",
+  "WEB_STORIES_LOADING": "Loading Web Stories...",
+  "FAILED_FETCH_WEB_STORIES":"Failed to fetch web stories",
+  "NO_WEB_STORIES":"No web stories available at the moment."
 }

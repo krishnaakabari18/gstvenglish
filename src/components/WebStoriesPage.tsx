@@ -5,6 +5,7 @@ import { fetchWebStories, WebStoryItem } from '@/services/webStoryApi';
 import WebStoryCard from '@/components/WebStoryCard';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface WebStoriesData {
   stories: WebStoryItem[];
@@ -24,6 +25,7 @@ export default function WebStoriesListPage() {
     hasNextPage: false,
     total: 0
   });
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -160,7 +162,7 @@ export default function WebStoriesListPage() {
     <div className="blogs-main-section">
       {/* Header */}
       <div className="blogs-head-bar first">
-        <span className="blog-category">વેબ સ્ટોરીઝ</span>
+        <span className="blog-category">{t('WEB_STORIES')}</span>
       </div>
 
       {/* Web Stories Grid */}

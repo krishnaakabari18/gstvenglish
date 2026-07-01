@@ -6,8 +6,10 @@ import { fetchTopWebStories, WebStory } from '@/services/newsApi';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import '@/styles/WebStories.css';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function WebStories() {
+  const { t } = useLanguage();
   console.log('WebStories component rendering...');
 
   // State management for WebStories component (matching TopVideos)
@@ -52,7 +54,7 @@ export default function WebStories() {
         }
       } catch (err) {
         console.error('WebStories: Error fetching data:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch web stories');
+        setError(err instanceof Error ? err.message : t('FAILED_FETCH_WEB_STORIES'));
       } finally {
         setLoading(false);
       }
@@ -267,7 +269,7 @@ useEffect(() => {
       <div className="carousel-inner-top custom-carousel clearfix">
         <div style={{ textAlign: 'center', padding: '40px' }}>
           <LoadingSpinner
-            message="વેબ સ્ટોરીઝ લોડ થઈ રહ્યા છે..."
+            message={t('WEB_STORIES_LOADING')}
             size="large"
             type="dots"
             color="#850E00"
@@ -292,7 +294,7 @@ useEffect(() => {
     return (
       <div className="carousel-inner-top custom-carousel clearfix">
         <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
-          <p>No web stories available at the moment.</p>
+          <p>{t('NO_WEB_STORIES')}</p>
         </div>
       </div>
     );
@@ -308,12 +310,12 @@ useEffect(() => {
               src="/assets/icons/e-paper-1.svg"
               alt="Web Stories"
             />
-            <span>વેબ સ્ટોરીઝ</span>
+            <span>{t('WEB_STORIES')}</span>
           </Link>
         </div>
         <div className="storySectionNav-right">
           <Link href="/web-stories" className="custom-link-btn ws-more-link">
-            વધુ વાંચો &nbsp;<span className="ws-more-btn"><i className="fas fa-chevron-right"></i></span>
+            {t('READ_MORE')} &nbsp;<span className="ws-more-btn"><i className="fas fa-chevron-right"></i></span>
           </Link>
         </div>
       </div>

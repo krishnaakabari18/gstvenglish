@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { API_ENDPOINTS } from '@/constants/api';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ShortItem {
   title: string;
@@ -18,6 +19,7 @@ const PER_VIEW_MOBILE  = 3;
 const GAP = 8;
 
 export default function YoutubeShorts() {
+  const { t } = useLanguage();
   const [shorts,  setShorts]  = useState<ShortItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [idx,     setIdx]     = useState(0);
@@ -96,11 +98,15 @@ export default function YoutubeShorts() {
             <rect width="24" height="24" rx="5" fill="#FF0000"/>
             <path d="M9.5 7.5v9l7-4.5-7-4.5z" fill="#fff"/>
           </svg>
-          <span className="ys-title-text custom-gujrati-font">GSTV શોર્ટ્સ</span>
+          <span className="ys-title-text custom-gujrati-font">
+            {t('GSTV_SHORTS')}
+          </span>
         </div>
-        <a href={YOUTUBE_CHANNEL_SHORTS} target="_blank" rel="noopener noreferrer"
-           className="ys-more-link custom-gujrati-font">
-          વધુ જુઓ &nbsp;<span className="ys-more-btn"><i className="fa fa-chevron-right" /></span>
+        <a href={YOUTUBE_CHANNEL_SHORTS} target="_blank" rel="noopener noreferrer" className="ys-more-link custom-gujrati-font">
+          {t('VIEW_MORE')} &nbsp;
+          <span className="ys-more-btn">
+            <i className="fa fa-chevron-right" />
+          </span>
         </a>
       </div>
 

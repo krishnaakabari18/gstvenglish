@@ -2,9 +2,11 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const LiveTvSection: React.FC = () => {
   const router = useRouter();
+  const { t } = useLanguage();
 
   const handleLiveTvClick = () => {
     router.push('/livetv');
@@ -13,12 +15,17 @@ const LiveTvSection: React.FC = () => {
   return (
     <div className="gstv-live-tv-section">
       <div className="blogs-head-bar first">
-        <h3 className="blog-category">લાઇવ ટીવી</h3>
+        <h3 className="blog-category">{t('LIVE_TV')}</h3>
       </div>
-      <div className="live-tv-content" onClick={handleLiveTvClick} style={{ cursor: 'pointer' }}>
+
+      <div
+        className="live-tv-content"
+        onClick={handleLiveTvClick}
+        style={{ cursor: 'pointer' }}
+      >
         <img
           src="/images/livetv.jpeg"
-          alt="GSTV લાઇવ ટીવી"
+          alt={t('GSTV_LIVE_TV')}
           className="live-tv-image"
           style={{
             width: '100%',

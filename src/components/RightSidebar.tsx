@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { UPLOAD_PATHS } from '@/constants/api';
 import { useSiteSetting } from '@/hooks/useSiteSetting';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useStockmarketSiteSetting } from '@/hooks/useStockmarketSiteSetting';
 // import StockMarket from '@/components/StockMarket';
 
@@ -13,6 +14,7 @@ import { useStockmarketSiteSetting } from '@/hooks/useStockmarketSiteSetting';
 /* -------------------------------------------------------
    Lazy loaded sidebar components (KEEP AS IS)
 -------------------------------------------------------- */
+
 const PollSection = dynamic(() => import('./PollSection'), { ssr: false });
 const EpaperRightSidebar = dynamic(() => import('./EpaperRightSidebar'), { ssr: false });
 const GstvMagazineBox = dynamic(() => import('./GstvMagazineBox'), { ssr: false });
@@ -26,6 +28,7 @@ const LiveMatchScore = dynamic(() => import('./LiveMatchScore'), { ssr: false })
 const StockMarket = dynamic(() => import('./StockMarket'), { ssr: false });
 
 const RightSidebar = () => {
+  const { t } = useLanguage();
   const pathname = usePathname();
 
   const isVideoPage = pathname === '/category/videos';
@@ -96,7 +99,7 @@ const RightSidebar = () => {
             marginBottom: '10px'
           }}
         >
-          GSTVની એપ્લિકેશન ડાઉનલોડ કરો
+          {t('DOWNLOAD_GSTV_APP')}
         </h6>
 
         <div className="download-btn clearfix" style={{ display: 'inline-flex', gap: '10px' }}>

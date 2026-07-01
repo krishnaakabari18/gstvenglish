@@ -16,9 +16,10 @@ import {
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import '@/styles/GSTVMagazine.css';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function GSTVMagazine() {
-
+  const { t } = useLanguage();
   const [magazines, setMagazines] = useState<MagazineCategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -203,7 +204,7 @@ export default function GSTVMagazine() {
       <div className="carousel-inner-top custom-carousel clearfix">
         <div style={{ padding: 40, textAlign: 'center' }}>
           <LoadingSpinner
-            message="GSTV મેગેઝિન લોડ થઈ રહ્યા છે..."
+            message={t('GSTV_MAGAZINE_LOADING')}
             size="large"
             type="dots"
             color="#850E00"
@@ -217,7 +218,7 @@ export default function GSTVMagazine() {
     return (
       <div className="carousel-inner-top custom-carousel clearfix">
         <div className="section-header">
-          <h2 className="section-title">GSTV મેગેઝિન</h2>
+          <h2 className="section-title">{t('GSTV_MAGAZINE')}</h2>
         </div>
         <ErrorMessage error={error} onRetry={retryFetch} />
       </div>
@@ -228,7 +229,7 @@ export default function GSTVMagazine() {
     return (
       <div className="carousel-inner-top custom-carousel clearfix">
         <div style={{ padding: 40, textAlign: 'center', color: '#666' }}>
-          <p>No magazines available at the moment.</p>
+          <p>{t('NO_MAGAZINES_AVAILABLE')}</p>
         </div>
       </div>
     );
@@ -239,13 +240,13 @@ export default function GSTVMagazine() {
       <div className="storySectionNav" style={{ marginTop: 20 }}>
         <div className="storySectionNav-left">
           <Link href="/magazine">
-            <img src="/assets/icons/e-paper-1.svg" alt="GSTV Magazine" />
-            <span>GSTV મેગેઝિન</span>
+            <img src="/assets/icons/e-paper-1.svg" alt={t('GSTV_MAGAZINE')} />
+            <span>{t('GSTV_MAGAZINE')}</span>
           </Link>
         </div>
         <div className="storySectionNav-right">
           <Link href="/magazine" className="custom-link-btn ws-more-link">
-            વધુ વાંચો &nbsp;<span className="ws-more-btn"><i className="fas fa-chevron-right"></i></span>
+            {t('READ_MORE')} &nbsp;<span className="ws-more-btn"><i className="fas fa-chevron-right"></i></span>
           </Link>
         </div>
       </div>

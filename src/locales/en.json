@@ -307,5 +307,7 @@
   "VIEW_MORE": "View More",
   "WEB_STORIES_LOADING": "Loading Web Stories...",
   "FAILED_FETCH_WEB_STORIES":"Failed to fetch web stories",
-  "NO_WEB_STORIES":"No web stories available at the moment."
+  "NO_WEB_STORIES":"No web stories available at the moment.",
+  "GSTV_MAGAZINE_LOADING": "Loading GSTV Magazine...",
+  "NO_MAGAZINES_AVAILABLE": "No magazines available at the moment."
 }

@@ -307,5 +307,7 @@
   "VIEW_MORE": "વધુ જુઓ",
   "WEB_STORIES_LOADING": "વેબ સ્ટોરીઝ લોડ થઈ રહ્યા છે...",
   "FAILED_FETCH_WEB_STORIES":"વેબ સ્ટોરીઝ મેળવવામાં નિષ્ફળ",
-  "NO_WEB_STORIES":"હાલમાં કોઈ વેબ સ્ટોરી ઉપલબ્ધ નથી."
+  "NO_WEB_STORIES":"હાલમાં કોઈ વેબ સ્ટોરી ઉપલબ્ધ નથી.",
+  "GSTV_MAGAZINE_LOADING": "GSTV મેગેઝિન લોડ થઈ રહ્યા છે...",
+  "NO_MAGAZINES_AVAILABLE": "હાલમાં કોઈ મેગેઝિન ઉપલબ્ધ નથી."
 }

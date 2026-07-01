@@ -186,6 +186,7 @@
   "FOLLOWERS": "For Followers",
   "LANG_EN": "EN",
   "LANG_GU": "ગુ",
+
   "ENTER_YOUR_NAME": "Enter your name",
   "NEWS_TITLE": "News Title",
   "ENTER_YOUR_TITLE": "Enter your title",
@@ -197,6 +198,7 @@
   "IMAGES_UPLOAD_LABEL": "Images (min 1, max 5 images allowed)",
   "VIDEO_UPLOAD_LABEL": "Video (optional, only mp4/mov, max 100MB)",
   "AGREE_TEXT": "I agree that the content uploaded by me is not objectionable, obscene, violent, or illegal in any way. If any such content is found, I will be solely responsible for it.",
+  
   "CAMPUS_DATA_LOAD_FAILED": "Failed to load Campus Corner data.",
   "MAX_5_IMAGES": "You can upload a maximum of 5 images.",
   "ONLY_MP4_MOV_ALLOWED": "Only MP4 or MOV files are allowed.",

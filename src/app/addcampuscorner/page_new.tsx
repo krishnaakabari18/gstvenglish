@@ -9,7 +9,7 @@ import Script from 'next/script';
 import ProFooter from '@/components/ProFooter';
 import { useUserSession, getUserId } from '@/hooks/useUserSession';
 import { redirectToLogin } from '@/utils/authUtils';
-
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface FormData {
   name: string;
@@ -32,6 +32,7 @@ interface EditData {
 }
 
 const AddCampusCornerPage: React.FC = () => {
+  const { t } = useLanguage();
   const searchParams = useSearchParams();
   const router = useRouter();
   const { user_id, isLoggedIn } = useUserSession();
@@ -70,7 +71,7 @@ const AddCampusCornerPage: React.FC = () => {
   const videoInputRef = useRef<HTMLInputElement>(null);
 
   // Agreement text
-  const agreeText = "હું સહમત છું કે મારા દ્વારા અપલોડ કરવામાં આવતી સામગ્રી કોઈપણ પ્રકારની વાંધાજનક, અશ્લીલ, હિંસક કે ગેરકાયદેસર નથી. જો આવી કોઈ સામગ્રી મળશે તો તેની સંપૂર્ણ જવાબદારી મારી રહેશે.";
+  const agreeText = t("AGREE_TEXT");
 
   // Authentication check
   useEffect(() => {
@@ -447,7 +448,7 @@ const AddCampusCornerPage: React.FC = () => {
               <form className="formBox" id="news-form" encType="multipart/form-data" onSubmit={handleSubmit}>
                 <div className="pNewsBox">
                   <div className="title">
-                    <h2>{isEditMode ? 'એડિટ કરો' : 'એડ કરો'}</h2>
+                    <h2>{isEditMode ? t("EDIT") : t("ADD")}</h2>
                   </div>
 
                   <div className="pnewsContent">
@@ -468,7 +469,7 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* Name Field */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">નામ</div>
+                    <div className="lable">{t("NAME")}</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -477,7 +478,7 @@ const AddCampusCornerPage: React.FC = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        placeholder="તમારું નામ દાખલ કરો"
+                        placeholder={t("ENTER_YOUR_NAME")}
                         required
                       />
                     </div>
@@ -487,7 +488,7 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* Title Field */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">સમાચાર ટાઇટલ</div>
+                    <div className="lable">{t("NEWS_TITLE")}</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -506,7 +507,7 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* School Field */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">શાળા</div>
+                    <div className="lable">{t("SCHOOL")}</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -525,7 +526,7 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* City Field */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">શહેર</div>
+                    <div className="lable">{t("CITY")}</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -544,7 +545,7 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* Description Field */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">ડિસ્ક્રીપ્શન</div>
+                    <div className="lable">{t("DESCRIPTION")}</div>
                     <div className="inputOuter">
                       <Editor
                         apiKey="rhj2c0k09ri26va7i6nkcfonpi47z65r5002fjx66qczjh91"
@@ -568,7 +569,7 @@ const AddCampusCornerPage: React.FC = () => {
                             'alignright alignjustify | bullist numlist outdent indent | ' +
                             'removeformat | help',
                           content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-                          placeholder: 'Enter description',
+                          placeholder: t("ENTER_DESCRIPTION"),
                           branding: false,
                           setup: (editor) => {
                             editor.on('init', () => {
@@ -585,7 +586,7 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* Images Upload */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">તસવીરો (min 1, max 5 image upload)</div>
+                    <div className="lable">{t("IMAGES_UPLOAD_LABEL")}</div>
                     <div className="inputOuter">
 
                       {/* Existing Images Display */}
@@ -664,7 +665,7 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* Video Upload */}
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">વીડિયો (optional, only mp4/mov, ≤ 100MB)</div>
+                    <div className="lable">{t("VIDEO_UPLOAD_LABEL")}</div>
                     <div className="inputOuter">
 
                       {/* Existing Video Display */}
@@ -756,7 +757,7 @@ const AddCampusCornerPage: React.FC = () => {
                 {/* Submit Button */}
                 <div className="profileBtn">
                   <button type="submit" className="btn-gstv" disabled={loading}>
-                    {loading ? 'અપલોડ થઈ રહ્યું છે...' : 'અપલોડ'}
+                    {loading ? t("UPLOADING") : t("UPLOAD")}
                   </button>
                 </div>
               </div>

@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import "@/styles/profile.css";
 import "@/styles/styles.css";
 import "@/styles/styles_new.css";
+import { useLanguage } from '@/contexts/LanguageContext';
 import {
   fetchMagazinesBySlug,
   MagazineItem,
@@ -18,6 +19,7 @@ import EpaperCalendar from "@/components/EpaperCalendar";
 import Link from "next/link";
 
 const MagazineListBySlugPage: React.FC = () => {
+  const { t } = useLanguage();
   const params = useParams();
   const slug = (params?.slug as string) || "";
 
@@ -171,7 +173,7 @@ const MagazineListBySlugPage: React.FC = () => {
     <div className="container-fluid epaper-page-container" data-page="magazine">
       <div className="epaperTopFixed">
         <div className="filterTAbEpaper">
-          <Link className="tab-link" href="/epaper">ન્યૂઝ પેપર</Link>
+          <Link className="tab-link" href="/epaper">{t('NEWS_PAPER')}</Link>
           <Link className="tab-link active-link" href="/magazine">મેગેઝિન</Link>
         </div>
         {/* <div style={{ padding: "10px 15px", fontWeight: 600 }}>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { commonApiGet } from '@/constants/api';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface RashiData {
   id: number;
@@ -14,6 +15,8 @@ interface RashiData {
 }
 
 export default function RashifalPage() {
+  const { t } = useLanguage();
+
   const [rashiData, setRashiData] = useState<RashiData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +34,6 @@ export default function RashifalPage() {
       }
 
       const data = await response.json();
-
       let rashifalData = [];
 
       if (Array.isArray(data.rashi)) {
@@ -51,57 +53,55 @@ export default function RashifalPage() {
 
       setRashiData(rashifalData);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-      setError(errorMessage);
+      setError(err instanceof Error ? err.message : 'Unknown error occurred');
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <div className="blogs-main-section inner rashifal-page">
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh', fontSize: '18px' }}>
-      રશિફલ લોડ થઈ રહ્યું છે ...
-    </div>
-  </div>;
-
-  if (error) return (
-    <div className="blogs-main-section inner rashifal-page">
-      <div style={{
-        display: 'flex', justifyContent: 'center', alignItems: 'center',
-        height: '50vh', flexDirection: 'column'
-      }}>
-        <h2>Error</h2>
-        <p>{error}</p>
-        <button
-          onClick={() => window.location.reload()}
-          style={{
-            padding: '10px 20px', backgroundColor: '#dc3545',
-            color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer'
-          }}
-        >
-          Retry
-        </button>
+  if (loading) {
+    return (
+      <div className="blogs-main-section inner rashifal-page">
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh', fontSize: '18px' }}>
+          {t('LOADING_RASHIFAL')}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="blogs-main-section inner rashifal-page">
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh', flexDirection: 'column' }}>
+          <h2>{t('SOMETHING_WENT_WRONG')}</h2>
+          <p>{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{ padding: '10px 20px', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+          >
+            {t('RETRY')}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="blogs-main-section inner rashifal-page">
       <div className="blogs-head-bar inner custom-blog-details undefined">
         <span className="blog-category detail-page-heading">
-          <Link href="/">હોમ </Link> : <i>રાશિફળ</i>
+          <Link href="/">{t('HOME')}</Link> : <i>{t('RASHIFAL')}</i>
         </span>
       </div>
 
       <div className="detail-page-heading-h1">
-        <h1 className="content-page-title">રાશિફળ</h1>
+        <h1 className="content-page-title">{t('RASHIFAL_TITLE')}</h1>
       </div>
 
       <div className="row blog-content">
         <div className="col-lg-12">
           <div className="blog-read-content">
             <div className="detail-page">
-
               <div className="rashilist">
                 <ul>
                   {rashiData.map((rashi, index) => (
@@ -121,7 +121,6 @@ export default function RashifalPage() {
                   ))}
                 </ul>
               </div>
-
             </div>
           </div>
         </div>

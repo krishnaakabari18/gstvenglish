@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import '@/styles/profile.css';
 import '@/styles/styles.css';
 import '@/styles/styles_new.css';
+import { useLanguage } from '@/contexts/LanguageContext';
 import {
   fetchEpapers,
   fetchEpapersByDate,
@@ -22,6 +23,7 @@ import ProFooter from "@/components/ProFooter";
 import Link from 'next/link';
 
 const EpaperPageContent: React.FC = () => {
+  const { t } = useLanguage();
 
   const [epapers, setEpapers] = useState<EpaperItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -260,14 +262,11 @@ const EpaperPageContent: React.FC = () => {
       <div className="epaperTopFixed">
         <div className="filterTAbEpaper">
           <Link className="tab-link active-link" href='/epaper'>
-            ન્યૂઝ પેપર
+            {t('NEWS_PAPER')}
           </Link>
           <Link className="tab-link" href='/magazine'>
-            મેગેઝિન
+             {t('MAGAZINE')}
           </Link>
-          {/* <Link className="tab-link" href='/buddhiprakash'>
-            બુદ્ધિપ્રકાશ
-          </Link> */}
         </div>
         <EpaperCalendar
           currentDate={selectedDate}
@@ -413,7 +412,7 @@ const EpaperPageContent: React.FC = () => {
                       color: '#666',
                       fontFamily: 'Noto Sans Gujarati, sans-serif'
                     }}>
-                      વધુ લોડ કરી રહ્યા છીએ...
+                      {t('LOADING_MORE_EPAPERS')}
                     </span>
                   </div>
                 ) : (
@@ -436,7 +435,7 @@ const EpaperPageContent: React.FC = () => {
                 fontSize: '14px',
                 fontFamily: 'Noto Sans Gujarati, sans-serif'
               }}>
-                બધા ઈ-પેપર લોડ થઈ ગયા છે
+                {t('ALL_EPAPERS_LOADED')}
               </div>
             )}
         </div>

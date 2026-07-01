@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import "@/styles/profile.css";
 import "@/styles/styles.css";
 import "@/styles/styles_new.css";
+import { useLanguage } from '@/contexts/LanguageContext';
 import {
   fetchMagazines,
   MagazineResponse,
@@ -19,6 +20,7 @@ import EpaperCalendar from "@/components/EpaperCalendar";
 import Link from "next/link";
 
 const MagazinePageContent: React.FC = () => {
+  const { t } = useLanguage();
   const [magazines, setMagazines] = useState<MagazineItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -83,7 +85,7 @@ const MagazinePageContent: React.FC = () => {
       }
     } catch (err) {
       console.error("[Magazine] Error loading:", err);
-      setError("મેગેઝિન લોડ કરવામાં તકલીફ આવી. કૃપા કરીને ફરી પ્રયાસ કરો.");
+      setError(t("MAGAZINE_LOAD_ERROR"));
     } finally {
       setLoading(false);
       setLoadingMore(false);
@@ -155,7 +157,7 @@ const MagazinePageContent: React.FC = () => {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <p>મેગેઝિન લોડ કરી રહ્યા છીએ...</p>
+        <p>{t("LOADING_MAGAZINES")}</p>
       </div>
     );
   }
@@ -165,9 +167,8 @@ const MagazinePageContent: React.FC = () => {
     <div className="container-fluid epaper-page-container" data-page="magazine">
       <div className="epaperTopFixed">
         <div className="filterTAbEpaper">
-          <Link className="tab-link" href="/epaper">ન્યૂઝ પેપર</Link>
-          <Link className="tab-link active-link" href="/magazine">મેગેઝિન</Link>
-          {/* <Link className="tab-link" href="/buddhiprakash">બુદ્ધિપ્રકાશ</Link> */}
+          <Link className="tab-link" href="/epaper">{t('NEWS_PAPER')}</Link>
+          <Link className="tab-link active-link" href="/magazine"> {t('MAGAZINE')}</Link>
         </div>
       </div>
 

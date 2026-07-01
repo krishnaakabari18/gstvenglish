@@ -33,6 +33,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { BookmarkProvider } from '@/contexts/BookmarkContext';
 import { SettingsProvider } from '@/contexts/SettingsContext';
 import { CategorySettingsProvider } from '@/contexts/CategorySettingsContext';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 import GoogleAnalyticsTracker from '@/components/GoogleAnalyticsTracker';
 
 import { API_ENDPOINTS } from '@/constants/api';
@@ -264,8 +265,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <GoogleAnalyticsTracker />
         <AuthProvider>
           <BookmarkProvider>
-            <SettingsProvider>
-              <CategorySettingsProvider>
+            <LanguageProvider>
+              <SettingsProvider>
+                <CategorySettingsProvider>
 
                 <BackToTop />
                 <PollLoader />
@@ -285,6 +287,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
               </CategorySettingsProvider>
             </SettingsProvider>
+            </LanguageProvider>
           </BookmarkProvider>
         </AuthProvider>
 

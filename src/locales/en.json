@@ -274,5 +274,24 @@
   "MPIN_HEADING": "M-PIN",
   "CHECK_MOBILE_MPIN": "Check your mobile number and M-PIN.",
   "MPIN_VERIFIED_SUCCESS": "M-PIN verified successfully!",
-  "GO_BACK_LINK": "Go back"
+  "GO_BACK_LINK": "Go back",
+  
+  "HEADER_HOME": "Home",
+  "HEADER_WEB_STORIES": "Web Stories",
+  "HEADER_VIDEOS": "Videos",
+  "HEADER_ENTERTAINMENT": "Entertainment",
+  "HEADER_LIVE_TV": "Live TV",
+  "HEADER_PODCAST": "Podcast",
+  "HEADER_SEARCH": "Search",
+  "HEADER_EPAPER": "E-paper",
+  "HEADER_MY_PROFILE": "My Profile",
+  "HEADER_LOGIN": "Login",
+  "CITY_MODAL_TITLE": "Select City",
+  "CITY_SEARCH_PLACEHOLDER": "Search your city",
+  "CITY_NOT_FOUND": "City not found",
+  "CATEGORY_MODAL_TITLE": "Select Category",
+  "CATEGORY_SEARCH_PLACEHOLDER": "Search your category",
+  "CATEGORY_NOT_FOUND": "Category not found",
+  "CATEGORY_LOADING": "Loading categories...",
+  "MODAL_CONTINUE": "Continue"
 }

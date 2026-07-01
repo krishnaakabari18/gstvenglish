@@ -274,5 +274,24 @@
   "MPIN_HEADING": "એમ-પિન",
   "CHECK_MOBILE_MPIN": "તમારો મોબાઈલ નંબર એંડ એમ પિન ચકાસો.",
   "MPIN_VERIFIED_SUCCESS": "એમ-પિન સફળતાપૂર્વક વેરિફાય થઈ ગયું છે!",
-  "GO_BACK_LINK": "પાછા જાઓ"
+  "GO_BACK_LINK": "પાછા જાઓ",
+  
+  "HEADER_HOME": "હોમ",
+  "HEADER_WEB_STORIES": "વેબ સ્ટોરીઝ",
+  "HEADER_VIDEOS": "વીડિયો",
+  "HEADER_ENTERTAINMENT": "એન્ટરટેઇનમેન્ટ",
+  "HEADER_LIVE_TV": "લાઇવ ટીવી",
+  "HEADER_PODCAST": "પોડકાસ્ટ",
+  "HEADER_SEARCH": "સર્ચ",
+  "HEADER_EPAPER": "ઈ-પેપર",
+  "HEADER_MY_PROFILE": "મારી પ્રોફાઇલ",
+  "HEADER_LOGIN": "લોગિન",
+  "CITY_MODAL_TITLE": "શહેર પસંદ કરો",
+  "CITY_SEARCH_PLACEHOLDER": "સર્ચ યોર સિટી",
+  "CITY_NOT_FOUND": "શહેર મળ્યું નથી",
+  "CATEGORY_MODAL_TITLE": "કેટેગરી પસંદ કરો",
+  "CATEGORY_SEARCH_PLACEHOLDER": "સર્ચ યોર કેટેગરી",
+  "CATEGORY_NOT_FOUND": "કેટેગરી મળ્યું નથી",
+  "CATEGORY_LOADING": "કેટેગરી લોડ થઈ રહી છે...",
+  "MODAL_CONTINUE": "આગળ વધો"
 }

@@ -293,5 +293,7 @@
   "CATEGORY_SEARCH_PLACEHOLDER": "સર્ચ યોર કેટેગરી",
   "CATEGORY_NOT_FOUND": "કેટેગરી મળ્યું નથી",
   "CATEGORY_LOADING": "કેટેગરી લોડ થઈ રહી છે...",
-  "MODAL_CONTINUE": "આગળ વધો"
+  "MODAL_CONTINUE": "આગળ વધો",
+  "TODAY_READ_EPAPER": "વાંચો આજનું ઈ-પેપર",
+  "TODAY_READ_MAGAZINE":"વાંચો આજનું મેગેઝિન"
 }

@@ -28,6 +28,7 @@
   "RASHIFAL": "Horoscope",
   "RASHIFAL_TITLE": "Horoscope",
   "TODAY_RASHIFAL": "Today's {rashi} Horoscope",
+  "TODAY_RASHIFAL_TITLE": "Today's Horoscope",
   "SELECT_RASHI": "Select Zodiac Sign",
   "NAME_STARTS_WITH": "(Name starts with {word})",
   "NO_RASHI_INFO": "Zodiac information is not available.",
@@ -295,5 +296,8 @@
   "CATEGORY_LOADING": "Loading categories...",
   "MODAL_CONTINUE": "Continue",
   "TODAY_READ_EPAPER": "Today's E-Paper",
-  "TODAY_READ_MAGAZINE":"Today's Magazine"
+  "TODAY_READ_MAGAZINE":"Today's Magazine",
+  "WHATSAPP_JOIN_TEXT": "Click this link to join the <strong>GSTV</strong> <strong>WhatsApp</strong> channel",
+  "WHATSAPP": "WhatsApp",
+  "GSTV_FAST_TRACK_LOAD_ERROR": "Failed to load GSTV Fast Track"
 }

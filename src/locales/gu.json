@@ -28,6 +28,7 @@
   "RASHIFAL": "રાશિફળ",
   "RASHIFAL_TITLE": "રાશિફળ",
   "TODAY_RASHIFAL": "આજનું {rashi} રાશિફળ",
+  "TODAY_RASHIFAL_TITLE": "આજનું રાશિફળ",
   "SELECT_RASHI": "રાશિ પસંદ કરો",
   "NAME_STARTS_WITH": "(જેનું નામ {word} થી શરૂ થાય છે)",
   "NO_RASHI_INFO": "રાશિ માહિતી ઉપલબ્ધ નથી.",
@@ -295,5 +296,8 @@
   "CATEGORY_LOADING": "કેટેગરી લોડ થઈ રહી છે...",
   "MODAL_CONTINUE": "આગળ વધો",
   "TODAY_READ_EPAPER": "વાંચો આજનું ઈ-પેપર",
-  "TODAY_READ_MAGAZINE":"વાંચો આજનું મેગેઝિન"
+  "TODAY_READ_MAGAZINE":"વાંચો આજનું મેગેઝિન",
+  "WHATSAPP_JOIN_TEXT": "<strong>GSTV</strong>ની <strong>WhatsApp</strong> ચેનલમાં જોડાવા માટે આ લિંક પર ક્લિક કરો",
+  "WHATSAPP": "વોટ્સએપ",
+  "GSTV_FAST_TRACK_LOAD_ERROR": "GSTV ફાસ્ટ ટ્રેક લોડ કરવામાં ભૂલ"
 }

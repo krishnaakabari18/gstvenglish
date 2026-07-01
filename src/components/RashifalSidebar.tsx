@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { commonApiGet } from '@/constants/api';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface RashiData {
   id: number;
@@ -13,6 +14,7 @@ interface RashiData {
 }
 
 export default function RashifalSidebar() {
+  const { t } = useLanguage();
   const [rashiData, setRashiData] = useState<RashiData[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -53,7 +55,7 @@ export default function RashifalSidebar() {
           style={{ marginBottom: 0, paddingBottom: 8 }}
         >
           <div className="storySectionNav-left">
-            <h3 className="blog-category custom-gujrati-font">આજનું રાશિફળ</h3>
+            <h3 className="blog-category custom-gujrati-font"> {t('TODAY_RASHIFAL_TITLE')}</h3>
             <div className="position-relative">
             </div>
           </div>

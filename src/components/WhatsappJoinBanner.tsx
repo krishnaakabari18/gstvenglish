@@ -1,10 +1,10 @@
 'use client';
 
 import { useStockmarketSiteSetting } from '@/hooks/useStockmarketSiteSetting';
-
+import { useLanguage } from '@/contexts/LanguageContext';
 export default function WhatsappJoinBanner() {
   const { whatsappChannelLink } = useStockmarketSiteSetting();
-
+  const { t } = useLanguage();
   if (!whatsappChannelLink) return null;
 
   return (
@@ -15,10 +15,10 @@ export default function WhatsappJoinBanner() {
       className="wab-wrap"
     >
       {/* Text */}
-      <div className="wab-text custom-gujrati-font">
-        <strong>GSTV</strong>ની <strong>Whatsapp</strong> ચેનલમાં જોડાવા માટે આ લિંક પર ક્લિક કરો
-       
-      </div>
+      <div
+        className="wab-text custom-gujrati-font"
+        dangerouslySetInnerHTML={{ __html: t("WHATSAPP_JOIN_TEXT") }}
+      />
 
       {/* WhatsApp icon */}
 

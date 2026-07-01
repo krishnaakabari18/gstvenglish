@@ -253,5 +253,26 @@
   "EKASANA_SUBMIT_ERROR": "Something went wrong. Please try again.",
   "EKASANA_UPDATE_ERROR": "Something went wrong. Please try again.",
   "EKASANA_UPDATED_SUCCESS": "તમારું એકાસન સફળતાપૂર્વક અપડેટ થયું છે!",
-  "EKASANA_SUBMITTED_SUCCESS": "તમારું એકાસન સફળતાપૂર્વક સબમિટ થયું છે!"
+  "EKASANA_SUBMITTED_SUCCESS": "તમારું એકાસન સફળતાપૂર્વક સબમિટ થયું છે!",
+  
+  "SIGN_UP": "Sign up",
+  "LOGIN_TEXT": "Login",
+  "MOBILE_OTP": "Mobile OTP",
+  "MPIN": "M-PIN",
+  "SIGN_UP_WITH_MOBILE": "Sign up with mobile number",
+  "LOGIN_WITH_MOBILE": "Login with mobile number",
+  "ENTER_MOBILE_NUMBER": "Enter your mobile number",
+  "YOUR_INFO_SECURE": "Your personal information is secure.",
+  "NUMBER_FOR_VERIFICATION": "We are only taking your number to verify your account.",
+  "VERIFY_OTP_HEADING": "Verify OTP",
+  "ENTER_6_DIGIT_CODE": "Enter the 6-digit code sent to +91-{mobile}",
+  "CHANGE_MOBILE_NUMBER": "Change mobile number",
+  "VERIFY_BUTTON": "Verify",
+  "OTP_SENT_SUCCESS": "OTP sent successfully!",
+  "OTP_SEND_FAILED": "Failed to send OTP. Please try again.",
+  "ERROR_OCCURRED": "An error occurred. Please try again.",
+  "MPIN_HEADING": "M-PIN",
+  "CHECK_MOBILE_MPIN": "Check your mobile number and M-PIN.",
+  "MPIN_VERIFIED_SUCCESS": "M-PIN verified successfully!",
+  "GO_BACK_LINK": "Go back"
 }

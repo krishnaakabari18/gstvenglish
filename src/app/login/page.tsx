@@ -7,11 +7,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { API_ENDPOINTS } from '@/constants/api';
 import MobileInput from "@/components/MobileInput";
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isLoggedIn, login } = useAuth();
+  const { t } = useLanguage();
   const [mobile, setMobile] = useState('');
   const [mpinMobile, setMpinMobile] = useState('');
   // NEW STATE FOR DYNAMIC LOGO
@@ -267,15 +269,15 @@ useEffect(() => {
 
       if (data) {
         setCurrentView('otp');
-        setSuccess('OTP સક્સેસ ફુલ્લી સેંટ થઈ ગયો છે!');
+        setSuccess(t('OTP_SENT_SUCCESS'));
         setOtpTimer(300); // 5 minutes
       } else {
-        setError(data.error || 'OTP મોકલવામાં નિષ્ફળ ગયા છો. કૃપા કરીને ફરી પ્રયાસ કરો.');
+        setError(data.error || t('OTP_SEND_FAILED'));
         hideMessageAfterTimeout('error');
       }
     } catch (error) {
       console.error('🔐 Send OTP Error:', error);
-      setError('ભૂલ આવી છે . કૃપા કરીને ફરી પ્રયાસ કરો.');
+      setError(t('ERROR_OCCURRED'));
       hideMessageAfterTimeout('error');
     } finally {
       setLoading(false);
@@ -342,7 +344,7 @@ useEffect(() => {
         const actualUserId = data.user_id || data.id || data.data?.user_id || data.data?.id;
 
         if (!actualUserId) {
-          setError('તમારો મોબાઈલ નંબર એંડ એમ પિન ચકાસો.');
+          setError(t('CHECK_MOBILE_MPIN'));
           console.error('🔐 No user_id in OTP verification response:', data);
           return;
         }
@@ -445,7 +447,7 @@ useEffect(() => {
         const actualUserId = data.user_id || data.id || data.data?.user_id || data.data?.id;
 
         if (!actualUserId) {
-          setError('તમારો મોબાઈલ નંબર એંડ એમ પિન ચકાસો.');
+          setError(t('CHECK_MOBILE_MPIN'));
           console.error('🔐 No user_id in MPIN verification response:', data);
           return;
         }
@@ -471,7 +473,7 @@ useEffect(() => {
 
         // Set user session using AuthContext
         login(userSession);
-        setSuccess('એમ-પિન સફળતાપૂર્વક વેરિફાય થઈ ગયું છે!');
+        setSuccess(t('MPIN_VERIFIED_SUCCESS'));
 
         // Handle different redirect scenarios based on API response
         setTimeout(() => {
@@ -585,7 +587,7 @@ useEffect(() => {
             onClick={() => handleAuthToggle('signup')}
             style={{ color: isSignup ? '#850E00' : '#000' }}
           >
-            સાઇન અપ 
+            {t('SIGN_UP')}
           </Link>
           {' | '}
           <Link
@@ -593,7 +595,7 @@ useEffect(() => {
             onClick={() => handleAuthToggle('login')}
             style={{ color: !isSignup ? '#850E00' : '#000' }}
           >
-            લોગિન
+            {t('LOGIN_TEXT')}
           </Link>
         </div>
 
@@ -603,13 +605,13 @@ useEffect(() => {
             className={`col text-center pincls loginSectab ${activeTab === 'login' ? 'pinactive' : ''}`}
             onClick={() => handleTabSwitch('login')}
           >
-            {isSignup ? 'સાઇન અપ' : 'મોબાઈલ OTP'}
+            {isSignup ? t('SIGN_UP') : t('MOBILE_OTP')}
           </div>
           <div
             className={`col text-center pincls mpinclstab ${activeTab === 'mpin' ? 'pinactive' : ''}`}
             onClick={() => handleTabSwitch('mpin')}
           >
-           એમ-પિન 
+            {t('MPIN')}
           </div>
         </div>
 
@@ -642,7 +644,7 @@ useEffect(() => {
               />
             </div> */}
 
-            <h2>એમ-પિન</h2>
+            <h2>{t('MPIN_HEADING')}</h2>
 
             <div className="otp-wrapper">
               {Array.from({ length: 6 }, (_, index) => (
@@ -674,7 +676,7 @@ useEffect(() => {
               onClick={handleVerifyMpin}
               disabled={loading}
             >
-              {loading ? 'વેરિફાય કરી રહ્યા છીએ...' : 'વેરિફાય કરો'}
+              {loading ? t('VERIFYING') : t('VERIFY_BUTTON')}
             </button>
           </div>
         )}
@@ -683,7 +685,7 @@ useEffect(() => {
         {currentView === 'mobile' && (
           <div className="loginSec">
             <h2 className="logintext">
-              {isSignup ? 'મોબાઈલ નંબર વડે સાઇનઅપ કરો' : 'મોબાઈલ નંબર વડે લોગીન કરો'}
+              {isSignup ? t('SIGN_UP_WITH_MOBILE') : t('LOGIN_WITH_MOBILE')}
             </h2>
 <MobileInput value={mobile} onChange={setMobile} />
             {/* <div className="inputOuter">
@@ -707,8 +709,8 @@ useEffect(() => {
                 className="img-fluid"
               />
               <span>
-                <strong>તમારી પર્સનલ માહિતી સુરક્ષિત છે. </strong>
-                તમારો નંબર માત્ર અકાઉન્ટ વેરિફાય કરવા માટે જ લઈ રહ્યા છીએ.
+                <strong>{t('YOUR_INFO_SECURE')} </strong>
+                {t('NUMBER_FOR_VERIFICATION')}
               </span>
             </div>
 
@@ -717,20 +719,20 @@ useEffect(() => {
               onClick={() => handleSendOtp()}
               disabled={loading || mobile.length !== 10}
             >
-              {loading ? 'મોકલી રહ્યા છીએ...' : 'ચાલુ રાખો'}
+              {loading ? t('SENDING') : t('CONTINUE')}
             </button>
           </div>
         )}
         {/* OTP Verification Section */}
         {currentView === 'otp' && (
           <div className="otpSec">
-            <h2>વેરિફાય OTP</h2>
+            <h2>{t('VERIFY_OTP_HEADING')}</h2>
             <p className="lineNumber">
-              +91-{mobile} પર મોકલેલો 6 આંકડાનો કોડ એન્ટર કરો
+              {t('ENTER_6_DIGIT_CODE', { mobile })}
             </p>
             <p className="lineChangeNumber">
               <Link href="#" onClick={() => setCurrentView('mobile')}>
-                મોબાઇલ નંબર બદલો
+                {t('CHANGE_MOBILE_NUMBER')}
               </Link>
             </p>
 
@@ -765,7 +767,7 @@ useEffect(() => {
             ) : (
               <p className="lineChangeNumber">
                 <Link href="#" onClick={handleResendOtp}>
-                  OTP ફરીથી મોકલો
+                  {t('RESEND_OTP')}
                 </Link>
               </p>
             )}
@@ -775,7 +777,7 @@ useEffect(() => {
               onClick={handleVerifyOtp}
               disabled={loading}
             >
-              {loading ? 'વેરિફાય કરી રહ્યા છીએ...' : 'વેરિફાય કરો'}
+              {loading ? t('VERIFYING') : t('VERIFY_BUTTON')}
             </button>
           </div>
         )} 
@@ -789,13 +791,13 @@ useEffect(() => {
    <button
       type="button"
       className="back-link-btn"
-      title="પાછા જાઓ"
+      title={t('GO_BACK_LINK')}
       onClick={handleBack}
     >
       <i className="fas fa-arrow-left"></i>
       
     </button>
-<span> વેબસાઇટ પર પાછા જાઓ</span>
+<span> {t('BACK_TO_WEBSITE')}</span>
 </a>
       </div>
     </div>

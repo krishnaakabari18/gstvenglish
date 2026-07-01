@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useCallback, useEffect } fr
 import { type Language, type TranslationKey, getTranslation } from '@/lib/translations';
 
 const STORAGE_KEY = 'gstv_lang';
-const DEFAULT_LANG: Language = 'gu'; // ← change to 'gu' to make Gujarati the default
+const DEFAULT_LANG: Language = 'en'; // ← change to 'gu' to make Gujarati the default
 
 interface LanguageContextValue {
   lang: Language;

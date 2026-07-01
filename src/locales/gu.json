@@ -253,5 +253,26 @@
   "EKASANA_SUBMIT_ERROR": "કંઈક ખોટું થયું છે. કૃપા કરીને ફરી પ્રયાસ કરો.",
   "EKASANA_UPDATE_ERROR": "કંઈક ખોટું થયું છે. કૃપા કરીને ફરી પ્રયાસ કરો.",
   "EKASANA_UPDATED_SUCCESS": "તમારું એકાસન સફળતાપૂર્વક અપડેટ થયું છે!",
-  "EKASANA_SUBMITTED_SUCCESS": "તમારું એકાસન સફળતાપૂર્વક સબમિટ થયું છે!"
+  "EKASANA_SUBMITTED_SUCCESS": "તમારું એકાસન સફળતાપૂર્વક સબમિટ થયું છે!",
+  
+  "SIGN_UP": "સાઇન અપ",
+  "LOGIN_TEXT": "લોગિન",
+  "MOBILE_OTP": "મોબાઈલ OTP",
+  "MPIN": "એમ-પિન",
+  "SIGN_UP_WITH_MOBILE": "મોબાઈલ નંબર વડે સાઇનઅપ કરો",
+  "LOGIN_WITH_MOBILE": "મોબાઈલ નંબર વડે લોગીન કરો",
+  "ENTER_MOBILE_NUMBER": "તમારો મોબાઈલ નંબર દાખલ કરો",
+  "YOUR_INFO_SECURE": "તમારી પર્સનલ માહિતી સુરક્ષિત છે.",
+  "NUMBER_FOR_VERIFICATION": "તમારો નંબર માત્ર અકાઉન્ટ વેરિફાય કરવા માટે જ લઈ રહ્યા છીએ.",
+  "VERIFY_OTP_HEADING": "વેરિફાય OTP",
+  "ENTER_6_DIGIT_CODE": "+91-{mobile} પર મોકલેલો 6 આંકડાનો કોડ એન્ટર કરો",
+  "CHANGE_MOBILE_NUMBER": "મોબાઇલ નંબર બદલો",
+  "VERIFY_BUTTON": "વેરિફાય કરો",
+  "OTP_SENT_SUCCESS": "OTP સફળતાપૂર્વક મોકલાયો!",
+  "OTP_SEND_FAILED": "OTP મોકલવામાં નિષ્ફળ ગયા છો. કૃપા કરીને ફરી પ્રયાસ કરો.",
+  "ERROR_OCCURRED": "ભૂલ આવી છે. કૃપા કરીને ફરી પ્રયાસ કરો.",
+  "MPIN_HEADING": "એમ-પિન",
+  "CHECK_MOBILE_MPIN": "તમારો મોબાઈલ નંબર એંડ એમ પિન ચકાસો.",
+  "MPIN_VERIFIED_SUCCESS": "એમ-પિન સફળતાપૂર્વક વેરિફાય થઈ ગયું છે!",
+  "GO_BACK_LINK": "પાછા જાઓ"
 }

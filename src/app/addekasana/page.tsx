@@ -4,9 +4,9 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { API_ENDPOINTS } from '@/constants/api';
-import ProFooter from '@/components/ProFooter';
 import { useUserSession, getUserId } from '@/hooks/useUserSession';
 import { redirectToLogin } from '@/utils/authUtils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface FormData {
   name: string;
@@ -16,6 +16,7 @@ interface FormData {
 }
 
 const AddEkasanaPage: React.FC = () => {
+  const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -144,14 +145,14 @@ const AddEkasanaPage: React.FC = () => {
             setCurrentVideoUrl(videoUrl);
           }
         } else {
-          setErrorMessage('એકાસન ડેટા મળ્યો નથી. આ ID અસ્તિત્વમાં નથી.');
+          setErrorMessage(t("EKASANA_NOT_FOUND_MSG"));
           // Redirect to list page after 3 seconds
           setTimeout(() => {
             router.push('/getekasana');
           }, 3000);
         }
       } else {
-        setErrorMessage('એકાસન ડેટા લોડ કરવામાં નિષ્ફળ.');
+        setErrorMessage(t("EKASANA_LOAD_FAILED"));
         // Redirect to list page after 3 seconds
         setTimeout(() => {
           router.push('/getekasana');
@@ -159,7 +160,7 @@ const AddEkasanaPage: React.FC = () => {
       }
     } catch (error) {
       console.error('Error fetching edit data from list:', error);
-      setErrorMessage('એકાસન ડેટા લોડ કરવામાં ભૂલ આવી.');
+      setErrorMessage(t("EKASANA_LOAD_FAILED"));
       // Redirect to list page after 3 seconds
       setTimeout(() => {
         router.push('/getekasana');
@@ -173,7 +174,7 @@ const AddEkasanaPage: React.FC = () => {
       // Check if ID is a valid number
       const idNumber = parseInt(akasanaid);
       if (isNaN(idNumber) || idNumber <= 0) {
-        setErrorMessage('અમાન્ય એકાસન ID. કૃપા કરીને યોગ્ય ID સાથે પ્રયાસ કરો.');
+        setErrorMessage(t("INVALID_EKASANA_ID"));
         setTimeout(() => {
           router.push('/getekasana');
         }, 3000);
@@ -189,7 +190,7 @@ const AddEkasanaPage: React.FC = () => {
         fetchEditData();
       } else {
         // Show error message if user is not authenticated in edit mode
-        setErrorMessage('તમારે એકાસન એડિટ કરવા માટે લોગિન કરવું આવશ્યક છે. કૃપા કરીને લોગિન કરો.');
+        setErrorMessage(t("EKASANA_LOGIN_REQUIRED"));
         // Redirect to login page after 3 seconds
         setTimeout(() => {
           router.push('/login?returnUrl=' + encodeURIComponent(window.location.pathname + window.location.search));
@@ -214,13 +215,13 @@ const AddEkasanaPage: React.FC = () => {
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      setImageLimitMsg('કૃપા કરીને એક માન્ય છબી ફાઇલ પસંદ કરો.');
+      setImageLimitMsg(t("ENTER_VALID_PHOTO"));
       return;
     }
 
     // Validate file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
-      setImageLimitMsg('છબીનું કદ 5MB કરતા ઓછું હોવું જોઈએ.');
+      setImageLimitMsg(t("ENTER_PHOTO_SIZE_5MB"));
       return;
     }
 
@@ -235,13 +236,13 @@ const AddEkasanaPage: React.FC = () => {
 
     // Validate file type
     if (!file.type.startsWith('video/')) {
-      setVideoLimitMsg('કૃપા કરીને એક માન્ય વિડીયો ફાઇલ પસંદ કરો.');
+      setVideoLimitMsg(t("ENTER_VALID_VIDEO"));
       return;
     }
 
     // Validate file size (100MB limit)
     if (file.size > 100 * 1024 * 1024) {
-      setVideoLimitMsg('વિડીયોનું કદ 100MB કરતા ઓછું હોવું જોઈએ.');
+      setVideoLimitMsg(t("VIDEO_SIZE_100MB"));
       return;
     }
 
@@ -278,24 +279,24 @@ const AddEkasanaPage: React.FC = () => {
     });
 
     if (!formData.name.trim()) {
-      setErrorMessage('કૃપા કરીને નામ દાખલ કરો.');
+      setErrorMessage(t("PLEASE_ENTER_NAME"));
       return false;
     }
     if (!formData.days.trim()) {
-      setErrorMessage('કૃપા કરીને તપના દિવસો દાખલ કરો.');
+      setErrorMessage(t("DAYS_FIELD"));
       return false;
     }
     if (!formData.mobile.trim() || formData.mobile.length !== 10) {
-      setErrorMessage('કૃપા કરીને માન્ય મોબાઈલ નંબર દાખલ કરો.');
+      setErrorMessage(t("MOBILE_FIELD"));
       return false;
     }
     if (!formData.address.trim()) {
-      setErrorMessage('કૃપા કરીને સરનામું દાખલ કરો.');
+      setErrorMessage(t("ADDRESS_FIELD"));
       return false;
     }
     // In edit mode, image is optional if there's already an old image
     if (!isEditMode && !imageFile) {
-      setErrorMessage('કૃપા કરીને તસવીર પસંદ કરો.');
+      setErrorMessage(t("PHOTO_LABEL"));
       return false;
     }
     return true;
@@ -325,7 +326,7 @@ const AddEkasanaPage: React.FC = () => {
         console.log('🔧 Using default user ID:', defaultUserId);
         // Continue with the submission using default user ID
       } else {
-        setErrorMessage('તમારે એકાસન સબમિટ કરવા માટે લોગિન કરવું આવશ્યક છે. કૃપા કરીને લોગિન કરો અને ફરીથી પ્રયાસ કરો.');
+        setErrorMessage(t("EKASANA_LOGIN_REQUIRED"));
         redirectToLogin('/addekasana', router);
         return;
       }
@@ -383,8 +384,8 @@ const AddEkasanaPage: React.FC = () => {
 
       if (response.ok && result.success) {
         const successMessage = isEditMode
-          ? 'તમારું એકાસન સફળતાપૂર્વક અપડેટ થયું છે!'
-          : 'તમારું એકાસન સફળતાપૂર્વક સબમિટ થયું છે!';
+          ? t("EKASANA_UPDATED_SUCCESS")
+          : t("EKASANA_SUBMITTED_SUCCESS");
         setSubmitMessage(successMessage);
 
         if (!isEditMode) {
@@ -410,7 +411,7 @@ const AddEkasanaPage: React.FC = () => {
           router.push('/getekasana');
         }, 2000);
       } else {
-        const errorMsg = result.message || 'કંઈક ખોટું થયું છે. કૃપા કરીને ફરીથી પ્રયાસ કરો.';
+        const errorMsg = result.message ||  t("EKASANA_SUBMIT_ERROR");
         console.log('🔧 API Error Response:', {
           status: response.status,
           statusText: response.statusText,
@@ -433,7 +434,7 @@ const AddEkasanaPage: React.FC = () => {
         message: error instanceof Error ? error.message : String(error),
         stack: error instanceof Error ? error.stack : undefined
       });
-      setErrorMessage('કંઈક ખોટું થયું છે. કૃપા કરીને ફરીથી પ્રયાસ કરો.');
+      setErrorMessage(t("EKASANA_UPDATE_ERROR"));
     } finally {
       setLoading(false);
     }
@@ -450,7 +451,7 @@ const AddEkasanaPage: React.FC = () => {
               <form className="formBox" id="ekasana-form" encType="multipart/form-data" onSubmit={handleSubmit}>
                 <div className="pNewsBox">
                   <div className="title">
-                    <h2>{isEditMode ? 'એડિટ કરો' : 'એડ કરો'}</h2>
+                    <h2>{isEditMode ? t("EDIT") : t("ADD")}</h2>
                   </div>
 
                   <div className="pnewsContent">
@@ -471,7 +472,7 @@ const AddEkasanaPage: React.FC = () => {
                     {/* Name Field */}
                     <div className="row">
                       <div className="col-lg-12 mb-4">
-                        <div className="lable">નામ</div>
+                        <div className="lable">{t("NAME")}</div>
                         <div className="inputOuter">
                           <input
                             type="text"
@@ -480,7 +481,7 @@ const AddEkasanaPage: React.FC = () => {
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            placeholder="તમારું નામ દાખલ કરો"
+                            placeholder={t("ENTER_NAME_PLACEHOLDER")}
                             required
                           />
                         </div>
@@ -490,7 +491,7 @@ const AddEkasanaPage: React.FC = () => {
                     {/* Days Field */}
                     <div className="row">
                       <div className="col-lg-12 mb-4">
-                        <div className="lable">તપના દિવસો</div>
+                        <div className="lable">{t("DAYS_FIELD")}</div>
                         <div className="inputOuter">
                           <input
                             type="text"
@@ -504,7 +505,7 @@ const AddEkasanaPage: React.FC = () => {
                               target.value = target.value.replace(/[^0-9]/g, '').slice(0, 10);
                               handleInputChange(e as any);
                             }}
-                            placeholder="તમારા દિવસો દાખલ કરો"
+                            placeholder={t("ENTER_DAYS_PLACEHOLDER")}
                             required
                           />
                         </div>
@@ -514,7 +515,7 @@ const AddEkasanaPage: React.FC = () => {
                     {/* Image Upload */}
                     <div className="row">
                       <div className="col-lg-12 mb-4">
-                        <div className="lable">તસવીર</div>
+                        <div className="lable">{t("PHOTO_LABEL")}</div>
                         <div className="inputOuter">
                           <input
                             type="file"
@@ -564,7 +565,7 @@ const AddEkasanaPage: React.FC = () => {
                                   height={80}
                                 />
                                 <p style={{ marginTop: '6px', fontSize: '12px', color: '#666' }}>
-                                  વર્તમાન તસવીર
+                                  {t("CURRENT_PHOTO")}
                                 </p>
                               </div>
                             )}
@@ -576,7 +577,7 @@ const AddEkasanaPage: React.FC = () => {
                     {/* Mobile Field */}
                     <div className="row">
                       <div className="col-lg-12 mb-4">
-                        <div className="lable">મોબાઈલ નં.</div>
+                        <div className="lable">{t("MOBILE_FIELD")}</div>
                         <div className="inputOuter">
                           <input
                             type="text"
@@ -591,7 +592,7 @@ const AddEkasanaPage: React.FC = () => {
                               target.value = target.value.replace(/[^0-9]/g, '').slice(0, 10);
                               handleInputChange(e as any);
                             }}
-                            placeholder="તમારો મોબાઈલ દાખલ કરો"
+                            placeholder={t("ENTER_MOBILE_PLACEHOLDER")}
                             required
                           />
                         </div>
@@ -601,7 +602,7 @@ const AddEkasanaPage: React.FC = () => {
                     {/* Address Field */}
                     <div className="row">
                       <div className="col-lg-12 mb-4">
-                        <div className="lable">એડ્રેસ</div>
+                        <div className="lable">{t("ADDRESS_FIELD")}</div>
                         <div className="inputOuter">
                           <input
                             type="text"
@@ -610,7 +611,7 @@ const AddEkasanaPage: React.FC = () => {
                             name="address"
                             value={formData.address}
                             onChange={handleInputChange}
-                            placeholder="તમારું એડ્રૈસ દાખલ કરો"
+                            placeholder={t("ENTER_ADDRESS_PLACEHOLDER")}
                             required
                           />
                         </div>
@@ -620,7 +621,7 @@ const AddEkasanaPage: React.FC = () => {
                     {/* Video Upload */}
                     <div className="row">
                       <div className="col-lg-12 mb-4">
-                        <div className="lable">વીડિયો</div>
+                        <div className="lable">{t("VIDEO_LABEL")}</div>
                         <div className="inputOuter">
                           <input
                             type="file"
@@ -670,7 +671,7 @@ const AddEkasanaPage: React.FC = () => {
                                   controls
                                 />
                                 <p style={{ marginTop: '6px', fontSize: '12px', color: '#666' }}>
-                                  વર્તમાન વીડિયો
+                                  {t("CURRENT_VIDEO")}
                                 </p>
                               </div>
                             )}
@@ -687,8 +688,8 @@ const AddEkasanaPage: React.FC = () => {
                         disabled={loading}
                       >
                         {loading
-                          ? (isEditMode ? 'અપડેટ થઈ રહ્યું છે...' : 'અપલોડ થઈ રહ્યું છે...')
-                          : (isEditMode ? 'અપડેટ' : 'અપલોડ')
+                          ? (isEditMode ? t("UPDATING") : t("UPLOADING"))
+                          : (isEditMode ? t("UPDATE_BTN") : t("UPLOAD"))
                         }
                       </button>
 

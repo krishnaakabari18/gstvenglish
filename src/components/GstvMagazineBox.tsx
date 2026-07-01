@@ -6,6 +6,7 @@ import { API_ENDPOINTS } from '@/constants/api';
 import { getImageUrl } from '@/utils/commonUtils';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { LOADING_MESSAGES } from '@/utils/uiUtils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface MagazineItem {
   id: number;
@@ -22,11 +23,12 @@ interface GstvMagazineBoxProps {
 }
 
 const GstvMagazineBox: React.FC<GstvMagazineBoxProps> = ({ className = '' }) => {
+  
   const [data, setData] = useState<MagazineItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-
+  const { t } = useLanguage();
   /* ================= FETCH ================= */
 
   const fetchMagazineNews = useCallback(async () => {
@@ -61,7 +63,7 @@ const GstvMagazineBox: React.FC<GstvMagazineBoxProps> = ({ className = '' }) => 
       setData(formatted);
       setCurrentSlide(0);
     } catch (e: any) {
-      setError(e.message || 'Failed to load magazine news');
+      setError(e.message || t('MAGAZINE_LOAD_ERROR'));
       setData([]);
     } finally {
       setLoading(false);
@@ -126,7 +128,8 @@ const GstvMagazineBox: React.FC<GstvMagazineBoxProps> = ({ className = '' }) => 
   if (loading) {
     return (
       <div className={`gstv-magazine-container ${className}`}>
-        <Header />
+        <Header t={t} />
+
         <LoadingSpinner
           message={LOADING_MESSAGES.LOADING_NEWS}
           size="small"
@@ -140,17 +143,18 @@ const GstvMagazineBox: React.FC<GstvMagazineBoxProps> = ({ className = '' }) => 
   if (error) {
     return (
       <div className={`gstv-magazine-container ${className}`}>
-        <Header />
+        <Header t={t} />
+
         <div className="text-center p-3">
           <p style={{ color: '#dc3545' }}>
-            મેગેઝિન લોડ કરવામાં ભૂલ: {error}
+            {t('MAGAZINE_LOAD_ERROR')}: {error}
           </p>
           <button
             onClick={fetchMagazineNews}
             className="btn btn-sm"
             style={{ background: '#850E00', color: '#fff' }}
           >
-            ફરી પ્રયાસ કરો
+             {t('TRY_AGAIN')}
           </button>
         </div>
       </div>
@@ -170,7 +174,8 @@ const GstvMagazineBox: React.FC<GstvMagazineBoxProps> = ({ className = '' }) => 
         overflow: 'hidden'
       }}
     >
-      <Header />
+      <Header t={t} />
+
 
       <div className="row blog-read-content m-0 p-0">
         {currentChunk.map((item, idx) => (
@@ -226,14 +231,22 @@ const GstvMagazineBox: React.FC<GstvMagazineBoxProps> = ({ className = '' }) => 
 };
 
 /* ================= HEADER (UNCHANGED) ================= */
-
-const Header = () => (
-  <div className="storySectionNav blogs-head-bar first fastrack_head" style={{ marginBottom: 0 }}>
+interface HeaderProps {
+  t: (key: string) => string;
+}
+const Header: React.FC<HeaderProps> = ({ t }) => (
+  <div
+    className="storySectionNav blogs-head-bar first fastrack_head"
+    style={{ marginBottom: 0 }}
+  >
     <div className="storySectionNav-left">
       <Link href="/category/magazines">
-        <h3 className="blog-category">મેગેઝિન</h3>
+        <h3 className="blog-category">
+          {t('MAGAZINE')}
+        </h3>
       </Link>
     </div>
+
     <style jsx>{`
       .storySectionNav {
         display: flex;
@@ -246,5 +259,4 @@ const Header = () => (
     `}</style>
   </div>
 );
-
 export default GstvMagazineBox;

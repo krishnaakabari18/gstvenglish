@@ -6,6 +6,7 @@ import Head from 'next/head';
 import { commonApiPost, COMMON_API_BASE_URL } from '@/constants/api';
 import { getOrCreateDeviceId } from '@/utils/deviceId';
 import VideoActionButtons from '@/components/VideoActionButtons';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 /* ================= INTERFACES ================= */
 
@@ -42,7 +43,7 @@ const videoSlug = slugArray[slugArray.length - 1];
 const categorySlug =
   slugArray.length > 1 ? slugArray.slice(0, -1).join('/') : '';
 
-
+  const { t } = useLanguage();
   const [videos, setVideos] = useState<Video[]>([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -1773,7 +1774,7 @@ useEffect(() => {
                   marginTop: '-5px',
                   marginLeft: '0px'
                 }}>
-                  <strong>સોર્સ:</strong> {video.img_credit_txt}
+                  <strong>{t('SOURCE')}:</strong> {video.img_credit_txt}
                 </p>
               )}
             </div>

@@ -58,7 +58,7 @@ const EpaperRightSidebar = () => {
         {data.newspaper?.first_image && (
           <div className="epaper-left">
             <div className="storySectionNav blogs-head-bar first magazine_head fastrack_head">
-              <h3 className="blog-category">{t('TODAY_READ_MAGAZINE')}</h3>
+              <h3 className="blog-category">{t('TODAY_READ_EPAPER')}</h3>
             </div>
             <Link href={data.newspaper.url} target="_blank">
               <img

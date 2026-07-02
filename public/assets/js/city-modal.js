@@ -14,8 +14,11 @@ $(document).ready(function() {
             let formData = new FormData();
             formData.append('user_id', userId);
             
+            // Use the correct API endpoint
+            let url = window.GSTV_API_CONFIG?.getCategoryCityUrl() || 'https://staging.gstv.in/backend2/api/v17/mobile/getcategorycity';
+
             $.ajax({
-                url: 'https://www.gstv.in/backend2/api/v13/mobile/getcategorycity',//getApiEndpoint('GET_CATEGORY_CITY'),
+                url: url,
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -51,8 +54,26 @@ $(document).ready(function() {
             console.error('Error parsing user session:', e);
         }
 
+        // Get current language preference from window.GSTV_LANG (set by React context)
+        // Falls back to localStorage if window variable is not set
+        let currentLang = 'en'; // default to English
+        try {
+            // Check if window.GSTV_LANG is set by React LanguageContext
+            if (window.GSTV_LANG && (window.GSTV_LANG === 'gu' || window.GSTV_LANG === 'en')) {
+                currentLang = window.GSTV_LANG;
+            } else {
+                // Fallback to localStorage
+                const savedLang = localStorage.getItem('gstv_lang');
+                if (savedLang === 'gu' || savedLang === 'en') {
+                    currentLang = savedLang;
+                }
+            }
+        } catch (e) {
+            console.error('Error reading language preference:', e);
+        }
+
         // Use the correct API endpoint for category settings (cities with parentID = 1)
-        let url = 'https://www.gstv.in/backend2/api/v13/mobile/categorysettingweb';//getApiEndpoint('CATEGORY_SETTING');
+        let url = window.GSTV_API_CONFIG?.getCategorySettingUrl();
 
         // Show loading state
         $('.cityList').html('<div class="loading-cities" style="text-align: center; padding: 40px;"><div style="display: inline-block; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #8B0000; border-radius: 50%; animation: spin 1s linear infinite;"></div><br><br>શહેરો લોડ થઈ રહ્યા છે...</div>');
@@ -92,13 +113,14 @@ $(document).ready(function() {
                             const isSelected = userSelectedCities.includes(city.id);
                             const checkedAttr = isSelected ? 'checked' : '';
                             
-                          
-                            
-                            // Use the title field from the API response
+                            // Use language-based city name
+                            const cityName = currentLang === 'gu' ? city.category_name_guj : city.category_name;
+
+                            // Use the appropriate city name based on language preference
                             cityHTML += `<div class="cityBtn">
                                     <label>
                                         <input type="checkbox" name="city[]" value="${city.id}" ${checkedAttr}>
-                                        <span>${city.category_name_guj}</span>
+                                        <span>${cityName}</span>
                                     </label>
                                 </div>`;
                         });
@@ -191,7 +213,7 @@ $(document).ready(function() {
 
 
         // Submit directly to staging API
-        let url = 'https://www.gstv.in/backend2/api/v13/mobile/usercity';//getApiEndpoint('USER_CITY');
+        let url = window.GSTV_API_CONFIG?.getUserCityUrl() || 'https://staging.gstv.in/backend2/api/v17/mobile/usercity';
 
         // Prepare FormData for staging API
         let formData = new FormData();

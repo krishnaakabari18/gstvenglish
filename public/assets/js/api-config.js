@@ -19,6 +19,14 @@ window.GSTV_API_CONFIG = {
     return this.COMMON_API_BASE_URL + '/usercategory';
   },
 
+  get GET_CATEGORY_CITY() {
+    return this.COMMON_API_BASE_URL + '/getcategorycity';
+  },
+
+  get USER_CITY() {
+    return this.COMMON_API_BASE_URL + '/usercity';
+  },
+
   /**
    * Get category setting endpoint dynamically
    * @returns {string} Full URL for category setting API
@@ -33,6 +41,22 @@ window.GSTV_API_CONFIG = {
    */
   getUserCategoryUrl() {
     return this.USER_CATEGORY;
+  },
+
+  /**
+   * Get category city endpoint dynamically
+   * @returns {string} Full URL for get category city API
+   */
+  getCategoryCityUrl() {
+    return this.GET_CATEGORY_CITY;
+  },
+
+  /**
+   * Get user city endpoint dynamically
+   * @returns {string} Full URL for user city API
+   */
+  getUserCityUrl() {
+    return this.USER_CITY;
   }
 };
 

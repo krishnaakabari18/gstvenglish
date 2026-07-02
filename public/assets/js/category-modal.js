@@ -48,6 +48,24 @@ $(document).ready(function() {
             console.error('Error parsing user session:', e);
         }
 
+        // Get current language preference from window.GSTV_LANG (set by React context)
+        // Falls back to localStorage if window variable is not set
+        let currentLang = 'en'; // default to English
+        try {
+            // Check if window.GSTV_LANG is set by React LanguageContext
+            if (window.GSTV_LANG && (window.GSTV_LANG === 'gu' || window.GSTV_LANG === 'en')) {
+                currentLang = window.GSTV_LANG;
+            } else {
+                // Fallback to localStorage
+                const savedLang = localStorage.getItem('gstv_lang');
+                if (savedLang === 'gu' || savedLang === 'en') {
+                    currentLang = savedLang;
+                }
+            }
+        } catch (e) {
+            console.error('Error reading language preference:', e);
+        }
+
         // Use the correct API endpoint for category settings
         let url = 'https://www.gstv.in/backend2/api/v13/mobile/categorysettingweb';//getApiEndpoint('CATEGORY_SETTING');
 
@@ -91,13 +109,13 @@ $(document).ready(function() {
                             const checkedAttr = isSelected ? 'checked' : '';
 
                             // Set background and text color based on selection
-                            const backgroundColor = isSelected ? '#8B0000' : '#fff';
                             const textColor = isSelected ? 'white' : '#333';
                             const borderColor = isSelected ? '#8B0000' : '#d4a574';
 
+                            // Use language-based category name
+                            const categoryName = currentLang === 'gu' ? category.category_name_guj : category.category_name;
 
-
-                            // Use the title field from the API response with improved styling
+                            // Use the appropriate category name based on language preference
                             categoryHTML += `<div class="categoryBtn">
                                     <label style="margin: 0; cursor: pointer; display: block;">
                                         <input type="checkbox" name="category[]" value="${category.id}" ${checkedAttr} style="display: none;">
@@ -112,7 +130,7 @@ $(document).ready(function() {
                                             color: ${textColor};
                                             transition: all 0.3s ease;
                                             font-family: 'Hind Vadodara', sans-serif;
-                                        ">${category.category_name_guj}</span>
+                                        ">${categoryName}</span>
                                     </label>
                                 </div>`;
                         });

@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { type Language, type TranslationKey, getTranslation } from '@/lib/translations';
+import { setSyncLanguage } from '@/lib/languageSync';
 
 const STORAGE_KEY = 'gstv_lang';
 const DEFAULT_LANG: Language = 'en'; // ← change to 'gu' to make Gujarati the default
@@ -27,6 +28,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       // localStorage unavailable (SSR or private mode) — keep default
     }
   }, []);
+
+  // Sync language with global window object whenever it changes
+  useEffect(() => {
+    setSyncLanguage(lang);
+  }, [lang]);
 
   const setLang = useCallback((newLang: Language) => {
     setLangState(newLang);

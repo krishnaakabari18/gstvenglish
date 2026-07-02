@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import ProFooter from '@/components/ProFooter';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { API_ENDPOINTS } from '@/constants/api';
 
 interface FormData {
@@ -25,6 +26,7 @@ interface FormErrors {
 }
 
 export default function CareerPage() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState<FormData>({
     fullname: '',
     email: '',
@@ -136,56 +138,56 @@ export default function CareerPage() {
 
     // Full name validation
     if (!formData.fullname.trim()) {
-      newErrors.fullname = 'કૃપા કરીને તમારું પૂરું નામ દાખલ કરો.';
+      newErrors.fullname = t('FULLNAME_ERROR');
     } else if (formData.fullname.trim().length < 3) {
-      newErrors.fullname = 'Full name must be at least 3 characters.';
+      newErrors.fullname = t('FULLNAME_MIN_LENGTH_ERROR');
     }
 
     // Email validation
     if (!formData.email.trim()) {
-      newErrors.email = 'કૃપા કરીને તમારું ઇમેઇલ દાખલ કરો.';
+      newErrors.email = t('EMAIL_ERROR');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address.';
+      newErrors.email = t('EMAIL_INVALID_ERROR');
     }
 
     // Phone validation
     if (!formData.phone.trim()) {
-      newErrors.phone = 'કૃપા કરીને તમારો ફોન નંબર દાખલ કરો.';
+      newErrors.phone = t('PHONE_ERROR');
     } else if (!/^\d{10}$/.test(formData.phone)) {
-      newErrors.phone = 'Phone number must be 10 digits.';
+      newErrors.phone = t('PHONE_INVALID_ERROR');
     }
 
     // Post validation
     if (!formData.post) {
-      newErrors.post = 'કૃપા કરીને તમે જે પદ માટે અરજી કરી રહ્યા છો તે પસંદ કરો.';
+      newErrors.post = t('POST_ERROR');
     }
 
     // Experience validation
     if (!formData.experience.trim()) {
-      newErrors.experience = 'કૃપા કરીને તમારા વર્ષોનો અનુભવ દાખલ કરો.';
+      newErrors.experience = t('EXPERIENCE_ERROR');
     } else if (isNaN(Number(formData.experience)) || Number(formData.experience) < 0) {
-      newErrors.experience = 'અનુભવ માટે કૃપા કરીને માન્ય નંબર દાખલ કરો.';
+      newErrors.experience = t('EXPERIENCE_INVALID_ERROR');
     }
 
     // Message validation
     if (!formData.message.trim()) {
-      newErrors.message = 'કૃપા કરીને તમારા વિશે ટૂંકો સંદેશ દાખલ કરો.';
+      newErrors.message = t('MESSAGE_ERROR');
     } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'સંદેશ ઓછામાં ઓછો 10 અક્ષરોનો હોવો જોઈએ.';
+      newErrors.message = t('MESSAGE_MIN_LENGTH_ERROR');
     } else if (formData.message.trim().length > 500) {
-      newErrors.message = 'સંદેશ 500 અક્ષરોથી વધુ ન હોઈ શકે.';
+      newErrors.message = t('MESSAGE_MAX_LENGTH_ERROR');
     }
 
     // CV validation
     if (!formData.cv) {
-      newErrors.cv = 'કૃપા કરીને તમારો સીવી અથવા રિઝ્યુમ અપલોડ કરો.';
+      newErrors.cv = t('CV_ERROR');
     } else {
       const allowedExtensions = ['pdf', 'doc', 'docx'];
       const fileExtension = formData.cv.name.split('.').pop()?.toLowerCase();
       if (!fileExtension || !allowedExtensions.includes(fileExtension)) {
-        newErrors.cv = 'ફક્ત PDF, DOC, અથવા DOCX ફાઇલોને જ મંજૂરી છે.';
+        newErrors.cv = t('CV_FILE_TYPE_ERROR');
       } else if (formData.cv.size > 5000000) {
-        newErrors.cv = 'ફાઇલનું સાઈજ 5 MB થી વધુ ન હોવું જોઈએ.';
+        newErrors.cv = t('CV_FILE_SIZE_ERROR');
       }
     }
 
@@ -230,7 +232,7 @@ export default function CareerPage() {
       const data = await response.json();
 
       if (data.success) {
-        setSubmitMessage(data.message || 'Application submitted successfully!');
+        setSubmitMessage(data.message || t('CAREER_SUBMIT_SUCCESS'));
         // Reset form
         setFormData({
           fullname: '',
@@ -248,12 +250,12 @@ export default function CareerPage() {
         }
         hideMessageAfterTimeout(setSubmitMessage);
       } else {
-        setErrorMessage(data.message || 'સબમિશન નિષ્ફળ ગયું. કૃપા કરીને ફરી પ્રયાસ કરો.');
+        setErrorMessage(data.message || t('CAREER_SUBMIT_FAILED'));
         hideMessageAfterTimeout(setErrorMessage);
       }
     } catch (error) {
-      console.error('કેરીયર ફોર્મ સબમિટ કરવામાં ભૂલ:', error);
-      setErrorMessage('ભૂલ આવી. કૃપા કરીને ફરી પ્રયાસ કરો.');
+      console.error('Career form submission error:', error);
+      setErrorMessage(t('CAREER_ERROR'));
       hideMessageAfterTimeout(setErrorMessage);
     } finally {
       setLoading(false);
@@ -269,7 +271,7 @@ export default function CareerPage() {
               <form className="formBox" id="career-form" encType="multipart/form-data" onSubmit={handleSubmit}>
                 <div className="pNewsBox">
                   <div className="title">
-                    <h2>કેરીયર At GSTV</h2>
+                    <h2>{t('CAREER_PAGE_TITLE')}</h2>
                   </div>
 
 
@@ -290,13 +292,13 @@ export default function CareerPage() {
 
                     <div className="row">
                       <div className="col-lg-6 mb-4">
-                        <div className="lable">પૂરું નામ</div>
+                        <div className="lable">{t('FULLNAME_LABEL')}</div>
                         <div className="inputOuter">
                           <input
                             type="text"
                             name="fullname"
                             className={`form-control ${errors.fullname ? 'is-invalid' : ''}`}
-                            placeholder="તમારું પૂરું નામ દાખલ કરો"
+                            placeholder={t('FULLNAME_PLACEHOLDER')}
                             value={formData.fullname}
                             onChange={handleInputChange}
                           />
@@ -307,13 +309,13 @@ export default function CareerPage() {
                       </div>
 
                       <div className="col-lg-6 mb-4">
-                        <div className="lable">ઈમેલ</div>
+                        <div className="lable">{t('EMAIL_LABEL')}</div>
                         <div className="inputOuter">
                           <input
                             type="email"
                             name="email"
                             className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                            placeholder="તમારો ઈમેલ દાખલ કરો"
+                            placeholder={t('EMAIL_PLACEHOLDER')}
                             value={formData.email}
                             onChange={handleInputChange}
                           />
@@ -326,13 +328,13 @@ export default function CareerPage() {
 
                     <div className="row">
                       <div className="col-lg-6 mb-4">
-                        <div className="lable">ફોન નંબર</div>
+                        <div className="lable">{t('PHONE_LABEL')}</div>
                         <div className="inputOuter">
                           <input
                             type="text"
                             name="phone"
                             className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
-                            placeholder="ફોન નંબર દાખલ કરો"
+                            placeholder={t('PHONE_PLACEHOLDER')}
                             value={formData.phone}
                             onChange={handleInputChange}
                           />
@@ -343,7 +345,7 @@ export default function CareerPage() {
                       </div>
 
                       <div className="col-lg-6 mb-4">
-                        <div className="lable">કઈ પોસ્ટ માટે એપ્લાય કરી રહ્યા છો?</div>
+                        <div className="lable">{t('POST_LABEL')}</div>
                         <div className="inputOuter">
                           <select
                             name="post"
@@ -352,7 +354,7 @@ export default function CareerPage() {
                             onChange={handleInputChange}
                           >
                             <option value="">
-                              {applyPosts.length === 0 ? 'લોડ કરી રહ્યા છીએ ...' : 'પોસ્ટ પસંદ કરો'}
+                              {applyPosts.length === 0 ? t('POST_LOADING') : t('POST_SELECT')}
                             </option>
                             {applyPosts.length > 0 ? (
                               applyPosts.map((post, index) => (
@@ -372,13 +374,13 @@ export default function CareerPage() {
 
                     <div className="row">
                       <div className="col-lg-6 mb-4">
-                        <div className="lable">વર્ષોનો અનુભવ</div>
+                        <div className="lable">{t('EXPERIENCE_LABEL')}</div>
                         <div className="inputOuter">
                           <input
                             type="text"
                             name="experience"
                             className={`form-control ${errors.experience ? 'is-invalid' : ''}`}
-                            placeholder="અનુભવના વર્ષો દાખલ કરો"
+                            placeholder={t('EXPERIENCE_PLACEHOLDER')}
                             value={formData.experience}
                             onChange={handleInputChange}
                           />
@@ -391,13 +393,13 @@ export default function CareerPage() {
 
                     <div className="row">
                       <div className="col-lg-12 mb-4">
-                        <div className="lable">તમારા વિશે સંક્ષિપ્તમા લખો.</div>
+                        <div className="lable">{t('MESSAGE_LABEL')}</div>
                         <div className="inputOuter">
                           <textarea
                             name="message"
                             className={`form-control ${errors.message ? 'is-invalid' : ''}`}
                             rows={4}
-                            placeholder="તમારા વિશે સંક્ષિપ્તમા લખો."
+                            placeholder={t('MESSAGE_PLACEHOLDER')}
                             value={formData.message}
                             onChange={handleInputChange}
                           />
@@ -410,7 +412,7 @@ export default function CareerPage() {
 
                     <div className="row">
                       <div className="col-lg-12 mb-4">
-                        <div className="lable">સીવી / રેઝ્યૂમે જોડો</div>
+                        <div className="lable">{t('CV_LABEL')}</div>
                         <div className="inputOuter">
                           <input
                             type="file"
@@ -430,14 +432,14 @@ export default function CareerPage() {
                     {loading && (
                       <div className="text-center position-relative">
                         <div style={{ marginBottom: '10px', color: '#ff0000', fontWeight: 'bold' }}>
-                          <img src="/assets/images/loading.gif" alt="લોડ થઈ રહ્યું છે..." style={{ width: '30px', verticalAlign: 'middle' }} />
+                          <img src="/assets/images/loading.gif" alt={t('LOADING')} style={{ width: '30px', verticalAlign: 'middle' }} />
                         </div>
                       </div>
                     )}
 
                   <div className="profileBtn">
                     <button type="submit" className="btn-gstv" disabled={loading}>
-                      {loading ? 'સબમિટિંગ...' : 'સબમિટ'}
+                      {loading ? t('SUBMITTING_BUTTON') : t('SUBMIT_BUTTON')}
                     </button>
                   </div>
                 </div>

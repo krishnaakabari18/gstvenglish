@@ -16,6 +16,7 @@ import {
 
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { COMMON_CLASSES } from '@/utils/uiUtils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 /* Swiper */
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -30,6 +31,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useContentLock } from '@/hooks/useContentLock';
 
 const MagazineDetailPage: React.FC = () => {
+  const { t,lang } = useLanguage();
   const params = useParams();
   const router = useRouter();
 
@@ -251,7 +253,7 @@ const MagazineDetailPage: React.FC = () => {
 
               <div className="epaper-controls-center">
                 <div className="zoom-controls">
-                  <span>ઝૂમ:</span>
+                  <span>{t('ZOOM')}:</span>
                   <button onClick={handleZoomOut} disabled={zoomLevel <= 0.5}>-</button>
                   <span>{Math.round(zoomLevel * 100)}%</span>
                   <button onClick={handleZoomIn} disabled={zoomLevel >= 3}>+</button>

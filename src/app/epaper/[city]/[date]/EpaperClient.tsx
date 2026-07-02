@@ -12,6 +12,7 @@ import { fetchEpaperDetail, EpaperItem } from '@/services/epaperApi';
 import ProFooter from '@/components/ProFooter';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { COMMON_CLASSES } from '@/utils/uiUtils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 /* Swiper */
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -26,6 +27,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useContentLock } from '@/hooks/useContentLock';
 
 const EpaperDetailPage: React.FC = () => {
+  const { t,lang } = useLanguage();
   const params = useParams();
   const router = useRouter();
 
@@ -246,7 +248,7 @@ const getPaginationPages = (current: number, total: number, windowSize = 6) => {
 
               <div className="epaper-controls-center">
                 <div className="zoom-controls">
-                  <span>ઝૂમ:</span>
+                  <span>{t('ZOOM')}:</span>
                   <button onClick={handleZoomOut} disabled={zoomLevel <= 0.5}>-</button>
                   <span>{Math.round(zoomLevel * 100)}%</span>
                   <button onClick={handleZoomIn} disabled={zoomLevel >= 3}>+</button>

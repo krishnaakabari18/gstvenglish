@@ -326,5 +326,9 @@
   "NO_PODCAST_FOUND": "No podcast found",
   "READ_LESS": "Read Less",
   "TITLE": "Title",
-  "SAVE":"Save"
+  "SAVE":"Save",
+  "BOOKMARK":"Bookmark",
+  "LOADING_MORE_NEWS":"Loading more news...",
+  "ALL_NEWS_LOADED":"All news loaded",
+  "READ_ALSO":"Read also"
 }

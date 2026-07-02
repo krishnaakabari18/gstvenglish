@@ -66,8 +66,8 @@
   "NO_MORE_DATA": "વધુ ડેટા નથી",
   "END_OF_NEWS": "સમાચારનો અંત",
   "ALL_VIDEOS_WATCHED": "બધા વીડિયો જોઈ લીધા",
-  "SOURCE": "સ્રોત",
-  "TOPICS": "વિષયો",
+  "SOURCE": "સોર્સ",
+  "TOPICS": "ટોપિક્સ",
   "LAST_UPDATE": "છેલ્લું અપડેટ",
   "LAST_UPDATE_COLON": "છેલ્લું અપડેટ:",
   "DATE": "તારીખ",
@@ -326,5 +326,9 @@
   "NO_PODCAST_FOUND": "કોઈ પોડકાસ્ટ મળ્યું નથી",
   "READ_LESS": "ઓછું વાંચો",
   "TITLE": "ટાઈટલ",
-  "SAVE":"સેવ"
+  "SAVE":"સેવ",
+  "BOOKMARK":"બુકમાર્ક કરો",
+  "LOADING_MORE_NEWS":"વધુ સમાચાર લોડ કરી રહ્યા છીએ...",
+  "ALL_NEWS_LOADED":"બધા સમાચાર લોડ થઈ ગયા છે",
+  "READ_ALSO":"આ પણ વાંચો"
 }

@@ -19,8 +19,9 @@ import { timeAgo } from "@/utils/timeAgo";
 import ShareButtons from './ShareButtons';
 import RelatedNews from "@/components/RelatedNews";
 import LockScreen from '@/components/LockScreen';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useContentLock } from '@/hooks/useContentLock';
- 
+
 // Global registry to avoid re-processing the same embed container multiple times
 const processedEmbedsRegistry = new Set<string>();
 
@@ -70,7 +71,66 @@ interface NewsDetailProps {
   newsSlug: string;
   subcategorySlug?: string;
 }
+// ✅ Add helper here
+const getActualCategory = (
+  newsItem: NewsItem,
+  categorySlug: string,
+  subcategorySlug?: string,
+  lang: string = "en"
+) => {
+  let actualCategory = categorySlug;
+  let actualSubcategory = subcategorySlug;
 
+  // Category Names
+  if (lang === "gu") {
+    if (newsItem.category_name_guj) {
+      const parts = newsItem.category_name_guj
+        .split(",")
+        .map(v => v.trim());
+
+      actualCategory = parts[0] || actualCategory;
+      actualSubcategory = parts[1] || actualSubcategory;
+    }
+  } else if (lang === "hi") {
+    if ((newsItem as any).category_name_hindi) {
+      const parts = (newsItem as any).category_name_hindi
+        .split(",")
+        .map((v: string) => v.trim());
+
+      actualCategory = parts[0] || actualCategory;
+      actualSubcategory = parts[1] || actualSubcategory;
+    }
+  } else {
+    if ((newsItem as any).category_name_eng) {
+      const parts = (newsItem as any).category_name_eng
+        .split(",")
+        .map((v: string) => v.trim());
+
+      actualCategory = parts[0] || actualCategory;
+      actualSubcategory = parts[1] || actualSubcategory;
+    }
+  }
+
+  // English slugs (used for URLs)
+  let categorySlugEn = categorySlug;
+  let subcategorySlugEn = subcategorySlug;
+
+  if (newsItem.category_slugs) {
+    const slugParts = newsItem.category_slugs
+      .split(",")
+      .map(v => v.trim());
+
+    categorySlugEn = slugParts[0] || categorySlugEn;
+    subcategorySlugEn = slugParts[1] || subcategorySlugEn;
+  }
+
+  return {
+    actualCategory,
+    actualSubcategory,
+    categorySlugEn,
+    subcategorySlugEn,
+  };
+};
 // const YT_REGEX =
 //   /https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{6,})/g;
 const YT_REGEX =
@@ -112,8 +172,9 @@ const NewsDetailWithInfiniteScroll: React.FC<NewsDetailProps> = ({
   newsSlug,
   subcategorySlug
 }) => {
+  const { t,lang } = useLanguage();
   useEffect(() => {
-
+    
     const ua = navigator.userAgent;
 
     if (/android/i.test(ua)) {
@@ -822,7 +883,7 @@ if (part.startsWith("<!--SOCIAL_EMBED_START-->")) {
             const relatedHTML = `
               <div class="blogs-main-section relatednewsdata" style="margin:25px 0;">
                 <div class="blogs-head-bar first">
-                  <span class="blog-category">આ પણ વાંચો :</span>
+                  <span class="blog-category">${t("READ_ALSO")} :</span>
                 </div>
                 <div class="row blog-content related-blog-content relatednews relatednews2">
                   ${relatedToShow
@@ -1466,7 +1527,7 @@ const onScroll = () => {
     return (
       <div style={{ textAlign: 'center', padding: 20 }}>
         <div style={{ display: 'inline-block', width: 20, height: 20, border: '2px solid #f3f3f3', borderTop: '2px solid #8B0000', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
-        <p style={{ marginTop: 10, color: '#666' }}>સમાચાર લોડ થઈ રહ્યા છે...</p>
+        <p style={{ marginTop: 10, color: '#666' }}>{t("LOADING_NEWS")}</p>
       </div>
     );
   }
@@ -1474,9 +1535,9 @@ const onScroll = () => {
   if (error) {
     return (
       <div className={styles.newsDetailError}>
-        <h2>ભૂલ આવી</h2>
+        <h2>{t("ERROR_OCCURRED")}</h2>
         <p>{error}</p>
-        <button onClick={loadInitialNews} className={styles.retryButton}>ફરી પ્રયાસ કરો</button>
+        <button onClick={loadInitialNews} className={styles.retryButton}>{t("TRY_AGAIN")}</button>
       </div>
     );
   }
@@ -1507,7 +1568,7 @@ const onScroll = () => {
                     
       {/* 🔥 Correct Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <Link href="/">હોમ</Link>
+        <Link href="/">{t("HOME")}</Link>
         <span> / </span>
 
         <Link href={`/category/${categorySlug}`}>
@@ -1563,7 +1624,7 @@ const onScroll = () => {
         <div className={styles.newsMeta}>
           <div className="reading-time-blog">
             <img src="/assets/icons/clock.webp" alt="Time" />
-            <span>છેલ્લું અપડેટ : {formatDate(newsItem.created_at)}</span>
+            <span>{t("LAST_UPDATE")} : {formatDate(newsItem.created_at)}</span>
           </div>
 
           <div className={styles.newsActions}>
@@ -1599,7 +1660,7 @@ const onScroll = () => {
               <button
                 onClick={() => handleBookmark(newsItem)}
                 className="bookmark-btn bookmark-btn-news"
-                title="બુકમાર્ક કરો"
+                title={t("BOOKMARK")}
                 style={{ border: 0, backgroundColor: 'transparent', padding: 0 }}
               >
                 <img
@@ -1658,7 +1719,7 @@ const onScroll = () => {
         ) : null}
 
         {newsItem.img_credit_txt && (
-          <div className="news_credit_txt"><strong>સોર્સ :</strong> {newsItem.img_credit_txt}</div>
+          <div className="news_credit_txt"><strong>{t("SOURCE")} :</strong> {newsItem.img_credit_txt}</div>
         )}
 
         {/* Audio Player */}
@@ -1745,7 +1806,7 @@ const onScroll = () => {
         {/* Tags */}
         {newsItem.tags && (
           <div className="tagsOuterblock">
-            <strong>ટોપિક્સ:</strong>
+            <strong>{t("TOPICS")}:</strong>
             {newsItem.tags.split(',').map((tag, tIdx) => (
               <span key={tIdx} className="tagscls">
                 <Link href={`/tags/${tag.trim().toLowerCase().replace(/\s+/g, '-')}`}>
@@ -1774,7 +1835,7 @@ const onScroll = () => {
         {/* Next Story */}
         {index !== newsItems.length - 1 && (
           <div id={`next-story-${newsItems[index].id}`} className="next-story">
-            <span style={{ marginRight: 8 }}>નેક્સ્ટ સ્ટોરી</span>
+            <span style={{ marginRight: 8 }}>{t("NEXT_STORY")}</span>
             <img
               src="/assets/images/next-arrow.gif"
               width="16"
@@ -1796,14 +1857,14 @@ const onScroll = () => {
       {loadingMore && (
         <div style={{ textAlign: 'center', padding: 20 }}>
           <div style={{ display: 'inline-block', width: 20, height: 20, border: '2px solid #f3f3f3', borderTop: '2px solid #8B0000', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
-          <p style={{ marginTop: 10, color: '#666' }}>વધુ સમાચાર લોડ કરી રહ્યા છીએ...</p>
+          <p style={{ marginTop: 10, color: '#666' }}>{t("LOADING_MORE_NEWS")}</p>
         </div>
       )}
 
       {/* End message */}
       {!hasMoreData && newsItems.length > 1 && (
         <div style={{ textAlign: 'center', padding: 20, borderTop: '1px solid #eee', marginTop: 20 }}>
-          બધા સમાચાર લોડ થઈ ગયા છે
+          {t("ALL_NEWS_LOADED")}
         </div>
       )}
     </div>

@@ -394,6 +394,17 @@
   "BOOKMARK_REMOVED_SUCCESS": "Bookmark removed successfully!",
   "BOOKMARK_REMOVED_FAILED": "Failed to remove bookmark",
   
+  "NO_CAMPUS_ENTRIES_FOUND": "No Campus Corner entries found.",
+  "DATE_LABEL": "Date:",
+  "SCHOOL_LABEL": "School:",
+  "REASON_LABEL": "Reason:",
+  "RETRY_BUTTON": "Retry",
+  "LOAD_MORE_BUTTON": "Load More",
+  "EDIT_BUTTON": "Edit",
+  "STATUS_ACTIVE": "Active",
+  "STATUS_INACTIVE": "Inactive",
+  "STATUS_REJECTED": "Rejected",
+  
   "JOURNALIST_TITLE": "Journalist",
   "EDIT_JOURNALIST": "Edit",
   "ADD_JOURNALIST": "Add",

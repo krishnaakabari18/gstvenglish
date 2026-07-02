@@ -394,6 +394,17 @@
   "BOOKMARK_REMOVED_SUCCESS": "બુકમાર્ક સફળતાપૂર્વક દૂર કર્યું!",
   "BOOKMARK_REMOVED_FAILED": "બુકમાર્ક દૂર કરવામાં નિષ્ફળ",
   
+  "NO_CAMPUS_ENTRIES_FOUND": "કેમ્પસ કોર્નરની કોઈ એન્ટ્રી મળી નથી.",
+  "DATE_LABEL": "તારીખ:",
+  "SCHOOL_LABEL": "શાળા:",
+  "REASON_LABEL": "કારણ:",
+  "RETRY_BUTTON": "ફરી પ્રયાસ કરો",
+  "LOAD_MORE_BUTTON": "વધુ લોડ કરો",
+  "EDIT_BUTTON": "એડિટ",
+  "STATUS_ACTIVE": "સક્રિય",
+  "STATUS_INACTIVE": "નિષ્ક્રિય",
+  "STATUS_REJECTED": "અસ્વીકૃત",
+  
   "JOURNALIST_TITLE": "પત્રકાર",
   "EDIT_JOURNALIST": "એડિટ કરો",
   "ADD_JOURNALIST": "એડ કરો",

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { API_ENDPOINTS } from '@/constants/api';
 import ProFooter from '@/components/ProFooter';
 import { redirectToLogin } from '@/utils/authUtils';
@@ -57,6 +58,7 @@ interface ApiResponse {
 
 const CampusCornerPage: React.FC = () => {
   const router = useRouter();
+  const { t } = useLanguage();
   const { isLoggedIn, getUserId } = useAuth();
   const [entries, setEntries] = useState<CampusCornerEntry[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -209,9 +211,9 @@ const CampusCornerPage: React.FC = () => {
         <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2>કેમ્પસ કોર્નર</h2>
+              <h2>{t('CAMPUS_CORNER')}</h2>
               <Link href="/addcampuscorner" className="btn btnAddpNews">
-                એડ કરો <span>+</span>
+                {t('ADD')} <span>+</span>
               </Link>
             </div>
 
@@ -220,7 +222,7 @@ const CampusCornerPage: React.FC = () => {
                 <div className="bookmarklisting">
                   {loading && entries.length === 0 ? (
                     <div className="text-center">
-                      <p style={{ color: 'red' }}>લોડ થઈ રહ્યું છે...</p>
+                      <p style={{ color: 'red' }}>{t('LOADING')}</p>
                     </div>
                   ) : error ? (
                     <div className="text-center">
@@ -229,7 +231,7 @@ const CampusCornerPage: React.FC = () => {
                         onClick={() => fetchCampusCornerEntries(1, false)} 
                         className="btn btn-primary"
                       >
-                        Retry
+                        {t('RETRY_BUTTON')}
                       </button>
                     </div>
                   ) : entries.length === 0 ? (
@@ -237,7 +239,7 @@ const CampusCornerPage: React.FC = () => {
                       <div style={{ marginBottom: '20px' }}>
                         <i className="fas fa-newspaper" style={{ fontSize: '48px', color: '#ccc' }}></i>
                       </div>
-                      <h4 style={{ color: '#666', marginBottom: '10px' }}>કેમ્પસ કોર્નરની કોઈ એન્ટ્રી મળી નથી.</h4>
+                      <h4 style={{ color: '#666', marginBottom: '10px' }}>{t('NO_CAMPUS_ENTRIES_FOUND')}</h4>
                       {/* <p style={{ color: '#999', marginBottom: '20px' }}>
                         Be the first to share your campus story!
                       </p> */}
@@ -256,10 +258,10 @@ const CampusCornerPage: React.FC = () => {
                         
                        const finalStatus =
                               news.status === "Active"
-                                  ? "Active"
+                                  ? t('STATUS_ACTIVE')
                                   : news.status === "Drop"
-                                      ? "Rejected"
-                                      : "Inactive";
+                                      ? t('STATUS_REJECTED')
+                                      : t('STATUS_INACTIVE');
                         
                         let img = '/assets/images/news-default.png';
                         if (firstImage) {
@@ -291,19 +293,19 @@ const CampusCornerPage: React.FC = () => {
                               )}
                               
                               <div className="catDate pnewsDate">
-                                <div className="date">તારીખ: <span>{formatDate(news.created_at)}</span></div>
-                                <div className="school">શાળા: <span>{news.school}</span></div>
+                                <div className="date">{t('DATE_LABEL')} <span>{formatDate(news.created_at)}</span></div>
+                                <div className="school">{t('SCHOOL_LABEL')} <span>{news.school}</span></div>
                               </div>
                               {news.drop_reason && (
                                 <div className="catDate pnewsDate">
-                                  કારણ: <span>{news.drop_reason}</span>
+                                  {t('REASON_LABEL')} <span>{news.drop_reason}</span>
                                 </div>
                               )}
                               <div className="nseditLine">
                                 <div className={`pnewsStatus ${finalStatus}`}>{finalStatus}</div>
                                 {news.status === "Inactive" && (
                                   <Link href={`/addcampuscorner?id=${news.id}`} className="pEditNews" data-id={news.id}>
-                                    <i className="fas fa-edit"></i> એડિટ
+                                    <i className="fas fa-edit"></i> {t('EDIT_BUTTON')}
                                   </Link>
                                 )}
                               </div>
@@ -315,7 +317,7 @@ const CampusCornerPage: React.FC = () => {
                   )}
                   
                   <div className="loading" style={{ display: loadingMore ? 'block' : 'none' }}>
-                    <img src="/assets/images/loading.gif" alt="લોડ થઈ રહ્યું છે..." />
+                    <img src="/assets/images/loading.gif" alt={t('LOADING')} />
                   </div>
 
                   {/* Show load more button if there are more pages */}
@@ -327,7 +329,7 @@ const CampusCornerPage: React.FC = () => {
                         onClick={loadMoreNews}
                         disabled={loadingMore}
                       >
-                        વધુ લોડ કરો
+                        {t('LOAD_MORE_BUTTON')}
                       </button>
                     </div>
                   )}

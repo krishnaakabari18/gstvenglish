@@ -392,5 +392,26 @@
   "BOOKMARK_DELETE": "ડિલીટ",
   "BOOKMARK_LOAD_MORE": "વધુ લોડ કરો",
   "BOOKMARK_REMOVED_SUCCESS": "બુકમાર્ક સફળતાપૂર્વક દૂર કર્યું!",
-  "BOOKMARK_REMOVED_FAILED": "બુકમાર્ક દૂર કરવામાં નિષ્ફળ"
+  "BOOKMARK_REMOVED_FAILED": "બુકમાર્ક દૂર કરવામાં નિષ્ફળ",
+  
+  "JOURNALIST_TITLE": "પત્રકાર",
+  "EDIT_JOURNALIST": "એડિટ કરો",
+  "ADD_JOURNALIST": "એડ કરો",
+  "EDIT_ID": "ID સંપાદન",
+  "JOURNALIST_NAME": "નામ",
+  "IMAGES_UPLOAD": "તસવીરો (ઓછામાં ઓછી ૧, મહત્તમ ૫ છબી અપલોડ)",
+  "VIDEO_UPLOAD": "વીડિયો (વૈકલ્પિક, ફક્ત mp4/mov, ≤ 100MB)",
+  "UPLOAD_IN_PROGRESS": "અપલોડ થઈ રહ્યું છે...",
+  "UPLOAD_BUTTON": "અપલોડ",
+  "JOURNALIST_ADDED_SUCCESS": "જર્નાલિસ્ટ સફળતાપૂર્વક ઉમેરાયો!",
+  "JOURNALIST_UPDATED_SUCCESS": "જર્નાલિસ્ટ સફળતાપૂર્વક અપડેટ થયો!",
+  "LOGIN_REQUIRED_JOURNALIST": "જર્નાલિસ્ટ એન્ટ્રી સબમિટ કરવા માટે તમારે લૉગ ઇન થયેલ હોવું આવશ્યક છે. કૃપા કરીને લૉગ ઇન કરો અને ફરી પ્રયાસ કરો.",
+  "INVALID_NAME": "તમારું નામ દાખલ કરો.",
+  "INVALID_CITY": "કૃપા કરીને તમારું શહેર દાખલ કરો.",
+  "INVALID_TITLE": "કૃપા કરીને ટાઇટલ દાખલ કરો.",
+  "INVALID_TITLE_WORDS": "ટાઇટલ ૧-૧૪ શબ્દોની વચ્ચે હોવું જોઈએ.",
+  "INVALID_DESCRIPTION": "વર્ણન જરૂરી છે.",
+  "INVALID_MEDIA": "કૃપા કરીને ઓછામાં ઓછી 1 છબી અથવા 1 વિડીયો અપલોડ કરો.",
+  "AGREE_STATUS": "સંમતિ",
+  "AGREE_TERMS": "સબમિટ કરતા પહેલા તમારે સંમત થવું આવશ્યક છે."
 }

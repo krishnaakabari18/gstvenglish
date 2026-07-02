@@ -392,5 +392,26 @@
   "BOOKMARK_DELETE": "Delete",
   "BOOKMARK_LOAD_MORE": "Load More",
   "BOOKMARK_REMOVED_SUCCESS": "Bookmark removed successfully!",
-  "BOOKMARK_REMOVED_FAILED": "Failed to remove bookmark"
+  "BOOKMARK_REMOVED_FAILED": "Failed to remove bookmark",
+  
+  "JOURNALIST_TITLE": "Journalist",
+  "EDIT_JOURNALIST": "Edit",
+  "ADD_JOURNALIST": "Add",
+  "EDIT_ID": "Edit ID",
+  "JOURNALIST_NAME": "Name",
+  "IMAGES_UPLOAD": "Images (minimum 1, maximum 5 images upload)",
+  "VIDEO_UPLOAD": "Video (optional, only mp4/mov, ≤ 100MB)",
+  "UPLOAD_IN_PROGRESS": "Uploading...",
+  "UPLOAD_BUTTON": "Upload",
+  "JOURNALIST_ADDED_SUCCESS": "Journalist added successfully!",
+  "JOURNALIST_UPDATED_SUCCESS": "Journalist updated successfully!",
+  "LOGIN_REQUIRED_JOURNALIST": "You must be logged in to submit a Journalist entry. Please log in and try again.",
+  "INVALID_NAME": "Please enter your name.",
+  "INVALID_CITY": "Please enter your city.",
+  "INVALID_TITLE": "Please enter a title.",
+  "INVALID_TITLE_WORDS": "Title must be between 1-14 words.",
+  "INVALID_DESCRIPTION": "Description is required.",
+  "INVALID_MEDIA": "Please upload at least 1 image or 1 video.",
+  "AGREE_STATUS": "Agreement",
+  "AGREE_TERMS": "You must agree before submitting."
 }

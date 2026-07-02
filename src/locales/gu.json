@@ -330,5 +330,18 @@
   "BOOKMARK":"બુકમાર્ક કરો",
   "LOADING_MORE_NEWS":"વધુ સમાચાર લોડ કરી રહ્યા છીએ...",
   "ALL_NEWS_LOADED":"બધા સમાચાર લોડ થઈ ગયા છે",
-  "READ_ALSO":"આ પણ વાંચો"
+  "READ_ALSO":"આ પણ વાંચો",
+  
+  "USERPOINT_LOADING": "લોડ થઈ રહ્યું છે...",
+  "USERPOINT_LOADING_DATA": "યુઝર પોઇન્ટ લોડ થઈ રહ્યા છે...",
+  "USERPOINT_START_DATE": "ફર્સ્ટ તારીખ:",
+  "USERPOINT_END_DATE": "છેલ્લી તારીખ:",
+  "USERPOINT_SEARCH": "સર્ચ",
+  "USERPOINT_TOTAL_TIME": "ટોટલ ટાઇમ:",
+  "USERPOINT_FROM": "થી",
+  "USERPOINT_TO": "સુધી",
+  "USERPOINT_NO_DATA": "ચાલુ અઠવાડિયાનો ડેટા મળ્યો નથી.",
+  "USERPOINT_TOTAL_DURATION": "ટોટલ અવધિ",
+  "USERPOINT_LOADING_SUBMIT": "લોડ કરી રહ્યું છે...",
+  "USERPOINT_CHART_LABEL": "ટોટલ અવધિ"
 }

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { API_V5_BASE_URL } from '@/constants/api';
 import ProFooter from '@/components/ProFooter';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ChartData {
   [key: string]: number;
@@ -18,6 +19,7 @@ interface UserPointsResponse {
 
 export default function UserPointPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(true);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [error, setError] = useState('');
@@ -171,7 +173,7 @@ export default function UserPointPage() {
       data: {
         labels: Object.keys(chartData),
         datasets: [{
-          label: 'ટોટલ અવધિ',
+          label: t('USERPOINT_CHART_LABEL'),
           data: Object.values(chartData),
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
@@ -230,9 +232,9 @@ export default function UserPointPage() {
       <div className="profilePage">
         <div className="text-center" style={{ padding: '50px' }}>
           <div className="spinner-border" role="status">
-            <span className="visually-hidden">લોડ થઈ રહ્યું છેલોડ થઈ રહ્યું છે...</span>
+            <span className="visually-hidden">{t('USERPOINT_LOADING')}</span>
           </div>
-          <p style={{ marginTop: '20px' }}>યુઝર પોઇન્ટ લોડ થઈ રહ્યા છે...</p>
+          <p style={{ marginTop: '20px' }}>{t('USERPOINT_LOADING_DATA')}</p>
         </div>
       </div>
     );
@@ -252,7 +254,7 @@ export default function UserPointPage() {
 
         {/* Date Range Picker */}
         <form onSubmit={handleSubmit} className="date-range-form">
-          <label htmlFor="start_date">ફર્સ્ટ તારીખ:</label>
+          <label htmlFor="start_date">{t('USERPOINT_START_DATE')}</label>
           <input
             type="date"
             id="start_date"
@@ -262,7 +264,7 @@ export default function UserPointPage() {
             required
           />
 
-          <label htmlFor="end_date">છેલ્લી તારીખ:</label>
+          <label htmlFor="end_date">{t('USERPOINT_END_DATE')}</label>
           <input
             type="date"
             id="end_date"
@@ -273,19 +275,19 @@ export default function UserPointPage() {
           />
 
           <button type="submit" disabled={submitLoading}>
-            {submitLoading ? 'લોડ કરી રહ્યું છે...' : 'સર્ચ'}
+            {submitLoading ? t('USERPOINT_LOADING_SUBMIT') : t('USERPOINT_SEARCH')}
           </button>
         </form>
 
         <div className="text-center">
           <p>
-            <b>ટોટલ ટાઇમ:</b> {totalDurationFormatted} <br />
-            ({formatDate(startDate)} થી {formatDate(endDate)} સુધી)
+            <b>{t('USERPOINT_TOTAL_TIME')}</b> {totalDurationFormatted} <br />
+            ({formatDate(startDate)} {t('USERPOINT_FROM')} {formatDate(endDate)} {t('USERPOINT_TO')})
           </p>
         </div>
 
         <div id="noDataMessage" className="text-center" style={{ display: Object.keys(chartData).length === 0 ? 'block' : 'none', color: 'red' }}>
-          <p>ચાલુ અઠવાડિયાનો ડેટા મળ્યો નથી.</p>
+          <p>{t('USERPOINT_NO_DATA')}</p>
         </div>
 
         {/* Chart Container */}

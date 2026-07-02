@@ -330,5 +330,18 @@
   "BOOKMARK":"Bookmark",
   "LOADING_MORE_NEWS":"Loading more news...",
   "ALL_NEWS_LOADED":"All news loaded",
-  "READ_ALSO":"Read also"
+  "READ_ALSO":"Read also",
+  
+  "USERPOINT_LOADING": "Loading...",
+  "USERPOINT_LOADING_DATA": "User points loading...",
+  "USERPOINT_START_DATE": "Start Date:",
+  "USERPOINT_END_DATE": "End Date:",
+  "USERPOINT_SEARCH": "Search",
+  "USERPOINT_TOTAL_TIME": "Total Time:",
+  "USERPOINT_FROM": "from",
+  "USERPOINT_TO": "to",
+  "USERPOINT_NO_DATA": "No data found for current week.",
+  "USERPOINT_TOTAL_DURATION": "Total Duration",
+  "USERPOINT_LOADING_SUBMIT": "Loading...",
+  "USERPOINT_CHART_LABEL": "Total Duration"
 }

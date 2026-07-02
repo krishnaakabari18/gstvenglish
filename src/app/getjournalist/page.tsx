@@ -4,8 +4,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { API_ENDPOINTS } from '@/constants/api';
-import ProFooter from '@/components/ProFooter';
 import { redirectToLogin } from '@/utils/authUtils';
 
 // TypeScript interfaces for the API response
@@ -56,6 +56,7 @@ interface ApiResponse {
 const GetJournalistPage: React.FC = () => {
   const router = useRouter();
   const { isLoggedIn, getUserId } = useAuth();
+  const { t } = useLanguage();
   const [entries, setEntries] = useState<JournalistEntry[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
@@ -173,9 +174,9 @@ const GetJournalistPage: React.FC = () => {
           <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2>જર્નાલિસ્ટ લિસ્ટ</h2>
+              <h2>{t('JOURNALIST_LIST')}</h2>
               <Link href="/addjournalist" className="btn btnAddpNews">
-                એડ કરો <span>+</span>
+                {t('ADD')} <span>+</span>
               </Link>
             </div>
 
@@ -184,7 +185,7 @@ const GetJournalistPage: React.FC = () => {
                 <div className="bookmarklisting">
                   {loading && entries.length === 0 ? (
                     <div className="text-center">
-                      <p style={{ color: 'red' }}>લોડ થઈ રહ્યું છે...</p>
+                      <p style={{ color: 'red' }}>{t('LOADING')}</p>
                     </div>
                   ) : error ? (
                     <div className="text-center">
@@ -193,12 +194,12 @@ const GetJournalistPage: React.FC = () => {
                         onClick={() => fetchJournalistEntries(1, false)} 
                         className="btn btn-primary"
                       >
-                        Retry
+                        {t('RETRY')}
                       </button>
                     </div>
                   ) : entries.length === 0 ? (
                     <div className="text-center">
-                      <p style={{ color: 'red' }}>કોઈ જર્નાલિસ્ટ ઉપલબ્ધ નથી.</p>
+                      <p style={{ color: 'red' }}>{t('NO_JOURNALISTS')}</p>
                     </div>
                   ) : (
                     <ul id="bookmark-list">
@@ -246,18 +247,18 @@ const GetJournalistPage: React.FC = () => {
                               )}
                               
                               <div className="catDate pnewsDate">
-                                <div className="date">તારીખ: <span>{formatDate(news.created_at)}</span></div>
+                                <div className="date">{t('DATE')}: <span>{formatDate(news.created_at)}</span></div>
                               </div>
                               {news.drop_reason && (
                                 <div className="catDate pnewsDate">
-                                  કારણ: <span>{news.drop_reason}</span>
+                                  {t('JOURNALIST_REASON')}: <span>{news.drop_reason}</span>
                                 </div>
                               )}
                               <div className="nseditLine">
                                 <div className={`pnewsStatus ${finalStatus}`}>{finalStatus}</div>
                                 {news.status === "Inactive" && (
                                   <Link href={`/addjournalist?id=${news.id}`} className="pEditNews" data-id={news.id}>
-                                    <i className="fas fa-edit"></i> એડિટ
+                                    <i className="fas fa-edit"></i> {t('EDIT')}
                                   </Link>
                                 )}
                               </div>
@@ -280,7 +281,7 @@ const GetJournalistPage: React.FC = () => {
                         onClick={loadMoreNews}
                         disabled={loadingMore}
                       >
-                        વધુ લોડ કરો
+                        {t('LOAD_MORE')}
                       </button>
                     </div>
                   )}

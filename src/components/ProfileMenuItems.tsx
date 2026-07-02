@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import {API_ENDPOINTS, BASE_URLS} from "@/constants/api";
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface MenuItem {
   id: number;
@@ -27,6 +28,7 @@ interface ProfileMenuItemsProps {
 
 
 const ProfileMenuItems = ({ onMenuClick }: ProfileMenuItemsProps) => {
+  const { t,lang } = useLanguage();
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -258,9 +260,12 @@ const ProfileMenuItems = ({ onMenuClick }: ProfileMenuItemsProps) => {
           )}
         </i>
         <span className='userNavLable'>
-          {item.menu_guj}
+          {lang === "gu" ? item.menu_guj : item.menu}
           {item.menuactionweb === "userpoint" && (
-            <>&nbsp;&nbsp;<b className="upText">{remainingPoints}</b></>
+            <>
+              &nbsp;&nbsp;
+              <b className="upText">{remainingPoints}</b>
+            </>
           )}
         </span>
       </Link>

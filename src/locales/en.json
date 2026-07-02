@@ -378,5 +378,18 @@
   "PROFILE_DELETE_SUCCESS": "એકાઉન્ટ સફળતાપૂર્વક ડિલીટ થઈ ગયું! હોમપેજ પર રીડાયરેક્ટ કરવામાં આવી રહ્યું છે...",
   "PROFILE_AM": "AM",
   "PROFILE_PM": "PM",
-  "PROFILE_DATE_FORMAT": "DD-MM-YYYY"
+  "PROFILE_DATE_FORMAT": "DD-MM-YYYY",
+  
+  "BOOKMARK_LIST_TITLE": "Bookmark List",
+  "BOOKMARK_LOADING": "Loading...",
+  "BOOKMARK_EMPTY": "No bookmarks available.",
+  "BOOKMARK_ERROR": "Failed to fetch bookmarks",
+  "BOOKMARK_CATEGORY": "Category",
+  "BOOKMARK_DATE": "Date",
+  "BOOKMARK_VIDEO": "Video",
+  "BOOKMARK_NEWS": "News",
+  "BOOKMARK_DELETE": "Delete",
+  "BOOKMARK_LOAD_MORE": "Load More",
+  "BOOKMARK_REMOVED_SUCCESS": "Bookmark removed successfully!",
+  "BOOKMARK_REMOVED_FAILED": "Failed to remove bookmark"
 }

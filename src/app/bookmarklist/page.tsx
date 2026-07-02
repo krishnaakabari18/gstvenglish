@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import ProFooter from '@/components/ProFooter';
 import { API_ENDPOINTS } from '@/constants/api';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface BookmarkItem {
   news_id: number;
@@ -50,6 +50,7 @@ const getUserId = () => {
 
 export default function BookmarkListPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [bookmarks, setBookmarks] = useState<BookmarkItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -178,13 +179,13 @@ export default function BookmarkListPage() {
     window.dispatchEvent(new Event("storage"));
 
     // STEP 4: Show message
-    setFlashMessage('Bookmark removed successfully!');
+    setFlashMessage(t('BOOKMARK_REMOVED_SUCCESS'));
     setFlashType('success');
     setTimeout(() => setFlashMessage(''), 4000);
 
   } catch (error) {
     console.error("❌ Remove bookmark error:", error);
-    setFlashMessage('Failed to remove bookmark');
+    setFlashMessage(t('BOOKMARK_REMOVED_FAILED'));
     setFlashType('error');
     setTimeout(() => setFlashMessage(''), 4000);
   }
@@ -197,8 +198,8 @@ export default function BookmarkListPage() {
   if (loading) {
     return (
       <div className="bookmark_list">
-        <h3>બુકમાર્ક લિસ્ટ</h3>
-        <div className="text-center">લોડ થઈ રહ્યું છે...</div>
+        <h3>{t('BOOKMARK_LIST_TITLE')}</h3>
+        <div className="text-center">{t('BOOKMARK_LOADING')}</div>
       </div>
     );
   }
@@ -209,7 +210,7 @@ export default function BookmarkListPage() {
   return (
     <>
       <div className="bookmark_list">
-        <h3>બુકમાર્ક લિસ્ટ</h3>
+        <h3>{t('BOOKMARK_LIST_TITLE')}</h3>
 
         {flashMessage && (
           <div className={`flash-message ${flashType === 'error' ? 'error' : ''}`}>
@@ -218,10 +219,10 @@ export default function BookmarkListPage() {
         )}
 
         <div className="bookmarklisting">
-          {error && <p className="text-center" style={{ color: 'red' }}>{error}</p>}
+          {error && <p className="text-center" style={{ color: 'red' }}>{error || t('BOOKMARK_ERROR')}</p>}
 
           {!error && bookmarks.length === 0 && (
-            <p className="text-center" style={{ color: 'red' }}>કોઈ બુકમાર્ક્સ ઉપલબ્ધ નથી.</p>
+            <p className="text-center" style={{ color: 'red' }}>{t('BOOKMARK_EMPTY')}</p>
           )}
 
           {bookmarks.length > 0 && (
@@ -248,9 +249,9 @@ export default function BookmarkListPage() {
                       <div className="catDate">
                         {/* <span>કેટેગરી: {bookmark.bookmark_type || bookmark.catTitle}</span> */}
                         <span>
-                          કેટેગરી: {bookmark.bookmark_type === 'video' ? 'વિડીયો' : 'સમાચાર'}
+                          {t('BOOKMARK_CATEGORY')}: {bookmark.bookmark_type === 'video' ? t('BOOKMARK_VIDEO') : t('BOOKMARK_NEWS')}
                         </span>
-                        તારીખ:{' '}
+                        {t('BOOKMARK_DATE')}:{' '}
                         {new Date(bookmark.created_at || '').toLocaleDateString('en-GB', {
                           day: '2-digit',
                           month: 'short',
@@ -261,7 +262,7 @@ export default function BookmarkListPage() {
                           className="remove-bookmark"
                           onClick={() => removeBookmark(bookmark.news_id)}
                         >
-                          ડિલીટ
+                          {t('BOOKMARK_DELETE')}
                         </button>
                       </div>
                     </li>
@@ -269,12 +270,12 @@ export default function BookmarkListPage() {
                 })}
               </ul>
 
-              {loadingMore && <div className="text-center">લોડ થઈ રહ્યું છે...</div>}
+              {loadingMore && <div className="text-center">{t('BOOKMARK_LOADING')}</div>}
 
               {!loadingMore && hasMorePages && (
                 <div className="text-center mt-3">
                   <button className="btnloadmorecls" onClick={loadMoreBookmarks}>
-                    વધુ લોડ કરો
+                    {t('BOOKMARK_LOAD_MORE')}
                   </button>
                 </div>
               )}

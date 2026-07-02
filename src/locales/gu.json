@@ -378,5 +378,18 @@
   "PROFILE_DELETE_SUCCESS": "Account deleted successfully! Redirecting to homepage...",
   "PROFILE_AM": "AM",
   "PROFILE_PM": "PM",
-  "PROFILE_DATE_FORMAT": "DD-MM-YYYY"
+  "PROFILE_DATE_FORMAT": "DD-MM-YYYY",
+  
+  "BOOKMARK_LIST_TITLE": "બુકમાર્ક લિસ્ટ",
+  "BOOKMARK_LOADING": "લોડ થઈ રહ્યું છે...",
+  "BOOKMARK_EMPTY": "કોઈ બુકમાર્ક્સ ઉપલબ્ધ નથી.",
+  "BOOKMARK_ERROR": "બુકમાર્ક મેળવવામાં નિષ્ફળ",
+  "BOOKMARK_CATEGORY": "કેટેગરી",
+  "BOOKMARK_DATE": "તારીખ",
+  "BOOKMARK_VIDEO": "વિડીયો",
+  "BOOKMARK_NEWS": "સમાચાર",
+  "BOOKMARK_DELETE": "ડિલીટ",
+  "BOOKMARK_LOAD_MORE": "વધુ લોડ કરો",
+  "BOOKMARK_REMOVED_SUCCESS": "બુકમાર્ક સફળતાપૂર્વક દૂર કર્યું!",
+  "BOOKMARK_REMOVED_FAILED": "બુકમાર્ક દૂર કરવામાં નિષ્ફળ"
 }

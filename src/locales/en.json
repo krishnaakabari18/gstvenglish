@@ -319,5 +319,12 @@
   "PODCAST_LOADING":"Loading Podcast...",
   "SEARCH_PLACEHOLDER":"Search news, videos and more...",
   "TOTAL_RESULTS":"Results Found",
-  "TRY_DIFFERENT_KEYWORDS":"Please try again with different keywords."
+  "TRY_DIFFERENT_KEYWORDS":"Please try again with different keywords.",
+  "PODCAST_NOT_FOUND": "Podcast not found",
+  "PODCAST_DETAILS_LOADING": "Loading podcast details...",
+  "RETRY_API_CALL": "Retry API Call",
+  "NO_PODCAST_FOUND": "No podcast found",
+  "READ_LESS": "Read Less",
+  "TITLE": "Title",
+  "SAVE":"Save"
 }

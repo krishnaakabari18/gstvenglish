@@ -195,7 +195,7 @@ export default function SearchPage() {
           
  <div className="search-suggestion">
               <ul>
-                {getSearchSuggestions().slice(0, 10).map((suggestion, index) => (
+                {getSearchSuggestions(lang).slice(0, 10).map((suggestion, index) => (
                   <li key={index}>
                     <Link href={buildSearchUrl(suggestion.term)}>
                       {suggestion.label}

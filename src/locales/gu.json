@@ -75,7 +75,7 @@
   "BIRTH_DATE": "જન્મ તારીખ",
   "BIRTH_TIME": "જન્મ સમય",
   "BIRTH_PLACE": "જન્મ સ્થાન",
-  "READING_TIME": "મિનિટ વાંચન",
+  "READING_TIME": "મિનિટ વાંચન સમય",
   "LIVE": "લાઇવ",
   "NEXT_STORY": "આગળની સ્ટોરી",
   "DOWNLOAD_APP": "GSTVની એપ્લિકેશન ડાઉનલોડ કરો",
@@ -319,5 +319,12 @@
   "PODCAST_LOADING":"પોડકાસ્ટ લોડ કરી રહ્યું છે...",
   "SEARCH_PLACEHOLDER":"સમાચાર, વિડિયો અને વધુ શોધો...",
   "TOTAL_RESULTS":"પરિણામો મળ્યા",
-  "TRY_DIFFERENT_KEYWORDS":"કૃપા કરીને અલગ કીવર્ડ્સ સાથે ફરીથી પ્રયાસ કરો"
+  "TRY_DIFFERENT_KEYWORDS":"કૃપા કરીને અલગ કીવર્ડ્સ સાથે ફરીથી પ્રયાસ કરો",
+  "PODCAST_NOT_FOUND": "પોડકાસ્ટ મળ્યું નથી",
+  "PODCAST_DETAILS_LOADING": "પોડકાસ્ટ વિગતો લોડ કરી રહ્યું છે...",
+  "RETRY_API_CALL": "ફરી પ્રયાસ કરો",
+  "NO_PODCAST_FOUND": "કોઈ પોડકાસ્ટ મળ્યું નથી",
+  "READ_LESS": "ઓછું વાંચો",
+  "TITLE": "ટાઈટલ",
+  "SAVE":"સેવ"
 }

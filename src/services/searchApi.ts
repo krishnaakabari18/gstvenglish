@@ -87,18 +87,58 @@ export async function performSearch(searchParams: SearchRequest): Promise<Search
  * Get search suggestions based on popular terms
  * @returns Array of search suggestion objects
  */
-export function getSearchSuggestions() {
+export function getSearchSuggestions(lang: string = 'gu') {
   return [
-    { term: 'ગુજરાત', label: 'ગુજરાત', category: 'location' },
-    { term: 'રાજકોટ', label: 'રાજકોટ', category: 'location' },
-    { term: 'અમદાવાદ', label: 'અમદાવાદ', category: 'location' },
-    { term: 'સુરત', label: 'સુરત', category: 'location' },
-    { term: 'વડોદરા', label: 'વડોદરા', category: 'location' },
-    { term: 'રાજકારણ', label: 'રાજકારણ', category: 'topic' },
-    { term: 'વ્યવસાય', label: 'વ્યવસાય', category: 'topic' },
-    { term: 'રમતગમત', label: 'રમતગમત', category: 'topic' },
-    { term: 'મનોરંજન', label: 'મનોરંજન', category: 'topic' },
-    { term: 'આરોગ્ય', label: 'આરોગ્ય', category: 'topic' }
+    {
+      term: 'ગુજરાત',
+      label: lang === 'gu' ? 'ગુજરાત' : 'Gujarat',
+      category: 'location',
+    },
+    {
+      term: 'રાજકોટ',
+      label: lang === 'gu' ? 'રાજકોટ' : 'Rajkot',
+      category: 'location',
+    },
+    {
+      term: 'અમદાવાદ',
+      label: lang === 'gu' ? 'અમદાવાદ' : 'Ahmedabad',
+      category: 'location',
+    },
+    {
+      term: 'સુરત',
+      label: lang === 'gu' ? 'સુરત' : 'Surat',
+      category: 'location',
+    },
+    {
+      term: 'વડોદરા',
+      label: lang === 'gu' ? 'વડોદરા' : 'Vadodara',
+      category: 'location',
+    },
+    {
+      term: 'રાજકારણ',
+      label: lang === 'gu' ? 'રાજકારણ' : 'Politics',
+      category: 'topic',
+    },
+    {
+      term: 'વ્યવસાય',
+      label: lang === 'gu' ? 'વ્યવસાય' : 'Business',
+      category: 'topic',
+    },
+    {
+      term: 'રમતગમત',
+      label: lang === 'gu' ? 'રમતગમત' : 'Sports',
+      category: 'topic',
+    },
+    {
+      term: 'મનોરંજન',
+      label: lang === 'gu' ? 'મનોરંજન' : 'Entertainment',
+      category: 'topic',
+    },
+    {
+      term: 'આરોગ્ય',
+      label: lang === 'gu' ? 'આરોગ્ય' : 'Health',
+      category: 'topic',
+    },
   ];
 }
 

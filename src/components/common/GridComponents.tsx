@@ -4,6 +4,7 @@
 
 import React, { useState, useEffect, memo, useMemo, useCallback } from 'react';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 import {
   getNewsImage,
   getVideoThumbnail,
@@ -72,7 +73,6 @@ export const NewsCard = memo((props: any) => {
 
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-
   const checkBookmarkStatus = useCallback(() => {
     if (typeof window === 'undefined') return false;
     try {
@@ -127,12 +127,12 @@ export const NewsCard = memo((props: any) => {
 
         <div className="news-meta">
           <span className="news-date">
-            છેલ્લું અપડેટ: {isMounted ? formatDate(news.created_at, true) : ''}
+            {t('LAST_UPDATE')}: {isMounted ? formatDate(news.created_at, true) : ''}
           </span>
 
           {showReadingTime && (
             <span className="reading-time">
-              {calculateReadingTime(news.description, true)} મિનિટ વાંચન સમય
+              {calculateReadingTime(news.description, true)} {t('READING_TIME')}
             </span>
           )}
         </div>
@@ -162,7 +162,7 @@ export const NewsCard = memo((props: any) => {
                 }
               >
                 <i className="fas fa-share-alt" />
-                <span>શેર</span>
+                <span>{t('SHARE')}</span>
               </button>
             )}
 
@@ -176,7 +176,7 @@ export const NewsCard = memo((props: any) => {
                   }
                   alt="Bookmark"
                 />
-                <span>સેવ</span>
+                <span>{t('SAVE')}</span>
               </button>
             )}
           </div>
@@ -190,7 +190,7 @@ NewsCard.displayName = 'NewsCard';
 /* ===================== BlogGridItem ===================== */
 export const BlogGridItem = memo((props: any) => {
   const { news, className = '', currentCategory = '', currentSubcategory = '' } = props;
-
+  const { t } = useLanguage();
   const newsUrl = useMemo(
     () => getNewsDetailUrl(news, currentCategory, currentSubcategory),
     [news, currentCategory, currentSubcategory]
@@ -344,7 +344,7 @@ export const BlogGridItem = memo((props: any) => {
         <span className="last-update-blog for-lg">
           {!hideLastUpdate
             ? isMounted
-              ? `છેલ્લું અપડેટ : ${formatDate(news.created_at)}`
+              ? `${t('LAST_UPDATE')} : ${formatDate(news.created_at)}`
               : '\u00A0'
             : '\u00A0'}
         </span>
@@ -358,7 +358,7 @@ export const BlogGridItem = memo((props: any) => {
               <div className="reading-icon">
                 <img src="/images/clock.webp" alt="" />
               </div>
-              {calculateReadingTime(news.description || news.title || '')} મિનિટ વાંચન સમય
+              {calculateReadingTime(news.description || news.title || '')} {t('READING_TIME')}
             </div>
           </div>
 

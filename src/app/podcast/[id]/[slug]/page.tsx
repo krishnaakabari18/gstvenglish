@@ -9,6 +9,7 @@ import './podcast-player.css';
 import LockScreen from '@/components/LockScreen';
 import { useAuth } from '@/contexts/AuthContext';
 import { useContentLock } from '@/hooks/useContentLock';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface PodcastDetail {
   id: number;
@@ -52,6 +53,7 @@ interface PodcastDetailResponse {
 }
 
 export default function PodcastDetailPage() {
+  const { t } = useLanguage();
   const params = useParams();
   const [podcasts, setPodcasts] = useState<PodcastDetail[]>([]);
   const [authorInfo, setAuthorInfo] =
@@ -365,7 +367,7 @@ export default function PodcastDetailPage() {
       <div className="blogs-main-section">
         <div className="container">
           <div className="text-center" style={{ padding: '50px 0' }}>
-            <p>પોડકાસ્ટ મળ્યું નથી</p>
+            <p>{t('PODCAST_NOT_FOUND')}</p>
           </div>
         </div>
       </div>
@@ -377,7 +379,7 @@ export default function PodcastDetailPage() {
       <div className="blogs-main-section">
         <div className="container">
           <div className="text-center" style={{ padding: '50px 0' }}>
-            <p>પોડકાસ્ટ વિગતો લોડ કરી રહ્યું છે...</p>
+            <p>{t('PODCAST_DETAILS_LOADING')}</p>
           </div>
         </div>
       </div>
@@ -399,7 +401,7 @@ export default function PodcastDetailPage() {
               }}
               style={{ marginTop: '20px', padding: '10px 20px' }}
             >
-              Retry API Call
+              {t('RETRY_API_CALL')}
             </button>
           </div>
         </div>
@@ -412,7 +414,7 @@ export default function PodcastDetailPage() {
       <div className="blogs-main-section">
         <div className="container">
           <div className="text-center" style={{ padding: '50px 0' }}>
-            <p>કોઈ પોડકાસ્ટ મળ્યું નથી</p>
+            <p>{t('NO_PODCAST_FOUND')}</p>
           </div>
         </div>
       </div>
@@ -436,9 +438,9 @@ export default function PodcastDetailPage() {
       <div className="blogs-main-section inner">
         <div className="blogs-head-bar inner custom-blog-details">
           <span className="blog-category detail-page-heading">
-            <Link href="/">હોમ</Link> /{' '}
+            <Link href="/">{t('HOME')}</Link> /{' '}
             <span>
-              <Link href="/gstv-podcast">GSTV પોડકાસ્ટ</Link>
+              <Link href="/gstv-podcast">{t('GSTV_PODCAST')}</Link>
             </span>
             : <i>{authorInfo.authorname}</i>
           </span>
@@ -497,7 +499,7 @@ export default function PodcastDetailPage() {
                                 link.innerHTML = isShortVisible
                                   ? `
                                     <button
-                                      title="પાછા જાઓ"
+                                      title="${t('GO_BACK')}"
                                       style="
                                         background: rgb(128, 13, 0);
                                         border: 2px solid rgb(128, 13, 0);
@@ -517,13 +519,13 @@ export default function PodcastDetailPage() {
                                       <i class="fas fa-arrow-left"></i>
                                     </button>
                                   `
-                                  : "વધુ વાંચો";
+                                  : t('READ_MORE');
                               }
                             }}
                             className="read-more-link"
                             style={{ display: "inline-block", marginTop: "10px" }}
                           >
-                            વધુ વાંચો
+                            {t('READ_MORE')}
                           </Link>
                         )}
                       </div>
@@ -584,7 +586,7 @@ export default function PodcastDetailPage() {
                               }}
                               onClick={() => setShowFullDesc(prev => !prev)}
                             >
-                              {showFullDesc ? 'Read less...' : 'Read more'}
+                              {showFullDesc  ? t('READ_LESS')  : t('READ_MORE')}
                             </button>
                           )}
                         </div>
@@ -699,13 +701,13 @@ export default function PodcastDetailPage() {
 
                 {/* Podcast List Section */}
                 <div className="podcast-list-section">
-                  <h2 className="podcast-section-title">પોડકાસ્ટ</h2>
+                  <h2 className="podcast-section-title">{t('PODCAST')}</h2>
 
                   <div className="podcast-table">
                     <div className="podcast-table-header">
                       <div className="col-number">#</div>
-                      <div className="col-title">શીર્ષક</div>
-                      <div className="col-time">સમય</div>
+                      <div className="col-title">{t('TITLE')}</div>
+                      <div className="col-time">{t('TIME')}</div>
                     </div>
 
                     <div className="podcast-table-body" id="podcast-list">
@@ -845,7 +847,7 @@ export default function PodcastDetailPage() {
                         onClick={handleLoadMore}
                         disabled={loadingMore}
                       >
-                        {loadingMore ? 'લોડ થઈ રહ્યું છે...' : 'વધુ લોડ કરો'}
+                        {loadingMore ? t('LOADING') : t('LOAD_MORE')}
                       </button>
                     </div>
                   )}

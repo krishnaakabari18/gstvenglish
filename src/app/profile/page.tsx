@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import ProFooter from '@/components/ProFooter';
 import { API_ENDPOINTS, MEDIA_BASE_URL } from '@/constants/api';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface UserProfile {
   id: number;
@@ -41,6 +41,7 @@ interface City {
 
 export default function ProfilePage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [cities, setCities] = useState<City[]>([]);
   const [loading, setLoading] = useState(true);
@@ -240,9 +241,7 @@ export default function ProfilePage() {
   const handleDeleteAccount = async (e?: React.MouseEvent<HTMLButtonElement>) => {
     e?.preventDefault();
   e?.stopPropagation();
-    const confirmed = confirm(
-      'શું તમે ખરેખર તમારું એકાઉન્ટ કાઢી નાખવા માંગો છો? આ ક્રિયા પૂર્વવત્ કરી શકાતી નથી અને તમે તમારો બધો ડેટા ગુમાવશો.'
-    );
+    const confirmed = confirm(t('PROFILE_DELETE_CONFIRM'));
     if (!confirmed) return;
 
     setDeleteLoading(true);
@@ -287,7 +286,7 @@ export default function ProfilePage() {
       const result = await response.json();
 
       if (result.success || response.ok) {
-        setMessage('Account deleted successfully! Redirecting to homepage...');
+        setMessage(t('PROFILE_DELETE_SUCCESS'));
 
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('userSession');
@@ -371,7 +370,7 @@ export default function ProfilePage() {
       const result = await response.json();
 
       if (result.success === true || (response.ok && response.status === 200)) {
-  setMessage("પ્રોફાઇલ સફળતાપૂર્વક અપડેટ થઈ ગયી છે!");
+  setMessage(t('PROFILE_UPDATE_SUCCESS'));
   hideMessage("message");
 
   // ⭐ Update image preview instantly
@@ -440,9 +439,9 @@ export default function ProfilePage() {
         <div className="profilePage">
           <div className="text-center" style={{ padding: '50px' }}>
             <div className="spinner-border" role="status">
-              <span className="visually-hidden">લોડ કરી રહ્યું છે...</span>
+              <span className="visually-hidden">{t('PROFILE_LOADING')}</span>
             </div>
-            <p style={{ marginTop: '20px' }}>પ્રોફાઇલ લોડ કરી રહ્યું છે...</p>
+            <p style={{ marginTop: '20px' }}>{t('PROFILE_LOADING_DATA')}</p>
           </div>
         </div>
       </div>
@@ -488,7 +487,7 @@ export default function ProfilePage() {
           </div>
 
           <div className="title">
-            <h2>આપનું સ્વાગત છે</h2>
+            <h2>{t('PROFILE_WELCOME')}</h2>
           </div>
 
           {message && (
@@ -513,7 +512,7 @@ export default function ProfilePage() {
 
           <div className="row">
             <div className="col-lg-6 mb-2">
-              <div className="lable">પ્રથમ નામ</div>
+              <div className="lable">{t('PROFILE_FIRST_NAME')}</div>
               <div className="inputOuter">
                 <input
                   type="text"
@@ -522,13 +521,13 @@ export default function ProfilePage() {
                   name="firstname"
                   value={formData.firstname}
                   onChange={handleInputChange}
-                  placeholder="તમારું પ્રથમ નામ દાખલ કરો"
+                  placeholder={t('PROFILE_FIRST_NAME_PLACEHOLDER')}
                   required
                 />
               </div>
             </div>
             <div className="col-lg-6 mb-2">
-              <div className="lable">લાસ્ટ નામ</div>
+              <div className="lable">{t('PROFILE_LAST_NAME')}</div>
               <div className="inputOuter">
                 <input
                   type="text"
@@ -537,7 +536,7 @@ export default function ProfilePage() {
                   name="lastname"
                   value={formData.lastname}
                   onChange={handleInputChange}
-                  placeholder="તમારું લાસ્ટ નામ દાખલ કરો"
+                  placeholder={t('PROFILE_LAST_NAME_PLACEHOLDER')}
                   required
                 />
               </div>
@@ -546,7 +545,7 @@ export default function ProfilePage() {
 
           <div className="row">
             <div className="col-lg-6 mb-2">
-              <div className="lable">શહેર</div>
+              <div className="lable">{t('PROFILE_CITY')}</div>
               <div className="inputOuter">
                 <select
                   className="form-control"
@@ -556,7 +555,7 @@ export default function ProfilePage() {
                   onChange={handleInputChange}
                   required
                 >
-                  <option value="">તમારું શહેર પસંદ કરો</option>
+                  <option value="">{t('PROFILE_CITY_PLACEHOLDER')}</option>
                   {cities.map((city) => (
                     <option key={city.id} value={city.id.toString()}>
                       {city.title}
@@ -566,14 +565,14 @@ export default function ProfilePage() {
               </div>
             </div>
             <div className="col-lg-6 mb-2">
-              <div className="lable">મોબાઈલ નંબર</div>
+              <div className="lable">{t('PROFILE_MOBILE_NUMBER')}</div>
               <div className="inputOuter">
                 <input
                   type="tel"
                   name="mobile"
                   value={mobileNumber}
                   readOnly
-                  placeholder="તમારો મોબાઈલ નંબર દાખલ કરો"
+                  placeholder={t('PROFILE_MOBILE_PLACEHOLDER')}
                   id="mobile"
                   className="form-control"
                   required
@@ -584,7 +583,7 @@ export default function ProfilePage() {
 
           <div className="row">
             <div className="col-lg-6 mb-2">
-              <div className="lable">ઇમેલ એડ્રેસ</div>
+              <div className="lable">{t('PROFILE_EMAIL')}</div>
               <div className="inputOuter">
                 <input
                   type="email"
@@ -593,14 +592,14 @@ export default function ProfilePage() {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  placeholder="તમારું ઇમેલ એડ્રેસ દાખલ કરો"
+                  placeholder={t('PROFILE_EMAIL_PLACEHOLDER')}
                   required
                 />
               </div>
             </div>
 
             <div className="col-lg-6 mb-2">
-              <div className="lable">જન્મ તારીખ</div>
+              <div className="lable">{t('PROFILE_BIRTH_DATE')}</div>
               <div className="inputOuter">
              <div
   className="date-input-wrapper"
@@ -611,7 +610,7 @@ export default function ProfilePage() {
   <input
     type="text"
     className="form-control"
-    placeholder="DD-MM-YYYY"
+    placeholder={t('PROFILE_DATE_FORMAT')}
     value={formData.birthdate}
     readOnly
     style={{ paddingRight: "40px", cursor: "pointer" }}
@@ -677,7 +676,7 @@ export default function ProfilePage() {
 
           <div className="row">
             <div className="col-lg-4 mb-2">
-              <div className="lable">જન્મ સમય</div>
+              <div className="lable">{t('PROFILE_BIRTH_TIME')}</div>
               <div className="inputOuter">
                 <input
                   type="text"
@@ -686,7 +685,7 @@ export default function ProfilePage() {
                   name="bdaytime"
                   value={formData.bdaytime}
                   onChange={handleInputChange}
-                  placeholder="જન્મ સમય દાખલ કરો (HH:MM)"
+                  placeholder={t('PROFILE_BIRTH_TIME_PLACEHOLDER')}
                 />
               </div>
             </div>
@@ -700,13 +699,13 @@ export default function ProfilePage() {
                   value={formData.bdaytimeampm}
                   onChange={handleInputChange}
                 >
-                  <option value="am">AM</option>
-                  <option value="pm">PM</option>
+                  <option value="am">{t('PROFILE_AM')}</option>
+                  <option value="pm">{t('PROFILE_PM')}</option>
                 </select>
               </div>
             </div>
             <div className="col-lg-6 mb-2">
-              <div className="lable">જન્મ સ્થળ</div>
+              <div className="lable">{t('PROFILE_BIRTH_PLACE')}</div>
               <div className="inputOuter">
                 <input
                   type="text"
@@ -715,7 +714,7 @@ export default function ProfilePage() {
                   name="birthdateplace"
                   value={formData.birthdateplace}
                   onChange={handleInputChange}
-                  placeholder="તમારું જન્મ સ્થળ દાખલ કરો"
+                  placeholder={t('PROFILE_BIRTH_PLACE_PLACEHOLDER')}
                 />
               </div>
             </div>
@@ -724,7 +723,7 @@ export default function ProfilePage() {
           <div className="row">
             <div className="col-lg-6 mb-2">
               <div className="lable">
-                સેટ મ-પિન{' '}
+                {t('PROFILE_MPIN')}{' '}
                 <span
                   style={{
                     fontSize: '12px',
@@ -732,7 +731,7 @@ export default function ProfilePage() {
                     fontWeight: 'normal'
                   }}
                 >
-                  (6 digits required)
+                  {t('PROFILE_MPIN_HINT')}
                 </span>
               </div>
               <div className="inputOuter">
@@ -746,7 +745,7 @@ export default function ProfilePage() {
                   minLength={6}
                   value={formData.mpin}
                   onChange={handleInputChange}
-                  placeholder="તમારો 6 અંકનો મ-પિન દાખલ કરો"
+                  placeholder={t('PROFILE_MPIN_PLACEHOLDER')}
                   required
                 />
               </div>
@@ -758,7 +757,7 @@ export default function ProfilePage() {
             <label className="innerGender">
               <div className="nameBox">
                 <Image src="/images/ico-man.svg" alt="" width={20} height={20} />{' '}
-                પુરુષ
+                {t('PROFILE_GENDER_MALE')}
               </div>
               <input
                 type="radio"
@@ -777,7 +776,7 @@ export default function ProfilePage() {
                   width={20}
                   height={20}
                 />{' '}
-                સ્ત્રી
+                {t('PROFILE_GENDER_FEMALE')}
               </div>
               <input
                 type="radio"
@@ -796,7 +795,7 @@ export default function ProfilePage() {
                   width={20}
                   height={20}
                 />{' '}
-                અન્ય
+                {t('PROFILE_GENDER_OTHER')}
               </div>
               <input
                 type="radio"
@@ -816,7 +815,7 @@ export default function ProfilePage() {
   onClick={handleSubmit}
   disabled={saveLoading}
 >
-  {saveLoading ? "સેવિંગ..." : "સેવ પ્રોફાઇલ"}
+  {saveLoading ? t('PROFILE_SAVING') : t('PROFILE_SAVE_BUTTON')}
 </button>
 
 <button
@@ -825,7 +824,7 @@ export default function ProfilePage() {
   onClick={handleDeleteAccount}
   disabled={deleteLoading}
 >
-  {deleteLoading ? "ડેલેટિંગ..." : "ડિલીટ એકાઉન્ટ"}
+  {deleteLoading ? t('PROFILE_DELETING') : t('PROFILE_DELETE_BUTTON')}
 </button>
           </div>
         </div>

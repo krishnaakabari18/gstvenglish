@@ -78,6 +78,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* API Configuration for Vanilla JS */}
+        <meta data-api-base-url={process.env.NEXT_PUBLIC_API_BASE_URL || 'https://staging.gstv.in/backend2/api/v17/mobile'} />
+        <meta data-media-base-url={process.env.NEXT_PUBLIC_MEDIA_BASE_URL || 'https://staging.gstv.in'} />
+
         {/* Fonts */}
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati&display=swap" rel="stylesheet" />
 
@@ -259,6 +263,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           .back-to-top {bottom:72px;}
           }
         `}</style>
+
+        {/* Initialize API config from environment variables */}
+        <Script id="api-config-init" strategy="beforeInteractive">
+          {`
+            window.NEXT_PUBLIC_API_BASE = '${process.env.NEXT_PUBLIC_API_BASE_URL || 'https://staging.gstv.in/backend2/api/v17/mobile'}';
+            window.NEXT_PUBLIC_MEDIA_BASE = '${process.env.NEXT_PUBLIC_MEDIA_BASE_URL || 'https://staging.gstv.in'}';
+          `}
+        </Script>
       </head>
 
       <body>

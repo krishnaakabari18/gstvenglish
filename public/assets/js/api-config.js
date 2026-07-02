@@ -1,75 +1,82 @@
-// api-config.js
-// import { COMMON_API_BASE_URL } from './api.js'; // compiled JS path
-
 /**
- * Client-side API Configuration
+ * Global API Configuration
+ * Exposed for use in vanilla JavaScript files
+ * This mirrors the constants from src/constants/api.ts
+ * Dynamically loads configuration from environment or backend
  */
-const COMMON_API_BASE_URL = 'https://www.gstv.in/backend2/api/v13/mobile';
-const API_CONFIG = {
-  COMMON_API_BASE_URL,
 
-  ENDPOINTS: {
-    TOP_NEWS: `${COMMON_API_BASE_URL}/topnewsweb`,
-    CATEGORY_NEWS: `${COMMON_API_BASE_URL}/categorynews`,
-    TOP_HOME_CATEGORY: `${COMMON_API_BASE_URL}/tophomecategoryweb`,
-    TOP_VIDEOS: `${COMMON_API_BASE_URL}/topVideos`,
-    NEWS_DETAIL: `${COMMON_API_BASE_URL}/newsdetail`,
+window.GSTV_API_CONFIG = {
+  // Default base URLs (will be overridden by environment or backend config)
+  COMMON_API_BASE_URL: window.GSTV_API_CONFIG?.COMMON_API_BASE_URL || getApiBaseUrl(),
+  MEDIA_BASE_URL: window.GSTV_API_CONFIG?.MEDIA_BASE_URL || getMediaBaseUrl(),
 
-    UPDATE_PROFILE: `${COMMON_API_BASE_URL}/updateprofile`,
-    VIEW_PROFILE: `${COMMON_API_BASE_URL}/viewProfile`,
-    USER_DELETEACCOUNT: `${COMMON_API_BASE_URL}/deleteAccount`,
+  // API Endpoints (built dynamically from base URL)
+  get CATEGORY_SETTING() {
+    return this.COMMON_API_BASE_URL + '/categorysettingweb';
+  },
 
-    CITIES: `${COMMON_API_BASE_URL}/citylist`,
-    GET_ALL_CITY: `${COMMON_API_BASE_URL}/getallCity`,
+  get USER_CATEGORY() {
+    return this.COMMON_API_BASE_URL + '/usercategory';
+  },
 
-    TOP_WEB_STORY: `${COMMON_API_BASE_URL}/topwebstory`,
-    WEB_STORY_DETAIL: `${COMMON_API_BASE_URL}/webstorydetail`,
-    WEB_STORY_LIST: `${COMMON_API_BASE_URL}/webstory`,
+  /**
+   * Get category setting endpoint dynamically
+   * @returns {string} Full URL for category setting API
+   */
+  getCategorySettingUrl() {
+    return this.CATEGORY_SETTING;
+  },
 
-    EPAPER_LIST: `${COMMON_API_BASE_URL}/epaper`,
-    EPAPER_DETAIL: `${COMMON_API_BASE_URL}/epaperdetail`,
-    EPAPER_BY_DATE: `${COMMON_API_BASE_URL}/epaper`,
-
-    CATEGORY_SETTING: `${COMMON_API_BASE_URL}/categorysettingweb`,
-    CATEGORY_SETTINGUSER: `${COMMON_API_BASE_URL}/categorysettingbyuser`,
-
-    SEARCH: `${COMMON_API_BASE_URL}/search`,
-    SEARCH_RESULT: `${COMMON_API_BASE_URL}/searchresult`,
-
-    BOOKMARK: `${COMMON_API_BASE_URL}/bookmark`,
-    NEWS_BOOKMARK: `${COMMON_API_BASE_URL}/newsbookmark`,
-    SHARE: `${COMMON_API_BASE_URL}/share`,
-    USER_CATEGORY: `${COMMON_API_BASE_URL}/usercategory`,
-    USER_CITY: `${COMMON_API_BASE_URL}/usercity`,
-    GET_CATEGORY_CITY: `${COMMON_API_BASE_URL}/getcategorycity`,
-
-    SEND_OTP: `${COMMON_API_BASE_URL}/sendotp`,
-    VERIFY_OTP: `${COMMON_API_BASE_URL}/verifyotp`,
-    RESEND_OTP: `${COMMON_API_BASE_URL}/resendotp`,
-    VERIFY_MPIN: `${COMMON_API_BASE_URL}/verifyMPIN`,
-
-    POLL: `${COMMON_API_BASE_URL}/poll`,
-    POLL_SUBMIT: `${COMMON_API_BASE_URL}/submitpoll`,
-    POLL_RESULTS: `${COMMON_API_BASE_URL}/pollResults`,
-
-    GSTV_FAST_TRACK: `${COMMON_API_BASE_URL}/gstvfasttrack`,
-    NEWS_NEXT_CONTENT: `${COMMON_API_BASE_URL}/newsnextContent`,
-    SATRANG_CATEGORY: `${COMMON_API_BASE_URL}/satrangcategory`,
-    BREAKING_NEWS: `${COMMON_API_BASE_URL}/topbreakingnewsWeb`
+  /**
+   * Get user category endpoint dynamically
+   * @returns {string} Full URL for user category API
+   */
+  getUserCategoryUrl() {
+    return this.USER_CATEGORY;
   }
 };
 
-// Helpers
-function getApiEndpoint(name) {
-  return API_CONFIG.ENDPOINTS[name] ?? null;
-}
-
+/**
+ * Get the API base URL from environment or meta tag
+ * @returns {string} API base URL
+ */
 function getApiBaseUrl() {
-  return API_CONFIG.COMMON_API_BASE_URL;
-}
-// Optional: expose globally if needed
-window.API_CONFIG = API_CONFIG;
-window.getApiEndpoint = getApiEndpoint;
-window.getApiBaseUrl = getApiBaseUrl;
+  // Try to get from meta tag first (set by Next.js)
+  const metaTag = document.querySelector('meta[data-api-base-url]');
+  if (metaTag) {
+    return metaTag.getAttribute('data-api-base-url');
+  }
 
-export default API_CONFIG;
+  // Try to get from window object (set by Next.js in layout)
+  if (window.NEXT_PUBLIC_API_BASE) {
+    return window.NEXT_PUBLIC_API_BASE;
+  }
+
+  // Default fallback to staging
+  return 'https://staging.gstv.in/backend2/api/v17/mobile';
+}
+
+/**
+ * Get the media base URL from environment or meta tag
+ * @returns {string} Media base URL
+ */
+function getMediaBaseUrl() {
+  // Try to get from meta tag first (set by Next.js)
+  const metaTag = document.querySelector('meta[data-media-base-url]');
+  if (metaTag) {
+    return metaTag.getAttribute('data-media-base-url');
+  }
+
+  // Try to get from window object (set by Next.js in layout)
+  if (window.NEXT_PUBLIC_MEDIA_BASE) {
+    return window.NEXT_PUBLIC_MEDIA_BASE;
+  }
+
+  // Default fallback to staging
+  return 'https://staging.gstv.in';
+}
+
+console.log('✓ Global API Config loaded:', {
+  baseUrl: window.GSTV_API_CONFIG.COMMON_API_BASE_URL,
+  mediaUrl: window.GSTV_API_CONFIG.MEDIA_BASE_URL
+});

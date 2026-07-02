@@ -13,8 +13,11 @@ $(document).ready(function() {
             let formData = new FormData();
             formData.append('user_id', userId);
 
+            // Use the correct API endpoint
+            let url = window.GSTV_API_CONFIG?.getCategorySettingUrl() || 'https://staging.gstv.in/backend2/api/v17/mobile/categorysettingweb';
+
             $.ajax({
-                url: 'https://www.gstv.in/backend2/api/v13/mobile/categorysettingweb',
+                url: url,
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -67,7 +70,7 @@ $(document).ready(function() {
         }
 
         // Use the correct API endpoint for category settings
-        let url = 'https://www.gstv.in/backend2/api/v13/mobile/categorysettingweb';//getApiEndpoint('CATEGORY_SETTING');
+        let url = window.GSTV_API_CONFIG?.getCategorySettingUrl();
 
         // Show loading state
         $('.categorydataList').html('');
@@ -287,7 +290,7 @@ $(document).ready(function() {
        
 
         // Submit directly to staging API
-        let url = 'https://www.gstv.in/backend2/api/v13/mobile/usercategory';//getApiEndpoint('USER_CATEGORY');
+        let url = window.GSTV_API_CONFIG?.getUserCategoryUrl() || 'https://staging.gstv.in/backend2/api/v17/mobile/usercategory';
 
         // Prepare FormData for staging API
         let formData = new FormData();

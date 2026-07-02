@@ -5,7 +5,7 @@ import { type Language, type TranslationKey, getTranslation } from '@/lib/transl
 import { setSyncLanguage } from '@/lib/languageSync';
 
 const STORAGE_KEY = 'gstv_lang';
-const DEFAULT_LANG: Language = 'en'; // ← change to 'gu' to make Gujarati the default
+const DEFAULT_LANG: Language = 'gu'; // ← change to 'gu' to make Gujarati the default
 
 interface LanguageContextValue {
   lang: Language;

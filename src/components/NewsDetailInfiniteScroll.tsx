@@ -1571,35 +1571,28 @@ const onScroll = () => {
         <Link href="/">{t("HOME")}</Link>
         <span> / </span>
 
-        <Link href={`/category/${categorySlug}`}>
-          {actualCategory}
-        </Link>
-
         {(() => {
-          let categorySlugEn: string | undefined;
-          let subcategorySlugEn: string | undefined;
-
-          if (newsItem.category_slugs) {
-            const parts = newsItem.category_slugs
-              .split(',')
-              .map(s => s.trim());
-
-            if (parts.length >= 1) categorySlugEn = parts[0];
-            if (parts.length >= 2) subcategorySlugEn = parts[1];
-          }
+          const { actualCategory, actualSubcategory, categorySlugEn, subcategorySlugEn } = 
+            getActualCategory(newsItem, categorySlug, subcategorySlug, lang);
 
           return (
-            actualSubcategory &&
-            actualSubcategory !== actualCategory &&
-            categorySlugEn &&
-            subcategorySlugEn && (
-              <>
-                <span> / </span>
-                <Link href={`/category/${categorySlugEn}/${subcategorySlugEn}`}>
-                  {actualSubcategory}
-                </Link>
-              </>
-            )
+            <>
+              <Link href={`/category/${categorySlugEn}`}>
+                {actualCategory}
+              </Link>
+
+              {actualSubcategory &&
+                actualSubcategory !== actualCategory &&
+                categorySlugEn &&
+                subcategorySlugEn && (
+                  <>
+                    <span> / </span>
+                    <Link href={`/category/${categorySlugEn}/${subcategorySlugEn}`}>
+                      {actualSubcategory}
+                    </Link>
+                  </>
+                )}
+            </>
           );
         })()}
 

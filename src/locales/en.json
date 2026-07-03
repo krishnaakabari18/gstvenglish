@@ -150,7 +150,7 @@
   "BACK_TO_WEBSITE": "Back to website",
   "PRIVACY_MESSAGE": "Your personal information is secure.",
   "CAMPUS_CORNER": "Campus Corner",
-  "I_AM_JOURNALIST": "I am a Journalist",
+  "I_AM_JOURNALIST": "I AM Journalist",
   "REPORTED_BY": "Reported By",
   "SCHOOL_COLLEGE": "School/College",
   "ADD": "Add",
@@ -461,5 +461,15 @@
   "INVALID_DESCRIPTION": "Description is required.",
   "INVALID_MEDIA": "Please upload at least 1 image or 1 video.",
   "AGREE_STATUS": "Agreement",
-  "AGREE_TERMS": "You must agree before submitting."
+  "AGREE_TERMS": "You must agree before submitting.",
+  
+  "UPLOAD_YOUR_NEWS": "Upload your news",
+  "MINUTE_READING_TIME": "minute reading time",
+  
+  "JOURNALIST_LOADING": "Journalist loading...",
+  "ERROR": "Error",
+  "LOADING_MORE_CONTENT": "Loading more content...",
+  "DUPLICATE_CONTENT_FOUND": "Duplicate content found",
+  "LOADING_STOPPED_DUPLICATE": "Loading stopped to avoid showing similar content.",
+  "ALL_JOURNALIST_STORIES": "You have reached the end of all journalist stories."
 }

@@ -3233,7 +3233,7 @@ position: absolute;
   .navbar-nav {
   justify-content: center;
   display: flex !important;
-  width: 100%;
+  width: 85%;
   gap: 1%;
 }
 .swiper-slide {

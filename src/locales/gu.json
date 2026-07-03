@@ -77,7 +77,7 @@
   "BIRTH_PLACE": "જન્મ સ્થાન",
   "READING_TIME": "મિનિટ વાંચન સમય",
   "LIVE": "લાઇવ",
-  "NEXT_STORY": "આગળની સ્ટોરી",
+  "NEXT_STORY": "નેક્સ્ટ સ્ટોરી",
   "DOWNLOAD_APP": "GSTVની એપ્લિકેશન ડાઉનલોડ કરો",
   "DOWNLOAD_GSTV_APP": "GSTVની એપ્લિકેશન ડાઉનલોડ કરો",
   "SHARE": "શેર કરો",
@@ -150,8 +150,8 @@
   "BACK_TO_WEBSITE": "વેબસાઇટ પર પાછા જાઓ",
   "PRIVACY_MESSAGE": "તમારી વ્યક્તિગત માહિતી સુરક્ષિત છે.",
   "CAMPUS_CORNER": "કેમ્પસ કોર્નર",
-  "I_AM_JOURNALIST": "હું એક પત્રકાર છું",
-  "REPORTED_BY": "અહેવાલ દ્વારા",
+  "I_AM_JOURNALIST": "આઈ એમ જર્નાલિસ્ટ",
+  "REPORTED_BY": "રીપોર્ટ બાય",
   "SCHOOL_COLLEGE": "શાળા/કૉલેજ",
   "ADD": "એડ કરો",
   "EDIT": "એડિટ કરો",
@@ -461,5 +461,15 @@
   "INVALID_DESCRIPTION": "વર્ણન જરૂરી છે.",
   "INVALID_MEDIA": "કૃપા કરીને ઓછામાં ઓછી 1 છબી અથવા 1 વિડીયો અપલોડ કરો.",
   "AGREE_STATUS": "સંમતિ",
-  "AGREE_TERMS": "સબમિટ કરતા પહેલા તમારે સંમત થવું આવશ્યક છે."
+  "AGREE_TERMS": "સબમિટ કરતા પહેલા તમારે સંમત થવું આવશ્યક છે.",
+  
+  "UPLOAD_YOUR_NEWS": "તમારા સમાચાર અપલોડ કરો",
+  "MINUTE_READING_TIME": "મિનિટ વાંચન સમય",
+  
+  "JOURNALIST_LOADING": "જર્નાલિસ્ટ લોડ થઈ રહ્યું છે...",
+  "ERROR": "ભૂલ",
+  "LOADING_MORE_CONTENT": "વધુ સામગ્રી લોડ થઈ રહી છે...",
+  "DUPLICATE_CONTENT_FOUND": "ડુપ્લિકેટ સામગ્રી શોધાઈ",
+  "LOADING_STOPPED_DUPLICATE": "સમાન સામગ્રી બતાવવાનું ટાળવા માટે લોડિંગ બંધ કરવામાં આવી છે.",
+  "ALL_JOURNALIST_STORIES": "તમને બધી જર્નાલિસ્ટ સ્ટોરીઝ મળી ગઈ છે."
 }

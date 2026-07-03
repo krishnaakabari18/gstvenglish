@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { API_ENDPOINTS, getGujaratImageUrlV2 } from '@/constants/api';
 import ShareButtons from '@/components/ShareButtons';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // TypeScript interfaces for the API response
 interface JournalistDetail {
@@ -37,6 +38,7 @@ interface JournalistClientProps {
 
 const JournalistClient: React.FC<JournalistClientProps> = ({ initialData }) => {
   const params = useParams();
+  const { t } = useLanguage();
   const [entries, setEntries] = useState<JournalistDetail[]>(initialData ? [initialData] : []);
   const [loading, setLoading] = useState(!initialData);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -336,7 +338,7 @@ const JournalistClient: React.FC<JournalistClientProps> = ({ initialData }) => {
     return (
       <div className="blogs-main-section inner">
         <div className="detail-page-heading-h1">
-          <h1 className="content-page-title">લોડ થઈ રહ્યું છે...</h1>
+          <h1 className="content-page-title">{t('LOADING')}</h1>
         </div>
         <div className="row blog-content" id='news-container'>
           <div className="col-lg-12 detail-page">
@@ -344,7 +346,7 @@ const JournalistClient: React.FC<JournalistClientProps> = ({ initialData }) => {
               <div className="detail-page">
                 <div style={{ textAlign: 'center', padding: '40px 0', color: '#666' }}>
                   <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '24px', marginBottom: '10px' }}></i>
-                  <p>જર્નાલિસ્ટ લોડ થઈ રહ્યું છે...</p>
+                  <p>{t('JOURNALIST_LOADING')}</p>
                 </div>
               </div>
             </div>
@@ -358,7 +360,7 @@ const JournalistClient: React.FC<JournalistClientProps> = ({ initialData }) => {
     return (
       <div className="blogs-main-section inner">
         <div className="detail-page-heading-h1">
-          <h1 className="content-page-title">ભૂલ</h1>
+          <h1 className="content-page-title">{t('ERROR')}</h1>
         </div>
         <div className="row blog-content" id="news-container">
           <div className="col-lg-12 detail-page">
@@ -381,7 +383,7 @@ const JournalistClient: React.FC<JournalistClientProps> = ({ initialData }) => {
       <div className="blogs-main-section inner custom-blog-details undefined nextstorydiv">
         <div className="blogs-head-bar inner">
           <span className="blog-category detail-page-heading">
-            <Link href="/">Home</Link> / <Link href="/journalist"><i>આઈ એમ જર્નાલિસ્ટ</i></Link>
+            <Link href="/">Home</Link> / <Link href="/journalist"><i>{t('I_AM_JOURNALIST')}</i></Link>
           </span>
         </div>
 
@@ -405,10 +407,10 @@ const JournalistClient: React.FC<JournalistClientProps> = ({ initialData }) => {
                   <div className="blog-read-content">
                     <div className="blog-featured-functions">
                       <div className="reading-time-blog">
-                        <b>રિપોર્ટેડ બાય :</b> {entry.name}, {entry.city}
+                        <b>{t('REPORTED_BY')}</b> {entry.name}, {entry.city}
                         &nbsp;&nbsp;
                         <img src="/assets/icons/clock.webp" alt="" />
-                        છેલ્લું અપડેટ : {formatDate(entry.created_at)}
+                        {t('LAST_UPDATE')} : {formatDate(entry.created_at)}
                       </div>
                       <ShareButtons
                         url={`${window.location.origin}/journalistdetails/${entry.id}`}
@@ -490,7 +492,7 @@ const JournalistClient: React.FC<JournalistClientProps> = ({ initialData }) => {
               {/* Next Story Indicator */}
               {index !== entries.length - 1 && (
                 <div id={`next-story-${entry.id}`} className="next-story">
-                  <span style={{ marginRight: '8px' }}>નેક્સ્ટ સ્ટોરી</span>
+                  <span style={{ marginRight: '8px' }}>{t('NEXT_STORY')}</span>
                   <img
                     src="/assets/images/next-arrow.gif"
                     width="16"
@@ -512,7 +514,7 @@ const JournalistClient: React.FC<JournalistClientProps> = ({ initialData }) => {
             {hasMore && loadingMore && (
               <>
                 <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '18px', marginRight: '10px' }}></i>
-                <span>વધુ સામગ્રી લોડ થઈ રહી છે...</span>
+                <span>{t('LOADING_MORE_CONTENT')}</span>
               </>
             )}
           </div>
@@ -531,12 +533,12 @@ const JournalistClient: React.FC<JournalistClientProps> = ({ initialData }) => {
             {duplicateDetected ? (
               <>
                 <p style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>
-                  ⚠️ ડુપ્લિકેટ સામગ્રી શોધાઈ
+                  ⚠️ {t('DUPLICATE_CONTENT_FOUND')}
                 </p>
-                <p style={{ fontSize: '14px' }}>સમાન સામગ્રી બતાવવાનું ટાળવા માટે લોડિંગ બંધ કરવામાં આવી છે.</p>
+                <p style={{ fontSize: '14px' }}>{t('LOADING_STOPPED_DUPLICATE')}</p>
               </>
             ) : (
-              <p>તમને બધી જર્નાલિસ્ટ સ્ટોરીઝ મળી ગઈ છે.</p>
+              <p>{t('ALL_JOURNALIST_STORIES')}</p>
             )}
           </div>
         )}

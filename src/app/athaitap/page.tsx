@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { API_ENDPOINTS, getMediaUrl } from '@/constants/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { COMMON_CLASSES, LOADING_MESSAGES } from '@/utils/uiUtils';
@@ -48,6 +49,7 @@ interface ApiResponse {
 }
 
 const AthaitapPage: React.FC = () => {
+  const { t } = useLanguage();
   const [entries, setEntries] = useState<AthaitapEntry[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
@@ -177,14 +179,14 @@ const AthaitapPage: React.FC = () => {
   return (
     <div className="blogs-main-section-inner">
       <div className="blogs-head-bar first">
-        <span className="blog-category">તપસ્વીઓના તપ</span>
+        <span className="blog-category">{t('ATHAITAP_TITLE')}</span>
         <div style={{ float: 'right' }}>
           <Link
             href="/addekasana"
             className="btn btn-primary newsuploadtext"
             style={{ float: 'right', backgroundColor: '#800d00', border: 'none' }}
           >
-            તમારો ફોટો અપલોડ કરો
+            {t('UPLOAD_YOUR_PHOTO')}
           </Link>
         </div>
       </div>
@@ -208,7 +210,7 @@ const AthaitapPage: React.FC = () => {
                                   onClick={() => fetchEntries(1, false)} 
                                   className="btn btn-primary"
                                 >
-                                  ફરી પ્રયાસ કરો
+                                  {t('RETRY_BUTTON')}
                                 </button>
                               </div>
                             </div>
@@ -227,9 +229,9 @@ const AthaitapPage: React.FC = () => {
                     <h4 className="custom-blog-title for-sm">
                       {entry.name}
                       <span className="athai-mobile for-sm">
-                        <b>Days:</b> {entry.days} <br />
-                        <b>Address:</b> {entry.address} <br />
-                        <b>Phone:</b> {entry.mobile}
+                        <b>{t('DAYS_LABEL')}</b> {entry.days} <br />
+                        <b>{t('ADDRESS_LABEL_ENGLISH')}</b> {entry.address} <br />
+                        <b>{t('PHONE_LABEL')}</b> {entry.mobile}
                         <p></p>
                       </span>
                     </h4>
@@ -248,8 +250,8 @@ const AthaitapPage: React.FC = () => {
                     </div>
 
                     <p className="blog-excerpt">
-                      Address: {entry.address} <br />
-                      Phone: {entry.mobile}
+                      {t('ADDRESS_LABEL_ENGLISH')} {entry.address} <br />
+                      {t('PHONE_LABEL')} {entry.mobile}
                     </p>
                   </Link>
 
@@ -286,7 +288,7 @@ const AthaitapPage: React.FC = () => {
             className="loaderhome" 
             style={{ display: loadingMore ? 'block' : 'none' }} 
             src="/assets/images/loading.gif" 
-            alt="લોડ થઈ રહ્યું છે..."
+            alt={t('LOADING')}
           />
         </div>
 

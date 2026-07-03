@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { API_ENDPOINTS, getEkasanaImageUrl } from '@/constants/api';
 
 // TypeScript interfaces for the API response
@@ -27,6 +28,7 @@ interface ApiResponse {
 }
 
 const AthaitapDetailsPage: React.FC = () => {
+  const { t } = useLanguage();
   const params = useParams();
   const router = useRouter();
   const [entry, setEntry] = useState<AthaitapEntry | null>(null);
@@ -102,16 +104,16 @@ const AthaitapDetailsPage: React.FC = () => {
       <div className="blogs-main-section inner custom-blog-details undefined nextstorydiv">
         <div className="blogs-head-bar inner">
           <span className="blog-category detail-page-heading">
-            <Link href="/">Home</Link> / <Link href="/athaitap"><i>તપસ્વીઓના તપ</i></Link>
+            <Link href="/">{t('HOME')}</Link> / <Link href="/athaitap"><i>{t('ATHAITAP_TITLE')}</i></Link>
           </span>
         </div>
         <div className="detail-page-heading-h1">
-          <h1>લોડ થઈ રહ્યું છે...</h1>
+          <h1>{t('LOADING')}</h1>
         </div>
         <div className="row blog-content">
           <div className="col-12 text-center">
             <div className="loading-spinner">
-              <p>લોડ થઈ રહ્યું છે...</p>
+              <p>{t('LOADING')}</p>
             </div>
           </div>
         </div>
@@ -125,18 +127,18 @@ const AthaitapDetailsPage: React.FC = () => {
       <div className="blogs-main-section inner custom-blog-details undefined nextstorydiv">
         <div className="blogs-head-bar inner">
           <span className="blog-category detail-page-heading">
-            <Link href="/">Home</Link> / <Link href="/athaitap"><i>તપસ્વીઓના તપ</i></Link>
+            <Link href="/">{t('HOME')}</Link> / <Link href="/athaitap"><i>{t('ATHAITAP_TITLE')}</i></Link>
           </span>
         </div>
         <div className="detail-page-heading-h1">
-          <h1>Error</h1>
+          <h1>{t('ERROR_OCCURRED')}</h1>
         </div>
         <div className="row blog-content">
           <div className="col-12 text-center">
             <div className="error-message">
-              <p>{error || 'Entry not found'}</p>
+              <p>{error || t('ENTRY_NOT_FOUND')}</p>
               <Link href="/athaitap" className="btn btn-primary">
-                પાછા જાઓ
+                {t('GO_BACK')}
               </Link>
             </div>
           </div>
@@ -149,7 +151,7 @@ const AthaitapDetailsPage: React.FC = () => {
     <div className="blogs-main-section inner custom-blog-details undefined nextstorydiv" itemID={entry.name}>
       <div className="blogs-head-bar inner">
         <span className="blog-category detail-page-heading">
-          <Link href="/">Home</Link> / <Link href="/athaitap"><i>તપસ્વીઓના તપ</i></Link>
+          <Link href="/">{t('HOME')}</Link> / <Link href="/athaitap"><i>{t('ATHAITAP_TITLE')}</i></Link>
         </span>
       </div>
 
@@ -163,7 +165,7 @@ const AthaitapDetailsPage: React.FC = () => {
             <div className="blog-featured-functions">
               <div className="reading-time-blog">
                 <img src="/assets/icons/clock.webp" alt="" />
-                છેલ્લું અપડેટ: {isMounted ? (
+                {t('LAST_UPDATE_LABEL')} {isMounted ? (
                   new Date(entry.created_at).toLocaleDateString('en-GB', {
                     day: '2-digit',
                     month: 'short',
@@ -186,9 +188,9 @@ const AthaitapDetailsPage: React.FC = () => {
               />
 
               <br /><br />
-              <p><b>Days:</b> {entry.days}</p>
-              <p><b>Address:</b> {entry.address}</p>
-              <p><b>Mobile:</b> {entry.mobile}</p>
+              <p><b>{t('DAYS_LABEL')}</b> {entry.days}</p>
+              <p><b>{t('ADDRESS_LABEL_ENGLISH')}</b> {entry.address}</p>
+              <p><b>{t('MOBILE_LABEL')}</b> {entry.mobile}</p>
               <br /><br />
 
               {/* Render video if available */}

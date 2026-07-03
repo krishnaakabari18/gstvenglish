@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { API_ENDPOINTS } from '@/constants/api';
 import ProFooter from '@/components/ProFooter';
 
@@ -44,6 +45,7 @@ interface ApiResponse {
 }
 
 const GetGanapatiPage: React.FC = () => {
+  const { t } = useLanguage();
   const [entries, setEntries] = useState<GanapatiEntry[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
@@ -175,9 +177,9 @@ const GetGanapatiPage: React.FC = () => {
         <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2 className="custom-gujrati-font">ગણપતિ ઉત્સવ</h2>
+              <h2 className="custom-gujrati-font">{t('GANAPATI_FESTIVAL')}</h2>
               <Link href="/addganapati" className="btn btnAddpNews">
-                <span className="custom-gujrati-font">એડ કરો</span> <span>+</span>
+                <span className="custom-gujrati-font">{t('ADD')}</span> <span>+</span>
               </Link>
             </div>
 
@@ -186,7 +188,7 @@ const GetGanapatiPage: React.FC = () => {
                 <div className="bookmarklisting">
                   {loading && entries.length === 0 ? (
                     <div className="text-center">
-                      <p style={{ color: 'red' }} className="custom-gujrati-font">લોડ થઈ રહ્યું છે...</p>
+                      <p style={{ color: 'red' }} className="custom-gujrati-font">{t('LOADING')}</p>
                     </div>
                   ) : error ? (
                     <div className="text-center">
@@ -195,12 +197,12 @@ const GetGanapatiPage: React.FC = () => {
                         onClick={() => fetchGanapatiEntries(1, false)} 
                         className="btn btn-primary custom-gujrati-font"
                       >
-                        ફરી પ્રયાસ કરો
+                        {t('RETRY_BUTTON')}
                       </button>
                     </div>
                   ) : entries.length === 0 ? (
                     <div className="text-center">
-                      <p style={{ color: 'red' }} className="custom-gujrati-font">કોઈ ગણપતિ ઉત્સવ ઉપલબ્ધ નથી.</p>
+                      <p style={{ color: 'red' }} className="custom-gujrati-font">{t('NO_GANAPATI_AVAILABLE')}</p>
                     </div>
                   ) : (
                     <ul id="bookmark-list">
@@ -227,8 +229,8 @@ const GetGanapatiPage: React.FC = () => {
                               )}
 
                               <div className="catDate pnewsDate">
-                                <div className="date custom-gujrati-font">સરનામું: <span className="custom-gujrati-font">{ganapati.address}</span></div>
-                                <div className="date custom-gujrati-font">તારીખ: <span>{formatDate(ganapati.created_at)}</span></div>
+                                <div className="date custom-gujrati-font">{t('ADDRESS_LABEL')} <span className="custom-gujrati-font">{ganapati.address}</span></div>
+                                <div className="date custom-gujrati-font">{t('DATE')}: <span>{formatDate(ganapati.created_at)}</span></div>
                               </div>
                               <div className="nseditLine">
                                <div className={`pnewsStatus ${finalStatus}`}>{finalStatus}</div>
@@ -257,7 +259,7 @@ const GetGanapatiPage: React.FC = () => {
                         onClick={loadMoreNews}
                         disabled={loadingMore}
                       >
-                        વધુ લોડ કરો
+                        {t('LOAD_MORE_BUTTON')}
                       </button>
                     </div>
                   )}

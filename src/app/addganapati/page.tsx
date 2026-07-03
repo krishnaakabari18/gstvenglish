@@ -3,11 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ProFooter from '@/components/ProFooter';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useUserSession, getUserId } from '@/hooks/useUserSession';
 import { redirectToLogin, getCurrentPagePath } from '@/utils/authUtils';
 import { API_ENDPOINTS } from '@/constants/api';
 
 const AddGanapatiPage: React.FC = () => {
+  const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user_id, isLoggedIn } = useUserSession();
@@ -162,17 +164,17 @@ const AddGanapatiPage: React.FC = () => {
     console.log('👤 User ID:', userId);
 
     if (!formData.name.trim()) {
-      alert('કૃપા કરીને સોસાયટી નામ દાખલ કરો');
+      alert(t('PLEASE_ENTER_SOCIETY_NAME'));
       return;
     }
 
     if (!formData.address.trim()) {
-      alert('કૃપા કરીને શહેર દાખલ કરો');
+      alert(t('PLEASE_ENTER_CITY'));
       return;
     }
 
     if (!selectedImage && !isEditMode) {
-      alert('કૃપા કરીને તસવીર પસંદ કરો');
+      alert(t('PLEASE_SELECT_IMAGE'));
       return;
     }
 
@@ -217,7 +219,7 @@ const AddGanapatiPage: React.FC = () => {
       console.log('📥 API Response data:', result);
 
       if (result.success || response.ok) {
-        const successMessage = isEditMode ? 'ગણપતિ સફળતાપૂર્વક અપડેટ થયું!' : 'ગણપતિ સફળતાપૂર્વક સબમિટ થયું!';
+        const successMessage = isEditMode ? t('GANAPATI_UPDATED_SUCCESS') : t('GANAPATI_ADDED_SUCCESS');
         alert(successMessage);
 
         if (!isEditMode) {
@@ -230,12 +232,12 @@ const AddGanapatiPage: React.FC = () => {
         // Redirect to list page after successful submission
         router.push('/getganapati');
       } else {
-        const errorMessage = isEditMode ? 'અપડેટ નિષ્ફળ. કૃપા કરીને ફરીથી પ્રયાસ કરો.' : 'સબમિશન નિષ્ફળ. કૃપા કરીને ફરીથી પ્રયાસ કરો.';
+        const errorMessage = isEditMode ? t('GANAPATI_UPDATE_FAILED') : t('GANAPATI_SUBMIT_FAILED');
         alert(result.message || errorMessage);
       }
     } catch (error) {
       console.error('❌ Error submitting form:', error);
-      alert('એક ભૂલ આવી. કૃપા કરીને ફરીથી પ્રયાસ કરો.');
+      alert(t('GANAPATI_ERROR'));
     } finally {
       setIsSubmitting(false);
     }
@@ -248,9 +250,9 @@ const AddGanapatiPage: React.FC = () => {
         <div className="profilePage">
           <div className="formBox" style={{ textAlign: 'center', padding: '50px' }}>
             <h3 className="custom-gujrati-font">
-              {isLoadingData ? 'ડેટા લોડ થઈ રહ્યો છે...' : 'લોડ થઈ રહ્યું છે...'}
+              {isLoadingData ? t('GANAPATI_DATA_LOADING') : t('LOADING')}
             </h3>
-            <p className="custom-gujrati-font">કૃપા કરીને રાહ જુઓ</p>
+            <p className="custom-gujrati-font">{t('PLEASE_WAIT')}</p>
           </div>
         </div>
       </div>
@@ -271,8 +273,8 @@ const AddGanapatiPage: React.FC = () => {
       <div className="contents-main-div" id="middlePage">
         <div className="profilePage">
           <div className="formBox" style={{ textAlign: 'center', padding: '50px' }}>
-            <h3 className="custom-gujrati-font">લોગિન પેજ પર રીડાયરેક્ટ કરી રહ્યું છે...</h3>
-            <p className="custom-gujrati-font">કૃપા કરીને રાહ જુઓ</p>
+            <h3 className="custom-gujrati-font">{t('REDIRECTING_TO_LOGIN')}</h3>
+            <p className="custom-gujrati-font">{t('PLEASE_WAIT')}</p>
           </div>
         </div>
       </div>
@@ -286,13 +288,13 @@ const AddGanapatiPage: React.FC = () => {
           <form method="POST" className="formBox" id="news-form" encType="multipart/form-data" onSubmit={handleSubmit}>
             <div className="pNewsBox">
               <div className="title">
-                <h2>{isEditMode ? 'એડિટ કરો' : 'એડ કરો'}</h2>
+                <h2>{isEditMode ? t('EDITING_GANAPATI') : t('ADDING_GANAPATI')}</h2>
               </div>
               
               <div className="pnewsContent">
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">સોસાયટી નામ</div>
+                    <div className="lable">{t('SOCIETY_NAME_LABEL')}</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -301,7 +303,7 @@ const AddGanapatiPage: React.FC = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        placeholder="તમારું નામ દાખલ કરો"
+                        placeholder={t('SOCIETY_NAME_PLACEHOLDER')}
                         required
                       />
                     </div>
@@ -310,7 +312,7 @@ const AddGanapatiPage: React.FC = () => {
                 
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">તસવીર</div>
+                    <div className="lable">{t('IMAGE_LABEL')}</div>
                     <div className="inputOuter">
                       <input
                         type="file"
@@ -339,7 +341,7 @@ const AddGanapatiPage: React.FC = () => {
                 
                 <div className="row">
                   <div className="col-lg-12 mb-4">
-                    <div className="lable">શહેર</div>
+                    <div className="lable">{t('CITY_LABEL')}</div>
                     <div className="inputOuter">
                       <input
                         type="text"
@@ -348,7 +350,7 @@ const AddGanapatiPage: React.FC = () => {
                         name="address"
                         value={formData.address}
                         onChange={handleInputChange}
-                        placeholder="તમારું શહેર દાખલ કરો"
+                        placeholder={t('CITY_PLACEHOLDER')}
                         required
                       />
                     </div>
@@ -362,8 +364,8 @@ const AddGanapatiPage: React.FC = () => {
                     disabled={isSubmitting}
                   >
                     {isSubmitting
-                      ? (isEditMode ? 'અપડેટ થઈ રહ્યું છે...' : 'અપલોડ થઈ રહ્યું છે...')
-                      : (isEditMode ? 'અપડેટ કરો' : 'અપલોડ')
+                      ? (isEditMode ? t('UPDATING_TEXT') : t('UPLOADING_TEXT'))
+                      : (isEditMode ? t('UPDATE_BUTTON') : t('UPLOAD'))
                     }
                   </button>
                 </div>

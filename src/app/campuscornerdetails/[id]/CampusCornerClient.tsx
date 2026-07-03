@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { API_ENDPOINTS, getcampuscornerImageUrl } from '@/constants/api';
 import ShareButtons from '@/components/ShareButtons';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface CampusCornerData {
   id: number;
@@ -37,6 +38,7 @@ interface CampusCornerClientProps {
 
 const CampusCornerClient: React.FC<CampusCornerClientProps> = ({ initialData }) => {
   const params = useParams();
+  const { t } = useLanguage();
   const [entries, setEntries] = useState<CampusCornerData[]>(initialData ? [initialData] : []);
   const [loading, setLoading] = useState(!initialData);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -300,14 +302,14 @@ const CampusCornerClient: React.FC<CampusCornerClientProps> = ({ initialData }) 
     return (
       <div className="blogs-main-section inner">
         <div className="detail-page-heading-h1">
-          <h1 className="content-page-title">લોડ થઈ રહ્યું છે...</h1>
+          <h1 className="content-page-title">{t('LOADING')}</h1>
         </div>
         <div className="row blog-content">
           <div className="col-lg-12 detail-page">
             <div className="blog-read-content">
               <div style={{ textAlign: 'center', padding: '40px 0', color: '#666' }}>
                 <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '24px', marginBottom: '10px' }}></i>
-                <p>કેમ્પસ કોર્નર લોડ થઈ રહ્યું છે...</p>
+                <p>{t('CAMPUS_CORNER_LOADING')}</p>
               </div>
             </div>
           </div>
@@ -320,7 +322,7 @@ const CampusCornerClient: React.FC<CampusCornerClientProps> = ({ initialData }) 
     return (
       <div className="blogs-main-section inner">
         <div className="detail-page-heading-h1">
-          <h1 className="content-page-title">ભૂલ</h1>
+          <h1 className="content-page-title">{t('ERROR')}</h1>
         </div>
         <div className="row blog-content">
           <div className="col-lg-12 detail-page">
@@ -341,7 +343,7 @@ const CampusCornerClient: React.FC<CampusCornerClientProps> = ({ initialData }) 
       <div className="blogs-main-section inner custom-blog-details undefined nextstorydiv">
         <div className="blogs-head-bar inner">
           <span className="blog-category detail-page-heading">
-            <Link href="/">હોમ</Link> / <Link href="/campuscorner"><i>કેમ્પસ કોર્નર</i></Link>
+            <Link href="/">{t('HOME')}</Link> / <Link href="/campuscorner"><i>{t('CAMPUS_CORNER_TITLE')}</i></Link>
           </span>
         </div>
 
@@ -365,10 +367,10 @@ const CampusCornerClient: React.FC<CampusCornerClientProps> = ({ initialData }) 
                   <div className="blog-read-content">
                     <div className="blog-featured-functions">
                       <div className="reading-time-blog">
-                        <b>રિપોર્ટેડ બાય :</b> {entry.name}, {entry.city}
+                        <b>{t('REPORTED_BY')}</b> {entry.name}, {entry.city}
                         &nbsp;&nbsp;
                         <img src="/assets/icons/clock.webp" alt="" />
-                        છેલ્લું અપડેટ : {formatDate(entry.created_at)}
+                        {t('LAST_UPDATE')} : {formatDate(entry.created_at)}
                       </div>
                       <ShareButtons
                         url={`${window.location.origin}/campuscornerdetails/${entry.id}`}
@@ -426,7 +428,7 @@ const CampusCornerClient: React.FC<CampusCornerClientProps> = ({ initialData }) 
                       </div>
                     </div>
 
-                    <span><b>શાળા/કોલેજ :</b> {entry.school}</span>
+                    <span><b>{t('SCHOOL_COLLEGE')} :</b> {entry.school}</span>
 
                     <div className="detail-page finalContent">
                       <div dangerouslySetInnerHTML={{ __html: entry.description }} />
@@ -456,7 +458,7 @@ const CampusCornerClient: React.FC<CampusCornerClientProps> = ({ initialData }) 
 
               {index !== entries.length - 1 && (
                 <div id={`next-story-${entry.id}`} className="next-story">
-                  <span style={{ marginRight: '8px' }}>નેક્સ્ટ સ્ટોરી</span>
+                  <span style={{ marginRight: '8px' }}>{t('NEXT_STORY')}</span>
                   <img
                     src="/assets/images/next-arrow.gif"
                     width="16"
@@ -478,7 +480,7 @@ const CampusCornerClient: React.FC<CampusCornerClientProps> = ({ initialData }) 
             {hasMore && loadingMore && (
               <>
                 <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: '18px', marginRight: '10px' }}></i>
-                <span>વધુ સામગ્રી લોડ થઈ રહી છે...</span>
+                <span>{t('LOADING_MORE_CONTENT')}</span>
               </>
             )}
           </div>
@@ -497,12 +499,12 @@ const CampusCornerClient: React.FC<CampusCornerClientProps> = ({ initialData }) 
             {duplicateDetected ? (
               <>
                 <p style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>
-                  ⚠️ ડુપ્લિકેટ સામગ્રી શોધાઈ
+                  ⚠️ {t('DUPLICATE_CONTENT_FOUND')}
                 </p>
-                <p style={{ fontSize: '14px' }}>સમાન સામગ્રી બતાવવાનું ટાળવા માટે લોડિંગ બંધ કરવામાં આવી છે.</p>
+                <p style={{ fontSize: '14px' }}>{t('LOADING_STOPPED_DUPLICATE')}</p>
               </>
             ) : (
-              <p>તમે બધી કેમ્પસ કોર્નર સ્ટોરીઝ જોઈ લીધી છે.</p>
+              <p>{t('ALL_CAMPUS_STORIES')}</p>
             )}
           </div>
         )}

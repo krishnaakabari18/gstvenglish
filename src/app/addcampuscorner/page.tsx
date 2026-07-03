@@ -74,7 +74,7 @@ const AddCampusCornerPage: React.FC = () => {
 
   // Agreement text from Category Settings (dynamic), with fallback
   const { settings } = useSettings();
-  const agreeText = settings?.campus_agree_text || "હું સહમત છું કે મારા દ્વારા અપલોડ કરવામાં આવતી સામગ્રી કોઈપણ પ્રકારની વાંધાજનક, અશ્લીલ, હિંસક કે ગેરકાયદેસર નથી. જો આવી કોઈ સામગ્રી મળશે તો તેની સંપૂર્ણ જવાબદારી મારી રહેશે.";
+  const agreeText = settings?.campus_agree_text || t('AGREE_CAMPUS_TEXT');
 
   // Authentication check - wait for auth state to be properly loaded
   useEffect(() => {

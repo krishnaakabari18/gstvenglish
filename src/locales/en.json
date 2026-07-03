@@ -474,5 +474,9 @@
   "ALL_JOURNALIST_STORIES": "You have reached the end of all journalist stories.",
   
   "CAMPUS_CORNER_TITLE": "Campus Corner",
-  "UPLOAD_CAMPUS_ACTIVITY": "Upload your campus activity"
+  "UPLOAD_CAMPUS_ACTIVITY": "Upload your campus activity",
+  
+  "CAMPUS_CORNER_LOADING": "Campus Corner is loading...",
+  "ALL_CAMPUS_STORIES": "You have viewed all Campus Corner stories.",
+  "AGREE_CAMPUS_TEXT": "I agree that the content I upload is not objectionable, obscene, violent, or illegal in any way. If any such content is found, I am fully responsible for it."
 }

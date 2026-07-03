@@ -471,5 +471,8 @@
   "LOADING_MORE_CONTENT": "વધુ સામગ્રી લોડ થઈ રહી છે...",
   "DUPLICATE_CONTENT_FOUND": "ડુપ્લિકેટ સામગ્રી શોધાઈ",
   "LOADING_STOPPED_DUPLICATE": "સમાન સામગ્રી બતાવવાનું ટાળવા માટે લોડિંગ બંધ કરવામાં આવી છે.",
-  "ALL_JOURNALIST_STORIES": "તમને બધી જર્નાલિસ્ટ સ્ટોરીઝ મળી ગઈ છે."
+  "ALL_JOURNALIST_STORIES": "તમને બધી જર્નાલિસ્ટ સ્ટોરીઝ મળી ગઈ છે.",
+  
+  "CAMPUS_CORNER_TITLE": "કેમ્પસ કોર્નર",
+  "UPLOAD_CAMPUS_ACTIVITY": "તમારા કેમ્પસની પ્રવૃત્તિ અપલોડ કરો"
 }

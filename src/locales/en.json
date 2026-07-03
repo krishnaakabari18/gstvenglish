@@ -471,5 +471,8 @@
   "LOADING_MORE_CONTENT": "Loading more content...",
   "DUPLICATE_CONTENT_FOUND": "Duplicate content found",
   "LOADING_STOPPED_DUPLICATE": "Loading stopped to avoid showing similar content.",
-  "ALL_JOURNALIST_STORIES": "You have reached the end of all journalist stories."
+  "ALL_JOURNALIST_STORIES": "You have reached the end of all journalist stories.",
+  
+  "CAMPUS_CORNER_TITLE": "Campus Corner",
+  "UPLOAD_CAMPUS_ACTIVITY": "Upload your campus activity"
 }

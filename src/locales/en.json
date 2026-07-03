@@ -512,4 +512,16 @@
   "CAMPUS_CORNER_LOADING": "Campus Corner is loading...",
   "ALL_CAMPUS_STORIES": "You have viewed all Campus Corner stories.",
   "AGREE_CAMPUS_TEXT": "I agree that the content I upload is not objectionable, obscene, violent, or illegal in any way. If any such content is found, I am fully responsible for it."
+,
+  "TAPASYA_TITLE": "Tapasya",
+  "TAPASYA_LOGIN_REQUIRED": "Please log in first to view your Ekasana.",
+  "NO_EKASANA_AVAILABLE": "No Ekasana available.",
+  "ADDRESS_COLON": "Address:",
+  "DAYS_COLON": "Days:",
+  "MOBILE_COLON": "Mobile:",
+  "DATE_COLON": "Date:",
+  "RETRY_BUTTON_TEXT": "Retry",
+  "LOAD_MORE_BUTTON_TEXT": "Load More",
+  "ADD_EKASANA": "Add",
+  "LOADING_DOTS": "Loading..."
 }

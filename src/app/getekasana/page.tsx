@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { API_ENDPOINTS, getEkasanaImageUrl } from '@/constants/api';
 import { useUserSession, getUserId } from '@/hooks/useUserSession';
 import { redirectToLogin, getCurrentPagePath } from '@/utils/authUtils';
+import { useLanguage } from '@/contexts/LanguageContext';
 import ProFooter from '@/components/ProFooter';
 
 // TypeScript interfaces for the API response
@@ -51,6 +52,7 @@ interface ApiResponse {
 
 const GetEkasanaPage: React.FC = () => {
   const router = useRouter();
+  const { t } = useLanguage();
   const { user_id, isLoggedIn } = useUserSession();
   const userId = user_id || getUserId() || '';
 
@@ -232,12 +234,12 @@ const GetEkasanaPage: React.FC = () => {
         <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2>તપસ્વીઓના તપ</h2>
+              <h2>{t('TAPASYA_TITLE')}</h2>
             </div>
             <div className="pnewsContent">
               <div className="text-center">
                 <div className="loading-spinner">
-                  <p>લોડ થઈ રહ્યું છે...</p>
+                  <p>{t('LOADING_DOTS')}</p>
                 </div>
               </div>
             </div>
@@ -254,19 +256,19 @@ const GetEkasanaPage: React.FC = () => {
         <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2>તપસ્વીઓના તપ</h2>
+              <h2>{t('TAPASYA_TITLE')}</h2>
               <Link
                 href="/addekasana"
                 className="btn btnAddpNews"
                 style={{ backgroundColor: '#800d00', border: 'none', color: 'white' }}
               >
-                એડ કરો <span>+</span>
+                {t('ADD_EKASANA')} <span>+</span>
               </Link>
             </div>
             <div className="pnewsContent">
               <div className="text-center" style={{ padding: '50px' }}>
                 <p style={{ fontSize: '18px', marginBottom: '30px', color: '#666' }}>
-                  તમારા એકાસન જોવા માટે કૃપા કરીને પહેલા લોગિન કરો.
+                  {t('TAPASYA_LOGIN_REQUIRED')}
                 </p>
                 <Link 
                   href="/login" 
@@ -278,7 +280,7 @@ const GetEkasanaPage: React.FC = () => {
                     fontSize: '16px'
                   }}
                 >
-                  લોગિન કરો
+                  {t('LOGIN')}
                 </Link>
               </div>
             </div>
@@ -295,19 +297,19 @@ const GetEkasanaPage: React.FC = () => {
         <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2>તપસ્વીઓના તપ</h2>
+              <h2>{t('TAPASYA_TITLE')}</h2>
               <Link
                 href="/addekasana"
                 className="btn btnAddpNews"
                 style={{ backgroundColor: '#800d00', border: 'none', color: 'white' }}
               >
-                એડ કરો <span>+</span>
+                {t('ADD_EKASANA')} <span>+</span>
               </Link>
             </div>
             <div className="pnewsContent">
               <div className="text-center">
                 <div className="loading-spinner">
-                  <p>લોડ થઈ રહ્યું છે...</p>
+                  <p>{t('LOADING_DOTS')}</p>
                 </div>
               </div>
             </div>
@@ -324,13 +326,13 @@ const GetEkasanaPage: React.FC = () => {
         <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2>તપસ્વીઓના તપ</h2>
+              <h2>{t('TAPASYA_TITLE')}</h2>
               <Link
                 href="/addekasana"
                 className="btn btnAddpNews"
                 style={{ backgroundColor: '#800d00', border: 'none', color: 'white' }}
               >
-                એડ કરો <span>+</span>
+                {t('ADD_EKASANA')} <span>+</span>
               </Link>
             </div>
             <div className="pnewsContent">
@@ -341,7 +343,7 @@ const GetEkasanaPage: React.FC = () => {
                     onClick={() => fetchEntries(1)}
                     className="btn btn-primary"
                   >
-                    ફરીથી પ્રયાસ કરો
+                    {t('RETRY_BUTTON_TEXT')}
                   </button>
                 </div>
               </div>
@@ -403,9 +405,9 @@ const GetEkasanaPage: React.FC = () => {
         <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2 className="custom-gujrati-font">તપસ્વીઓના તપ</h2>
+              <h2 className="custom-gujrati-font">{t('TAPASYA_TITLE')}</h2>
               <Link href="/addekasana" className="btn btnAddpNews">
-                <span className="custom-gujrati-font">એડ કરો</span> <span>+</span>
+                <span className="custom-gujrati-font">{t('ADD_EKASANA')}</span> <span>+</span>
               </Link>
             </div>
 
@@ -414,7 +416,7 @@ const GetEkasanaPage: React.FC = () => {
                 <div className="bookmarklisting">
                   {loading && entries.length === 0 ? (
                     <div className="text-center">
-                      <p style={{ color: 'red' }} className="custom-gujrati-font">લોડ થઈ રહ્યું છે...</p>
+                      <p style={{ color: 'red' }} className="custom-gujrati-font">{t('LOADING_DOTS')}</p>
                     </div>
                   ) : error ? (
                     <div className="text-center">
@@ -423,12 +425,12 @@ const GetEkasanaPage: React.FC = () => {
                         onClick={() => fetchEntries(1, false)}
                         className="btn btn-primary custom-gujrati-font"
                       >
-                        ફરી પ્રયાસ કરો
+                        {t('RETRY_BUTTON_TEXT')}
                       </button>
                     </div>
                   ) : entries.length === 0 ? (
                     <div className="text-center">
-                      <p style={{ color: 'red' }} className="custom-gujrati-font">કોઈ એકાસન ઉપલબ્ધ નથી.</p>
+                      <p style={{ color: 'red' }} className="custom-gujrati-font">{t('NO_EKASANA_AVAILABLE')}</p>
                     </div>
                   ) : (
                     <ul id="bookmark-list">
@@ -458,10 +460,10 @@ const GetEkasanaPage: React.FC = () => {
                               )}
 
                               <div className="catDate pnewsDate">
-                                <div className="date custom-gujrati-font">સરનામું: <span className="custom-gujrati-font">{entry.address}</span></div>
-                                <div className="date custom-gujrati-font">દિવસો: <span>{entry.days}</span></div>
-                                <div className="date custom-gujrati-font">મોબાઇલ: <span>{entry.mobile}</span></div>
-                                <div className="date custom-gujrati-font">તારીખ: <span>{formatDate(entry.created_at)}</span></div>
+                                <div className="date custom-gujrati-font">{t('ADDRESS_COLON')} <span className="custom-gujrati-font">{entry.address}</span></div>
+                                <div className="date custom-gujrati-font">{t('DAYS_COLON')} <span>{entry.days}</span></div>
+                                <div className="date custom-gujrati-font">{t('MOBILE_COLON')} <span>{entry.mobile}</span></div>
+                                <div className="date custom-gujrati-font">{t('DATE_COLON')} <span>{formatDate(entry.created_at)}</span></div>
                               </div>
                               <div className="nseditLine">
                                <div className={`pnewsStatus ${finalStatus}`}>{finalStatus}</div>
@@ -479,7 +481,7 @@ const GetEkasanaPage: React.FC = () => {
                   )}
 
                   <div className="loading" style={{ display: loadingMore ? 'block' : 'none' }}>
-                    <img src="/assets/images/loading.gif" alt="લોડ થઈ રહ્યું છે..." />
+                    <img src="/assets/images/loading.gif" alt={t('LOADING_DOTS')} />
                   </div>
 
                   {totalCount > 10 && currentPage < lastPage && (
@@ -490,7 +492,7 @@ const GetEkasanaPage: React.FC = () => {
                         onClick={loadMoreEntries}
                         disabled={loadingMore}
                       >
-                        વધુ લોડ કરો
+                        {t('LOAD_MORE_BUTTON_TEXT')}
                       </button>
                     </div>
                   )}

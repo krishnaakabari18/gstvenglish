@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { API_ENDPOINTS, getEkasanaImageUrl } from '@/constants/api';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // ✅ IMPORT YOUR EXISTING LOADER HELPERS
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -27,6 +28,7 @@ interface AthaitapEntry {
 
 const AthaitapDetailsPage: React.FC = () => {
   const params = useParams();
+  const { t } = useLanguage();
   const [entry, setEntry] = useState<AthaitapEntry | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -112,17 +114,17 @@ const AthaitapDetailsPage: React.FC = () => {
       <div className="blogs-main-section inner custom-blog-details undefined nextstorydiv">
         <div className="blogs-head-bar inner">
           <span className="blog-category detail-page-heading">
-            <Link href="/">Home</Link> /{' '}
-            <Link href="/athaitap"><i>તપસ્વીઓના તપ</i></Link>
+            <Link href="/">{t('HOME')}</Link> /{' '}
+            <Link href="/athaitap"><i>{t('TAPASYA_PAGE_TITLE')}</i></Link>
           </span>
         </div>
 
         <div className="row blog-content">
           <div className="col-12 text-center">
             <div className="error-message">
-              <p>{error || 'Entry not found'}</p>
+              <p>{error || t('ENTRY_NOT_FOUND')}</p>
               <Link href="/athaitap" className="btn btn-primary">
-                પાછા જાઓ
+                {t('GO_BACK')}
               </Link>
             </div>
           </div>
@@ -136,8 +138,8 @@ const AthaitapDetailsPage: React.FC = () => {
     <div className="blogs-main-section inner custom-blog-details undefined nextstorydiv" itemID={entry.name}>
       <div className="blogs-head-bar inner">
         <span className="blog-category detail-page-heading">
-          <Link href="/">Home</Link> /{' '}
-          <Link href="/athaitap"><i>તપસ્વીઓના તપ</i></Link>
+          <Link href="/">{t('HOME')}</Link> /{' '}
+          <Link href="/athaitap"><i>{t('TAPASYA_PAGE_TITLE')}</i></Link>
         </span>
       </div>
 
@@ -151,7 +153,7 @@ const AthaitapDetailsPage: React.FC = () => {
             <div className="blog-featured-functions">
               <div className="reading-time-blog">
                 <img src="/assets/icons/clock.webp" alt="" />
-                છેલ્લું અપડેટ:{' '}
+                {t('LAST_UPDATE_LABEL')}{' '}
                 {isMounted ? (
                   new Date(entry.created_at).toLocaleDateString('en-GB', {
                     day: '2-digit',
@@ -175,9 +177,9 @@ const AthaitapDetailsPage: React.FC = () => {
               />
 
               <br /><br />
-              <p><b>Days:</b> {entry.days}</p>
-              <p><b>Address:</b> {entry.address}</p>
-              <p><b>Mobile:</b> {entry.mobile}</p>
+              <p><b>{t('DAYS_LABEL')}</b> {entry.days}</p>
+              <p><b>{t('ADDRESS_LABEL_ENGLISH')}</b> {entry.address}</p>
+              <p><b>{t('MOBILE_LABEL')}</b> {entry.mobile}</p>
               <br /><br />
 
               {/* ✅ Render video if available */}

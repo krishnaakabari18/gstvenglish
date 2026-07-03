@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { API_ENDPOINTS, getEkasanaImageUrl } from '@/constants/api';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // TypeScript interfaces for the API response
 interface EkasanaEntry {
@@ -61,6 +62,7 @@ interface ApiResponse {
 
 const GetEkasanaPage: React.FC = () => {
   const params = useParams();
+  const { t } = useLanguage();
   const [entries, setEntries] = useState<EkasanaEntry[]>([]);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -193,19 +195,19 @@ const GetEkasanaPage: React.FC = () => {
         <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2>તપસ્વીઓના તપ</h2>
+              <h2>{t('TAPASYA_TITLE')}</h2>
               <Link
                 href="/addekasana"
                 className="btn btnAddpNews"
                 style={{ backgroundColor: '#800d00', border: 'none', color: 'white' }}
               >
-                એડ કરો <span>+</span>
+                {t('ADD_EKASANA')} <span>+</span>
               </Link>
             </div>
             <div className="pnewsContent">
               <div className="text-center">
                 <div className="loading-spinner">
-                  <p>લોડ થઈ રહ્યું છે...</p>
+                  <p>{t('LOADING_DOTS')}</p>
                 </div>
               </div>
             </div>
@@ -222,13 +224,13 @@ const GetEkasanaPage: React.FC = () => {
         <div className="profilePage peopleNewsPage">
           <div className="pNewsBox">
             <div className="title">
-              <h2>તપસ્વીઓના તપ</h2>
+              <h2>{t('TAPASYA_TITLE')}</h2>
               <Link
                 href="/addekasana"
                 className="btn btnAddpNews"
                 style={{ backgroundColor: '#800d00', border: 'none', color: 'white' }}
               >
-                એડ કરો <span>+</span>
+                {t('ADD_EKASANA')} <span>+</span>
               </Link>
             </div>
             <div className="pnewsContent">
@@ -239,7 +241,7 @@ const GetEkasanaPage: React.FC = () => {
                     onClick={() => fetchEntries(1)}
                     className="btn btn-primary"
                   >
-                    ફરીથી પ્રયાસ કરો
+                    {t('RETRY_BUTTON_TEXT')}
                   </button>
                 </div>
               </div>
@@ -293,7 +295,7 @@ const GetEkasanaPage: React.FC = () => {
           <div className="pNewsBox">
             <div className="title">
               <h2>
-                તપસ્વીઓના તપ
+                {t('TAPASYA_TITLE')}
                 {userInfo && (
                   <span style={{ fontSize: '16px', fontWeight: 'normal', marginLeft: '10px' }}>
                     - {userInfo.firstname} {userInfo.lastname}
@@ -301,7 +303,7 @@ const GetEkasanaPage: React.FC = () => {
                 )}
               </h2>
               <Link href="/addekasana" className="btn btnAddpNews">
-                એડ કરો <span>+</span>
+                {t('ADD_EKASANA')} <span>+</span>
               </Link>
             </div>
 
@@ -310,7 +312,7 @@ const GetEkasanaPage: React.FC = () => {
                 <div className="bookmarklisting">
                   {entries.length === 0 ? (
                     <div className="bookmarkNolisting">
-                      <p style={{ color: 'red' }} className="text-center">No Ekasana available.</p>
+                      <p style={{ color: 'red' }} className="text-center">{t('NO_EKASANA_AVAILABLE')}</p>
                     </div>
                   ) : (
                     <>
@@ -341,9 +343,9 @@ const GetEkasanaPage: React.FC = () => {
                                 </div>
 
                                 <p className="blog-excerpt">
-                                  <strong>Days:</strong> {entry.days} <br />
-                                  <strong>Address:</strong> {entry.address} <br />
-                                  <strong>Phone:</strong> {entry.mobile}
+                                  <strong>{t('DAYS_COLON')}</strong> {entry.days} <br />
+                                  <strong>{t('ADDRESS_COLON')}</strong> {entry.address} <br />
+                                  <strong>{t('PHONE_LABEL')}:</strong> {entry.mobile}
                                 </p>
 
                                 <div className="blog-featured-functions">
@@ -364,7 +366,7 @@ const GetEkasanaPage: React.FC = () => {
                       </ul>
 
                       <div className="loading" style={{ display: loadingMore ? 'block' : 'none', textAlign: 'center' }}>
-                        <img src="/assets/images/loading.gif" alt="Loading..." />
+                        <img src="/assets/images/loading.gif" alt={t('LOADING_DOTS')} />
                       </div>
 
                       {totalCount > 10 && hasMore && (
@@ -375,7 +377,7 @@ const GetEkasanaPage: React.FC = () => {
                             onClick={loadMoreEntries}
                             disabled={loadingMore}
                           >
-                            {loadingMore ? 'Loading...' : 'Load More'}
+                            {loadingMore ? t('LOADING_DOTS') : t('LOAD_MORE_BUTTON_TEXT')}
                           </button>
                         </div>
                       )}

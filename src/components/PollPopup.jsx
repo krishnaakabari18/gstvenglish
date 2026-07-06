@@ -1,9 +1,11 @@
 "use client";
 
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState, useEffect } from "react";
 import PollSection from "./PollSection";
 
 export default function PollPopup({ poll }) {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [pollLoaded, setPollLoaded] = useState(false);
   if (!poll || !Array.isArray(poll.poll) || poll.poll[0] === null) {
@@ -49,7 +51,7 @@ export default function PollPopup({ poll }) {
       {open && (
         <div id="floatingNewsPopup" className="floating-news-popup">
           <div className="popup-header">
-            <span className="popup-title">પોલ</span>
+            <span className="popup-title">{t('POLL')}</span>
 
             <button className="close-btn" onClick={togglePopup}>
               ×

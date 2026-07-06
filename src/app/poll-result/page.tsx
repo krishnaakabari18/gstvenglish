@@ -1,6 +1,7 @@
 'use client';
 
 import { API_ENDPOINTS } from '@/constants/api';
+import { useLanguage } from '@/contexts/LanguageContext';
 import React, { useEffect, useState } from 'react';
 
 interface PollResult {
@@ -23,6 +24,7 @@ interface PollResultsApiResponse {
 }
 
 const PollResultPage: React.FC = () => {
+  const { t } = useLanguage();
   const [pollResults, setPollResults] = useState<PollResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -72,11 +74,11 @@ const PollResultPage: React.FC = () => {
     return (
       <div className="blogs-main-section">
         <div className="blogs-head-bar first">
-          <span className="blog-category">પોલ પરિણામ</span>
+          <span className="blog-category">{t('POLL_RESULTS_TITLE')}</span>
         </div>
         <div style={{ padding: '40px', textAlign: 'center', color: '#666' }}>
           <i className="fa-solid fa-spinner fa-spin"></i>
-          <span style={{ marginLeft: '8px' }}>લોડ કરી રહ્યું છે...</span>
+          <span style={{ marginLeft: '8px' }}>{t('LOADING_DOTS')}</span>
         </div>
       </div>
     );
@@ -86,7 +88,7 @@ const PollResultPage: React.FC = () => {
     return (
       <div className="blogs-main-section-inner">
         <div className="blogs-head-bar first">
-          <span className="blog-category">પોલ પરિણામ</span>
+          <span className="blog-category">{t('POLL_RESULTS_TITLE')}</span>
         </div>
         <div style={{ padding: '40px', textAlign: 'center', color: '#e74c3c' }}>
           <i className="fa-solid fa-exclamation-triangle"></i>
@@ -99,7 +101,7 @@ const PollResultPage: React.FC = () => {
   return (
     <div className="blogs-main-section">
       <div className="blogs-head-bar first">
-        <span className="blog-category">પોલ પરિણામ</span>
+        <span className="blog-category">{t('POLL_RESULTS_TITLE')}</span>
       </div>
 
       {pollResults.length > 0 ? (
@@ -117,7 +119,7 @@ const PollResultPage: React.FC = () => {
                 ))
               ) : (
                 <div className="all-options">
-                  <label>અત્યાર સુધી એકપણ મત મળ્યો નથી.</label>
+                  <label>{t('NO_VOTES_YET')}</label>
                 </div>
               )}
             </div>
@@ -125,7 +127,7 @@ const PollResultPage: React.FC = () => {
         ))
       ) : (
         <div style={{ padding: '40px', textAlign: 'center', color: '#666' }}>
-          <p>અત્યારે કોઈ પોલનું પરિણામ ઉપલબ્ધ નથી.</p>
+          <p>{t('NO_POLL_RESULTS_AVAILABLE')}</p>
         </div>
       )}
     </div>

@@ -523,5 +523,11 @@
   "RETRY_BUTTON_TEXT": "ફરીથી પ્રયાસ કરો",
   "LOAD_MORE_BUTTON_TEXT": "વધુ લોડ કરો",
   "ADD_EKASANA": "એડ કરો",
-  "LOADING_DOTS": "લોડ થઈ રહ્યું છે..."
+  "LOADING_DOTS": "લોડ થઈ રહ્યું છે...",
+  
+  "POLL_RESULTS_TITLE": "પોલ પરિણામ",
+  "NO_VOTES_YET": "અત્યાર સુધી એકપણ મત મળ્યો નથી.",
+  "NO_POLL_RESULTS_AVAILABLE": "અત્યારે કોઈ પોલનું પરિણામ ઉપલબ્ધ નથી.",
+  "NO_ACTIVE_POLLS": "કોઈ સક્રિય પોલ્સ ઉપલબ્ધ નથી.",
+  "SUBMITTING": "Submitting..."
 }

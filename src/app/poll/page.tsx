@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUserSession } from "@/hooks/useUserSession";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { getOrCreateDeviceId } from "@/utils/deviceId";
 import { redirectToLogin } from "@/utils/authUtils";
 import { API_ENDPOINTS } from "@/constants/api";
@@ -56,6 +57,7 @@ interface SubmitPollResponse {
 
 const PollPage: React.FC = () => {
   const router = useRouter();
+  const { t } = useLanguage();
   const { isLoggedIn, user_id } = useUserSession();
 
   const [polls, setPolls] = useState<PollData[]>([]);
@@ -188,12 +190,12 @@ const PollPage: React.FC = () => {
 
       setMessages((m) => ({
         ...m,
-        [pollId]: data.message || (isUpdate ? "તમારો મત અપડેટ થયો છે." : "આપનો મત નોંધાયો છે!")
+        [pollId]: data.message || (isUpdate ? t('VOTE_UPDATED') : t('VOTE_RECORDED'))
       }));
 
       localStorage.setItem(voteKey(pollId), selected);
     } catch (e: any) {
-      setMessages((m) => ({ ...m, [pollId]: e.message || "મત આપવામાં ભૂલ થઈ છે!" }));
+      setMessages((m) => ({ ...m, [pollId]: e.message || t('VOTE_ERROR') }));
     } finally {
       setSubmitting((s) => ({ ...s, [pollId]: false }));
       setTimeout(() => setMessages((m) => ({ ...m, [pollId]: "" })), 3000);
@@ -206,11 +208,11 @@ const PollPage: React.FC = () => {
     return (
       <div className="poll-section" style={{ padding: "20px" }}>
         <div className="blogs-head-bar first">
-          <span className="blog-category">Poll</span>
+          <span className="blog-category">{t('POLL')}</span>
         </div>
         <div style={{ textAlign: "center", color: "#666" }}>
           <i className="fa-solid fa-spinner fa-spin" />
-          <span style={{ marginLeft: 8 }}>Loading polls...</span>
+          <span style={{ marginLeft: 8 }}>{t('LOADING_MORE')}</span>
         </div>
       </div>
     );
@@ -220,9 +222,9 @@ const PollPage: React.FC = () => {
     return (
       <div className="blogs-main-section">
         <div className="blogs-head-bar first">
-          <span className="blog-category">Poll</span>
+          <span className="blog-category">{t('POLL')}</span>
         </div>
-        <div style={{ textAlign: "center", color: "#c00" }}>Error: {error}</div>
+        <div style={{ textAlign: "center", color: "#c00" }}>{t('SOMETHING_WENT_WRONG')}: {error}</div>
       </div>
     );
   }
@@ -230,7 +232,7 @@ const PollPage: React.FC = () => {
   return (
     <div className="blogs-main-section">
       <div className="blogs-head-bar first">
-        <span className="blog-category">પોલ</span>
+        <span className="blog-category">{t('POLL')}</span>
       </div>
 
       {(polls || []).map((poll) => {
@@ -271,7 +273,7 @@ const PollPage: React.FC = () => {
               </div>
 
               <div style={{ display: "flex", gap: 12, alignItems: "center", marginTop: 8 }}>
-                <Link href="/poll-result" className="poleres">પરિણામો જુઓ</Link>
+                <Link href="/poll-result" className="poleres">{t('VIEW_RESULTS')}</Link>
               </div>
             </div>
           </div>
@@ -279,7 +281,7 @@ const PollPage: React.FC = () => {
       })}
 
       {polls.length === 0 && (
-        <div style={{ padding: 20, textAlign: "center", color: "#666" }}>કોઈ સક્રિય પોલ્સ ઉપલબ્ધ નથી.</div>
+        <div style={{ padding: 20, textAlign: "center", color: "#666" }}>{t('NO_ACTIVE_POLLS')}</div>
       )}
 
       {/* ✅ POPUP ALWAYS OPENS */}

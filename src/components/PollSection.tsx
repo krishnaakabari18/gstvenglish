@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { getOrCreateDeviceId } from '@/utils/deviceId';
 import { useUserSession } from '@/hooks/useUserSession';
 import { API_ENDPOINTS } from '@/constants/api';
@@ -26,6 +27,7 @@ interface PollApiResponse {
 
 const PollSection: React.FC = () => {
 
+  const { t } = useLanguage();
   const { isLoggedIn, user_id } = useUserSession();
   const deviceId = useMemo(() => getOrCreateDeviceId(), []);
 
@@ -100,7 +102,7 @@ const PollSection: React.FC = () => {
 
     try {
       setSubmitting(prev => ({ ...prev, [pollId]: true }));
-      setVoteMessages(prev => ({ ...prev, [pollId]: 'Submitting...' }));
+      setVoteMessages(prev => ({ ...prev, [pollId]: t('SUBMITTING') }));
 
       let currentUserId = user_id || localStorage.getItem('userId');
 
@@ -147,8 +149,8 @@ const PollSection: React.FC = () => {
       localStorage.setItem(voteKey(pollId), option);
 
       const msg = prevSelected && prevSelected !== option
-        ? 'તમારો મત અપડેટ થયો છે.'
-        : 'આપનો મત નોંધાયો છે!';
+        ? t('VOTE_UPDATED')
+        : t('VOTE_RECORDED');
 
       setVoteMessages(prev => ({ ...prev, [pollId]: data.message || msg }));
 
@@ -161,7 +163,7 @@ const PollSection: React.FC = () => {
       }, 3000);
 
     } catch {
-      setVoteMessages(prev => ({ ...prev, [pollId]: 'મત આપવામાં ભૂલ થઈ છે!' }));
+      setVoteMessages(prev => ({ ...prev, [pollId]: t('VOTE_ERROR') }));
     } finally {
       setSubmitting(prev => ({ ...prev, [pollId]: false }));
     }
@@ -191,7 +193,7 @@ const PollSection: React.FC = () => {
           <div key={poll.id} className="MCQs" style={{ border: '1px solid #800d00', borderRadius: '12px 12px 0 0' }}>
 
             <div className="storySectionNav blogs-head-bar first fastrack_head" style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <h3 className="blog-category">પોલ</h3>
+              <h3 className="blog-category">{t('POLL')}</h3>
             </div>
 
             <h5 className="MCQ-Question custom-gujrati-font" style={{ margin: '10px' }}>
@@ -204,7 +206,7 @@ const PollSection: React.FC = () => {
                   {/* {expanded[poll.id] ? ' પાછા જાઓ' : ' વધુ વાંચો'} */}
                   {expanded[poll.id] ? (
                       <button
-                        title="પાછા જાઓ"
+                        title={t('GO_BACK')}
                         style={{
                           background: "rgb(128, 13, 0)",
                           border: "2px solid rgb(128, 13, 0)",
@@ -226,7 +228,7 @@ const PollSection: React.FC = () => {
                         <i className="fas fa-arrow-left"></i>
                       </button>
                     ) : (
-                      " વધુ વાંચો"
+                      ` ${t('READ_MORE')}`
                     )}
                   
                 </span>
@@ -258,7 +260,7 @@ const PollSection: React.FC = () => {
               ))}
               </div>
 
-              {isLast && <Link href="/poll-result" className="poleres">પરિણામો જુઓ</Link>}
+              {isLast && <Link href="/poll-result" className="poleres">{t('VIEW_RESULTS')}</Link>}
             </div>
           </div>
         );

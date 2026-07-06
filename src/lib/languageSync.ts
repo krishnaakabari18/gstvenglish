@@ -4,6 +4,13 @@
  * so that vanilla JavaScript files (like category-modal.js) can access the current language
  */
 
+// Extend Window interface to include our custom GSTV_LANG property
+declare global {
+  interface Window {
+    GSTV_LANG?: 'en' | 'gu';
+  }
+}
+
 /**
  * Set the global language variable that vanilla JS can access
  * Call this from React components whenever the language changes

@@ -20,10 +20,13 @@ export default function CategoryNews({ categorySlug }: CategoryNewsProps) {
   const [categoryDetails, setCategoryDetails] = useState<CategorySettingItem | null>(null);
   const [shouldShowDropdown, setShouldShowDropdown] = useState(false);
   const [gujReady, setGujReady] = useState(false);
+  
+  // Calculate categoryName with fallback to empty string to avoid undefined
   const categoryName =
-  lang === 'gu'
-    ? categoryDetails?.category_name_guj
-    : categoryDetails?.category_name;
+    lang === 'gu'
+      ? categoryDetails?.category_name_guj || ''
+      : categoryDetails?.category_name || '';
+  
   const [newsData, setNewsData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);

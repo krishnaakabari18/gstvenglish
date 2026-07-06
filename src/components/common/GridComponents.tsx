@@ -59,6 +59,7 @@ export const NewsCard = memo((props: any) => {
     currentSubcategory = ''
   } = props;
 
+  const { t } = useLanguage();
   const newsUrl = useMemo(
     () => getNewsDetailUrl(news, currentCategory, currentSubcategory),
     [news, currentCategory, currentSubcategory]

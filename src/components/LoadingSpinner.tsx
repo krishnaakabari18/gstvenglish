@@ -22,7 +22,7 @@ export default function LoadingSpinner({
   
   // Check if message is a locale key (exists in LOADING_MESSAGE_KEYS)
   const isLocaleKey = Object.values(LOADING_MESSAGE_KEYS).includes(message as any);
-  const displayMessage = isLocaleKey ? t(message) : message;
+  const displayMessage = isLocaleKey ? t(message as any) : message;
   const getSizeClass = () => {
     const baseClass = type === 'dots' ? 'loading-dots' :
                      type === 'pulse' ? 'loading-pulse' : 'loading-spinner';

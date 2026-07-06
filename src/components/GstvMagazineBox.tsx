@@ -128,7 +128,7 @@ const GstvMagazineBox: React.FC<GstvMagazineBoxProps> = ({ className = '' }) => 
   if (loading) {
     return (
       <div className={`gstv-magazine-container ${className}`}>
-        <Header t={t} />
+        <Header t={t as (key: string) => string} />
 
         <LoadingSpinner
           message={LOADING_MESSAGES.LOADING_NEWS}
@@ -143,7 +143,7 @@ const GstvMagazineBox: React.FC<GstvMagazineBoxProps> = ({ className = '' }) => 
   if (error) {
     return (
       <div className={`gstv-magazine-container ${className}`}>
-        <Header t={t} />
+        <Header t={t as (key: string) => string} />
 
         <div className="text-center p-3">
           <p style={{ color: '#dc3545' }}>
@@ -174,7 +174,7 @@ const GstvMagazineBox: React.FC<GstvMagazineBoxProps> = ({ className = '' }) => 
         overflow: 'hidden'
       }}
     >
-      <Header t={t} />
+      <Header t={t as (key: string) => string} />
 
 
       <div className="row blog-read-content m-0 p-0">

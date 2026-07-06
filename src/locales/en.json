@@ -535,5 +535,8 @@
   "TAG_LABEL": "Tag:",
   "ARTICLES_FOUND": "Articles Found",
   "LOADING_TAG_NEWS": "Loading tag page...",
-  "NEXT_NEWS_LOADING": "Loading next news..."
+  "NEXT_NEWS_LOADING": "Loading next news...",
+  "LINK_COPIED": "Link copied!",
+  "BOOKMARK_REMOVED_MSG": "Bookmark removed!",
+  "BOOKMARK_ADDED_MSG": "Bookmark added!"
 }

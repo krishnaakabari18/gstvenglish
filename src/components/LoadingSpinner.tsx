@@ -1,3 +1,8 @@
+'use client';
+
+import { useLanguage } from '@/contexts/LanguageContext';
+import { LOADING_MESSAGE_KEYS } from '@/utils/uiUtils';
+
 interface LoadingSpinnerProps {
   message?: string;
   size?: 'small' | 'medium' | 'large';
@@ -7,12 +12,17 @@ interface LoadingSpinnerProps {
 }
 
 export default function LoadingSpinner({
-  message = 'લોડ થઈ રહ્યું છે...',
+  message = 'LOADING',
   size = 'medium',
   color = '#850E00',
   type = 'spinner',
   compact = false
 }: LoadingSpinnerProps) {
+  const { t } = useLanguage();
+  
+  // Check if message is a locale key (exists in LOADING_MESSAGE_KEYS)
+  const isLocaleKey = Object.values(LOADING_MESSAGE_KEYS).includes(message as any);
+  const displayMessage = isLocaleKey ? t(message) : message;
   const getSizeClass = () => {
     const baseClass = type === 'dots' ? 'loading-dots' :
                      type === 'pulse' ? 'loading-pulse' : 'loading-spinner';
@@ -59,9 +69,9 @@ export default function LoadingSpinner({
   return (
     <div className={compact ? "loading-container-compact" : "loading-container"}>
       {renderLoader()}
-      {message && (
+      {displayMessage && (
         <p className="loading-message custom-gujrati-font">
-          {message}
+          {displayMessage}
         </p>
       )}
     </div>

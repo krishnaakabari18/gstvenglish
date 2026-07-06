@@ -59,20 +59,28 @@ export interface NewsGridProps {
 }
 
 /**
- * Common Loading Messages in Gujarati
+ * Common Loading Messages
+ * These keys should be used with the useLanguage hook's t() function
+ * Example: const { t } = useLanguage(); const message = t(LOADING_MESSAGE_KEYS.LOADING);
  */
-export const LOADING_MESSAGES = {
-  LOADING: 'લોડ થઈ રહ્યું છે...',
-  LOADING_MORE: 'વધુ લોડ થઈ રહ્યું છે...',
-  LOADING_NEWS: 'સમાચાર લોડ થઈ રહ્યા છે...',
-  LOADING_MORE_NEWS: 'વધુ સમાચાર લોડ થઈ રહ્યા છે...',
-  LOADING_VIDEOS: 'વીડિયો લોડ થઈ રહ્યા છે...',
-  LOADING_CATEGORIES: 'કેટેગરી લોડ થઈ રહ્યા છે...',
-  NO_MORE_DATA: '',
-  END_OF_NEWS: 'તમે સમાચારના અંત સુધી પહોંચી ગયા છો.',
-  RETRY: 'ફરી પ્રયાસ કરો',
-  SOMETHING_WENT_WRONG: 'કંઈક ખોટું થયું છે'
+export const LOADING_MESSAGE_KEYS = {
+  LOADING: 'LOADING',
+  LOADING_MORE: 'LOADING_MORE',
+  LOADING_NEWS: 'LOADING_NEWS',
+  LOADING_MORE_NEWS: 'LOADING_MORE_NEWS',
+  LOADING_VIDEOS: 'LOADING_VIDEOS',
+  LOADING_CATEGORIES: 'LOADING_CATEGORIES',
+  NO_MORE_DATA: 'NO_MORE_DATA',
+  END_OF_NEWS: 'END_OF_NEWS',
+  RETRY: 'RETRY',
+  SOMETHING_WENT_WRONG: 'SOMETHING_WENT_WRONG',
+  LINK_COPIED: 'LINK_COPIED',
+  BOOKMARK_REMOVED_MSG: 'BOOKMARK_REMOVED_MSG',
+  BOOKMARK_ADDED_MSG: 'BOOKMARK_ADDED_MSG'
 } as const;
+
+// Alias for backward compatibility - components should use LOADING_MESSAGE_KEYS
+export const LOADING_MESSAGES = LOADING_MESSAGE_KEYS;
 
 /**
  * Common CSS Classes for consistent styling
@@ -118,10 +126,11 @@ export const COMMON_CLASSES = {
 
 /**
  * Generate loading spinner HTML
+ * Note: For use in client components with useLanguage hook
  */
 export const generateLoadingSpinner = (props: LoadingSpinnerProps = {}): string => {
   const {
-    message = LOADING_MESSAGES.LOADING,
+    message = 'Loading...',
     size = 'medium',
     type = 'spinner',
     color = '#850E00',
@@ -141,6 +150,7 @@ export const generateLoadingSpinner = (props: LoadingSpinnerProps = {}): string 
 
 /**
  * Generate error message HTML
+ * Note: For retryButton, pass the translated RETRY text
  */
 export const generateErrorMessage = (props: ErrorMessageProps): string => {
   const {
@@ -150,9 +160,10 @@ export const generateErrorMessage = (props: ErrorMessageProps): string => {
     showRetryButton = true
   } = props;
 
+  const retryButtonText = 'Retry'; // Use this as default, components should pass translated text
   const retryButton = showRetryButton && onRetry ? `
     <button class="${COMMON_CLASSES.ERROR_RETRY_BUTTON}" onclick="${onRetry}">
-      ${LOADING_MESSAGES.RETRY}
+      ${retryButtonText}
     </button>
   ` : '';
 
@@ -166,15 +177,18 @@ export const generateErrorMessage = (props: ErrorMessageProps): string => {
 
 /**
  * Generate category header HTML
+ * Note: Pass translated "Read More" text from component using useLanguage hook
  */
 export const generateCategoryHeader = (
   categoryName: string,
   categorySlug: string,
-  showViewAll: boolean = true
+  showViewAll: boolean = true,
+  viewAllText?: string
 ): string => {
+  const displayText = viewAllText || 'Read More';
   const viewAllLink = showViewAll ? `
     <Link href="/category/${categorySlug}" class="${COMMON_CLASSES.CATEGORY_LINK}">
-      વધુ વાંચો
+      ${displayText}
       <i class="fas fa-chevron-right"></i>
     </Link>
   ` : '';
@@ -270,8 +284,9 @@ export const createDebouncedScrollHandler = (
 
 /**
  * Common share functionality
+ * Note: Pass translated messages from component using useLanguage hook
  */
-export const shareNews = (news: any): void => {
+export const shareNews = (news: any, copiedMessage?: string): void => {
   const shareData = {
     title: news.title,
     text: news.description || news.title,
@@ -283,7 +298,7 @@ export const shareNews = (news: any): void => {
   } else {
     // Fallback: copy to clipboard
     navigator.clipboard.writeText(shareData.url).then(() => {
-      alert('લિંક કોપી થઈ ગઈ છે!'); // Link copied!
+      alert(copiedMessage || 'Link copied!');
     }).catch(() => {
       // Fallback: open in new window
       window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.title)}&url=${encodeURIComponent(shareData.url)}`, '_blank');
@@ -293,8 +308,9 @@ export const shareNews = (news: any): void => {
 
 /**
  * Common bookmark functionality
+ * Note: Pass translated messages from component using useLanguage hook
  */
-export const bookmarkNews = (news: any): void => {
+export const bookmarkNews = (news: any, removedMessage?: string, addedMessage?: string): void => {
   // Get existing bookmarks from localStorage
   const existingBookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
   
@@ -305,7 +321,7 @@ export const bookmarkNews = (news: any): void => {
     // Remove bookmark
     const updatedBookmarks = existingBookmarks.filter((bookmark: any) => bookmark.id !== news.id);
     localStorage.setItem('bookmarks', JSON.stringify(updatedBookmarks));
-    alert('બુકમાર્ક દૂર કરવામાં આવ્યું!'); // Bookmark removed!
+    alert(removedMessage || 'Bookmark removed!');
   } else {
     // Add bookmark
     existingBookmarks.push({
@@ -316,7 +332,7 @@ export const bookmarkNews = (news: any): void => {
       created_at: news.created_at
     });
     localStorage.setItem('bookmarks', JSON.stringify(existingBookmarks));
-    alert('બુકમાર્ક ઉમેરવામાં આવ્યું!'); // Bookmark added!
+    alert(addedMessage || 'Bookmark added!');
   }
 };
 

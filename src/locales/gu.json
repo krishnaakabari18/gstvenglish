@@ -537,5 +537,8 @@
   "TAG_LABEL": "ટેગ:",
   "ARTICLES_FOUND": "લેખ મળ્યાં",
   "LOADING_TAG_NEWS": "ટેગ પેજ લોડ થઈ રહ્યું છે...",
-  "NEXT_NEWS_LOADING": "આગળનો સમાચાર લોડ થઈ રહ્યો છે..."
+  "NEXT_NEWS_LOADING": "આગળનો સમાચાર લોડ થઈ રહ્યો છે...",
+  "LINK_COPIED": "લિંક કોપી થઈ ગઈ છે!",
+  "BOOKMARK_REMOVED_MSG": "બુકમાર્ક દૂર કર્યું!",
+  "BOOKMARK_ADDED_MSG": "બુકમાર્ક ઉમેર્યું!"
 }

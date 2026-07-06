@@ -106,7 +106,7 @@ export default function TopHomeCategory({ className = '' }: TopHomeCategoryProps
     return (
       <div style={{ padding: '40px', textAlign: 'center' }}>
         <LoadingSpinner
-          message="સમાચાર લોડ થઈ રહ્યા છે..."
+          message={t('LOADING_NEWS')}
           size="large"
           type="dots"
           color="#850E00"
@@ -129,7 +129,7 @@ export default function TopHomeCategory({ className = '' }: TopHomeCategoryProps
     return (
       <div className={`top-home-category ${className}`}>
         <div className="text-center py-8">
-          <p className="text-gray-600">No news available at the moment.</p>
+          <p className="text-gray-600">{t('NO_RESULTS')}</p>
         </div>
       </div>
     );
@@ -180,7 +180,7 @@ export default function TopHomeCategory({ className = '' }: TopHomeCategoryProps
       {loadingMore && (
         <div style={{ padding: '40px', textAlign: 'center' }}>
           <LoadingSpinner
-            message="સમાચાર લોડ થઈ રહ્યા છે..."
+            message={t('LOADING_NEWS')}
             size="large"
             type="dots"
             color="#850E00"

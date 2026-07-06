@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { GridContainer, BlogGridItem } from '@/components/common/GridComponents';
 import { API_V5_BASE_URL } from '@/constants/api';
 
@@ -24,6 +25,7 @@ interface NewsItem {
 }
 
 export default function TagNews({ tagSlug }: TagNewsProps) {
+  const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [newsData, setNewsData] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(false);
@@ -298,7 +300,7 @@ export default function TagNews({ tagSlug }: TagNewsProps) {
     return (
       <div style={{ padding: '40px', textAlign: 'center' }}>
         <LoadingSpinner
-          message="ટેગ પેજ લોડ થઈ રહ્યું છે..."
+          message={t('LOADING_TAG_NEWS')}
           size="large"
           type="dots"
           color="#850E00"
@@ -312,7 +314,7 @@ export default function TagNews({ tagSlug }: TagNewsProps) {
     return (
       <div style={{ padding: '40px', textAlign: 'center' }}>
         <div style={{ color: 'red', marginBottom: '15px' }}>
-          <strong>Error:</strong> {error}
+          <strong>{t('SOMETHING_WENT_WRONG')}:</strong> {error}
         </div>
         <button
           onClick={handleLoadNews}
@@ -327,7 +329,7 @@ export default function TagNews({ tagSlug }: TagNewsProps) {
             fontSize: '16px'
           }}
         >
-          Retry Loading {tagSlug} News
+          {t('RETRY')} Loading {tagSlug} {t('NEWS_PAPER')}
         </button>
       </div>
     );
@@ -339,7 +341,7 @@ export default function TagNews({ tagSlug }: TagNewsProps) {
       <div style={{ padding: '40px', textAlign: 'center' }}>
         <LoadingSpinner />
         <p style={{ marginTop: '20px', color: '#666' }}>
-          Loading {tagSlug} news...
+          {t('LOADING')} {tagSlug} {t('NEWS_PAPER')}...
         </p>
       </div>
     );
@@ -350,9 +352,9 @@ export default function TagNews({ tagSlug }: TagNewsProps) {
     return (
       <div style={{ padding: '40px', textAlign: 'center' }}>
         <div style={{ fontSize: '48px', marginBottom: '20px' }}>📰</div>
-        <h3 style={{ color: '#666', marginBottom: '10px' }}>No News Found</h3>
+        <h3 style={{ color: '#666', marginBottom: '10px' }}>{t('NO_NEWS_FOUND')}</h3>
         <p style={{ color: '#999', marginBottom: '20px' }}>
-          No news articles found for tag: <strong>{tagSlug}</strong>
+          {t('NO_NEWS_FOR_TAG')} <strong>{tagSlug}</strong>
         </p>
         <button
           onClick={handleLoadNews}
@@ -366,7 +368,7 @@ export default function TagNews({ tagSlug }: TagNewsProps) {
             fontSize: '16px'
           }}
         >
-          Try Again
+          {t('TRY_AGAIN')}
         </button>
       </div>
     );
@@ -376,7 +378,7 @@ export default function TagNews({ tagSlug }: TagNewsProps) {
   if (!loading && newsData.length === 0) {
     return (
       <div style={{ padding: '40px', textAlign: 'center' }}>
-        <h3>Tag: {tagSlug}</h3>
+        <h3>{t('TAG_LABEL')} {tagSlug}</h3>
         <p>Click the button below to load news for this tag.</p>
         <button
           onClick={handleLoadNews}
@@ -391,7 +393,7 @@ export default function TagNews({ tagSlug }: TagNewsProps) {
             fontSize: '16px'
           }}
         >
-          Load {tagSlug} News
+          {t('LOAD_MORE')} {tagSlug}
         </button>
       </div>
     );
@@ -409,11 +411,8 @@ export default function TagNews({ tagSlug }: TagNewsProps) {
         {/* Tag Header */}
       <div className="blogs-head-bar first">
         <span className="blog-category">
-          Tag: {tagSlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+          {t('TAG_LABEL')} {tagSlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
         </span>
-        {/* <div className="custom-link-btn">
-          {newsData.length} Articles Found
-        </div> */}
       </div>
         <GridContainer className="blog-content">
           {newsData.map((news, index) => (
@@ -428,7 +427,7 @@ export default function TagNews({ tagSlug }: TagNewsProps) {
       {loadingMore && (
         <div style={{ padding: '20px', textAlign: 'center' }}>
           <LoadingSpinner
-            message={`વધુ ${tagSlug} સમાચાર લોડ થઈ રહ્યા છે...`}
+            message={t('LOADING_MORE_TAG_NEWS')}
             size="medium"
             type="pulse"
             color="#850E00"

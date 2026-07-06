@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 // Note: SEO meta tags are handled by the page component in App Router
 import { API_ENDPOINTS, MEDIA_BASE_URL, DEFAULT_API_PARAMS } from '@/constants/api';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface NewsDetailProps {
   categorySlug: string;
@@ -34,6 +35,7 @@ interface NewsDetailData {
 export default function NewsDetail({ categorySlug, newsSlug }: NewsDetailProps) {
   console.log(`[NewsDetail] Component initialized with categorySlug: ${categorySlug}, newsSlug: ${newsSlug}`);
 
+  const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [newsData, setNewsData] = useState<NewsDetailData | null>(null);
   const [relatedNews, setRelatedNews] = useState<NewsDetailData[]>([]);
@@ -571,9 +573,9 @@ export default function NewsDetail({ categorySlug, newsSlug }: NewsDetailProps) 
     return (
       <div className="news-detail-loading" style={{ padding: '40px', textAlign: 'center' }}>
         <div className="spinner-border" role="status">
-          <span className="sr-only">લોડ થઈ રહ્યું છે...</span>
+          <span className="sr-only">{t('LOADING')}</span>
         </div>
-        <p>સમાચાર લોડ થઈ રહ્યા છે...</p>
+        <p>{t('LOADING_NEWS')}</p>
       </div>
     );
   }
@@ -691,7 +693,7 @@ export default function NewsDetail({ categorySlug, newsSlug }: NewsDetailProps) 
                       alt="Clock"
                       style={{ width: '16px', height: '16px' }}
                     />
-                    છેલ્લું અપડેટ : {new Date(newsData.updated_at).toLocaleDateString('en-GB', {
+                    {t('LAST_UPDATE_COLON')} {new Date(newsData.updated_at).toLocaleDateString('en-GB', {
                       day: '2-digit',
                       month: 'short',
                       year: 'numeric'
@@ -870,7 +872,7 @@ export default function NewsDetail({ categorySlug, newsSlug }: NewsDetailProps) 
                     color: '#333',
                     marginBottom: '15px'
                   }}>
-                    આ પણ વાંચો :
+                    {t('ALSO_READ')}
                   </h3>
                   {relatedNews.slice(0, 2).map((relatedItem, index) => (
                     <div key={index} style={{
@@ -984,7 +986,7 @@ export default function NewsDetail({ categorySlug, newsSlug }: NewsDetailProps) 
                   fontSize: '18px',
                   fontWeight: 'bold'
                 }}>
-                  GSTVની એપ્લિકેશન ડાઉનલોડ કરો
+                  {t('DOWNLOAD_GSTV_APP')}
                 </h3>
                 <div style={{
                   display: 'flex',
@@ -1052,7 +1054,7 @@ export default function NewsDetail({ categorySlug, newsSlug }: NewsDetailProps) 
               margin: '0',
               fontWeight: '600'
             }}>
-              આગળનો સમાચાર લોડ થઈ રહ્યો છે...
+              {t('NEXT_NEWS_LOADING')}
             </p>
             <p style={{
               fontSize: '14px',

@@ -529,5 +529,13 @@
   "NO_VOTES_YET": "અત્યાર સુધી એકપણ મત મળ્યો નથી.",
   "NO_POLL_RESULTS_AVAILABLE": "અત્યારે કોઈ પોલનું પરિણામ ઉપલબ્ધ નથી.",
   "NO_ACTIVE_POLLS": "કોઈ સક્રિય પોલ્સ ઉપલબ્ધ નથી.",
-  "SUBMITTING": "Submitting..."
+  "SUBMITTING": "Submitting...",
+  
+  "LOADING_MORE_TAG_NEWS": "વધુ સમાચાર લોડ થઈ રહ્યા છે...",
+  "NO_NEWS_FOUND": "કોઈ સમાચાર મળ્યો નથી",
+  "NO_NEWS_FOR_TAG": "આ ટેગ માટે કોઈ સમાચાર લેખ મળ્યા નથી:",
+  "TAG_LABEL": "ટેગ:",
+  "ARTICLES_FOUND": "લેખ મળ્યાં",
+  "LOADING_TAG_NEWS": "ટેગ પેજ લોડ થઈ રહ્યું છે...",
+  "NEXT_NEWS_LOADING": "આગળનો સમાચાર લોડ થઈ રહ્યો છે..."
 }

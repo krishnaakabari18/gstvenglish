@@ -528,5 +528,12 @@
   "NO_VOTES_YET": "No votes received yet.",
   "NO_POLL_RESULTS_AVAILABLE": "No poll results available at the moment.",
   "NO_ACTIVE_POLLS": "No active polls available.",
-  "SUBMITTING": "Submitting..."
+  "SUBMITTING": "Submitting...",
+  "LOADING_MORE_TAG_NEWS": "Loading more news...",
+  "NO_NEWS_FOUND": "No News Found",
+  "NO_NEWS_FOR_TAG": "No news articles found for tag:",
+  "TAG_LABEL": "Tag:",
+  "ARTICLES_FOUND": "Articles Found",
+  "LOADING_TAG_NEWS": "Loading tag page...",
+  "NEXT_NEWS_LOADING": "Loading next news..."
 }

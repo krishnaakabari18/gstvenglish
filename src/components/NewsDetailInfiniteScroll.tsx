@@ -153,6 +153,21 @@ const useIsClient = () => {
   return isClient;
 };
 
+// Helper function to detect device type and return appropriate app store link
+const getAppStoreLink = (): string => {
+  if (typeof window === 'undefined') return 'https://play.google.com/store/apps/details?id=com.tops.gstvapps';
+  
+  const userAgent = navigator.userAgent.toLowerCase();
+  
+  // iOS detection
+  if (/iphone|ipad|ipod/.test(userAgent) || /mac os/i.test(userAgent)) {
+    return 'https://apps.apple.com/in/app/gstv-gujarat-samachar/id1609602449';
+  }
+  
+  // Android detection (default to Android app)
+  return 'https://play.google.com/store/apps/details?id=com.tops.gstvapps';
+};
+
 // Format date - returns static format to avoid hydration mismatch
 const formatDate = (dateString: string): string => {
     try {
@@ -848,6 +863,19 @@ if (part.startsWith("<!--SOCIAL_EMBED_START-->")) {
           break;
         }
         /* 🔥 APP PROMO AFTER FIRST PARA */
+        if (globalParaCount === 1 && !promoInserted && !newsItem?.live?.length) {
+          const appStoreLink = getAppStoreLink();
+          modifiedHTML += `
+            <a href="${appStoreLink}"
+              target="_blank"
+              rel="noopener noreferrer"
+              style="display:block; text-align:center;">
+                <img src="/assets/images/journalistbanner.png"
+                    alt="App Store"
+                    style="width:100%; height:auto; max-width: 400px; margin: 0 auto; display: block;">
+            </a>`;
+        promoInserted = true;
+      }
         // if (globalParaCount === 1 && !promoInserted && !newsItem?.live?.length) {
         //   modifiedHTML += `
         //     <div class="download-app" style="text-align:center;display:block;margin:20px 0;">

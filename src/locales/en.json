@@ -538,5 +538,7 @@
   "NEXT_NEWS_LOADING": "Loading next news...",
   "LINK_COPIED": "Link copied!",
   "BOOKMARK_REMOVED_MSG": "Bookmark removed!",
-  "BOOKMARK_ADDED_MSG": "Bookmark added!"
+  "BOOKMARK_ADDED_MSG": "Bookmark added!",
+  "MORE_WEB_STORIES_LOADING": "Loading more web stories...",
+  "NO_MORE_WEB_STORIES": "No more web stories to load"
 }

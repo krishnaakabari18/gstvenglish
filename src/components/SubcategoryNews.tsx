@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useSubcategoryNews } from '@/hooks/useNewsData';
 import { NewsGrid } from '@/components/common/NewsComponents';
 import { COMMON_CLASSES } from '@/utils/uiUtils';
@@ -14,7 +15,7 @@ interface SubcategoryNewsProps {
 }
 
 export default function SubcategoryNews({ categorySlug, subcategorySlug }: SubcategoryNewsProps) {
- 
+  const { lang } = useLanguage();
   const [subcategoryDetails, setSubcategoryDetails] = useState<CategorySettingItem | null>(null);
 
   // Use the common news data hook with infinite scroll enabled
@@ -67,7 +68,7 @@ export default function SubcategoryNews({ categorySlug, subcategorySlug }: Subca
       <div className={COMMON_CLASSES.MAIN_SECTION}>
         {subcategoryDetails ? (
           <CategoryHeaderWithDropdown
-            categoryName={subcategoryDetails.category_name_guj || subcategoryDetails.title}
+            categoryName={lang === 'gu' ? (subcategoryDetails.category_name_guj || subcategoryDetails.title) : (subcategoryDetails.category_name || subcategoryDetails.title)}
             categorySlug={subcategorySlug}
             categoryId={subcategoryDetails.id}
             showViewAll={false}

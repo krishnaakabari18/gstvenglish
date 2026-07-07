@@ -145,7 +145,7 @@ export default function WebStoriesListPage() {
     return (
       <div style={{ textAlign: 'center', padding: '50px 20px' }}>
         <LoadingSpinner
-          message="વેબ સ્ટોરીઝ લોડ થઈ રહ્યા છે..."
+          message={t('WEB_STORIES_LOADING')}
           size="large"
           type="dots"
           color="#850E00"
@@ -185,7 +185,7 @@ export default function WebStoriesListPage() {
             onClick={loadMoreStories}
             disabled={loadingMore}
           >
-            {loadingMore ? 'લોડ થઈ રહ્યું છે...' : 'વધુ લોડ કરો'}
+            {loadingMore ? t('LOADING') : t('LOAD_MORE')}
           </button>
         </div>
       )}
@@ -193,7 +193,7 @@ export default function WebStoriesListPage() {
       {/* Loading indicator for infinite scroll */}
       {loadingMore && (
         <LoadingSpinner
-          message="વધુ વેબ સ્ટોરીઝ લોડ થઈ રહ્યા છે..."
+          message={t('MORE_WEB_STORIES_LOADING')}
           size="small"
           type="pulse"
           color="#850E00"
@@ -204,7 +204,7 @@ export default function WebStoriesListPage() {
       {/* No more stories message */}
       {!data.hasNextPage && data.stories.length > 0 && (
         <div className="text-center py-4">
-          <p className="text-muted">No more web stories to load</p>
+          <p className="text-muted">{t('NO_MORE_WEB_STORIES')}</p>
         </div>
       )}
 

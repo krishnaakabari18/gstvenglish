@@ -540,5 +540,7 @@
   "NEXT_NEWS_LOADING": "આગળનો સમાચાર લોડ થઈ રહ્યો છે...",
   "LINK_COPIED": "લિંક કોપી થઈ ગઈ છે!",
   "BOOKMARK_REMOVED_MSG": "બુકમાર્ક દૂર કર્યું!",
-  "BOOKMARK_ADDED_MSG": "બુકમાર્ક ઉમેર્યું!"
+  "BOOKMARK_ADDED_MSG": "બુકમાર્ક ઉમેર્યું!",
+  "MORE_WEB_STORIES_LOADING": "વધુ વેબ સ્ટોરીઝ લોડ થઈ રહ્યા છે...",
+  "NO_MORE_WEB_STORIES": "વધુ વેબ સ્ટોરી લોડ કરવાનું નથી"
 }

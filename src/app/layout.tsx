@@ -102,16 +102,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href="/assets/css/city-modal.css" />
 
         {/* iZooto */}
-        <Script id="izooto-init" strategy="afterInteractive">
+        {/* <Script id="izooto-init" strategy="afterInteractive">
           {`window._izq = window._izq || []; window._izq.push(["init"]);`}
         </Script>
-        <Script src="https://cdn.izooto.com/scripts/3a920df9584e8422018d0726f191046ee24a934e.js" strategy="afterInteractive" />
+        <Script src="https://cdn.izooto.com/scripts/3a920df9584e8422018d0726f191046ee24a934e.js" strategy="afterInteractive" /> */}
 
         {/* Google Analytics */}
         {/* GA4 only */}
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-WNVDG9SXJ0" strategy="afterInteractive"/>
+        {/* <Script src="https://www.googletagmanager.com/gtag/js?id=G-WNVDG9SXJ0" strategy="afterInteractive"/> */}
 
-        <Script id="ga4-init" strategy="afterInteractive">
+        {/* <Script id="ga4-init" strategy="afterInteractive">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
@@ -124,13 +124,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             send_page_view: false
           });
         `}
-        </Script>
+        </Script> */}
 
         {/* Google Publisher Tag */}
-        <Script src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" strategy="afterInteractive" />
+        {/* <Script src="https://securepubads.g.doubleclick.net/tag/js/gpt.js" strategy="afterInteractive" /> */}
        
             {/* GPT SLOT DEFINITIONS */}
-        <Script id="gpt-init" strategy="afterInteractive">
+        {/* <Script id="gpt-init" strategy="afterInteractive">
         {`
         window.googletag = window.googletag || { cmd: [] };
 
@@ -202,10 +202,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           googletag.enableServices();
         });
         `}
-        </Script>
+        </Script> */}
 
         {/* AMAZON APS */}
-        <Script id="amazon-aps" strategy="afterInteractive">
+        {/* <Script id="amazon-aps" strategy="afterInteractive">
         {`
         !function(a9,a,p,s,t,A,g){
         if(a[a9])return;
@@ -236,8 +236,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           });
         });
         `}
-        </Script>
-        <Script id="digiad-prebid" type="text/javascript">
+        </Script> */}
+        {/* <Script id="digiad-prebid" type="text/javascript">
           {`
             (function() {
                 var o = 'script',
@@ -251,7 +251,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 m.parentNode.insertBefore(a, m);
             })();
           `}
-        </Script>
+        </Script> */}
 
         {/* Inline CSS (unchanged) */}
         <style>{`
